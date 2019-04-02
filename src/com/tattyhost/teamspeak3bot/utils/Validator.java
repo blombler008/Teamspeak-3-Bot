@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class Validator {
 
-    public static boolean notNull(Object obj) throws AssertionError {
+    public static boolean notNull(Object obj) {
          return (obj == null);
     }
 

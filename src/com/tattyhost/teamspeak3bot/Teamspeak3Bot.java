@@ -8,14 +8,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.Set;
 
 public class Teamspeak3Bot {
 
-    private final File config;
-    private final File workDir;
-    private Bot bot;
+    private static Bot bot;
+    private static File workDir;
+    private static File logsDir;
+    private static File logFile;
+    private static File config;
     private static Teamspeak3Bot instance;
     private static Logger logger;
     private static Properties properties;
@@ -27,7 +34,9 @@ public class Teamspeak3Bot {
 
     private Teamspeak3Bot(String[] args) {
         if(instance == null) {
-            workDir = new File(getWorkDirectory(args));
+            String strWorkDir = getWorkDirectory(args);
+            workDir = new File(strWorkDir);
+            getLogger().info("Set Working Directory: \"" + strWorkDir + "\"");
             workDir.mkdirs();
 
             config = new File(workDir, "config.ini");
@@ -53,13 +62,14 @@ public class Teamspeak3Bot {
 
             setInstance(this);
         } else {
-            workDir = null;
             config = null;
+            properties = null;
         }
-
-        Validator.notNull(workDir);
-        Validator.notNull(config);
-        Validator.notNull(properties);
+        
+        if ((Validator.notNull(config)))
+            throw new AssertionError("Config is null!");
+        if ((Validator.notNull(properties)))
+            throw new AssertionError("Bot Properties is null!");
 
     }
 
@@ -68,8 +78,32 @@ public class Teamspeak3Bot {
 
 
     public static void main(String [] args) {
+        workDir = new File(getWorkDirectory(args));
+        workDir.mkdirs();
+        logsDir = new File(getWorkDirectory(args) + "\\logs");
+        logsDir.mkdir();
+
+        String name = "log-";
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter fdt = DateTimeFormatter.ofPattern("yyyy_dd_MM-HH_mm_ss_SSS");
+        name += dt.format(fdt) + ".txt.log";
+
+        PrintStreamLogger prl = new PrintStreamLogger(System.out);
+        logFile = new File(logsDir, name);
+        try {
+            logFile.createNewFile();
+            prl.lg = new PrintStream(logFile);
+            prl.out = System.out;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.setOut(prl);
+        System.out.println("Initialised Console!");
+
+
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
-        enableDebugger(args, MD5.getKey());
+        enableDebugger(args);
         debug("{?} > {?} Main Bot, {+} Event, {@} Command, {#} Console, {~} Plugin");
 
 
@@ -101,6 +135,65 @@ public class Teamspeak3Bot {
 
     public static void debug(String s) {
         if(Teamspeak3Bot.debuggerEnabled) getLogger().debug(s);
+    }
+
+    public static File getWorkDir() {
+        return getInstance().workDir;
+    }
+
+    public static File getLogsDir() {
+        return logsDir;
+    }
+
+    public static void uploadErrorLog() {
+        try {
+            StringBuilder content = new StringBuilder();
+            BufferedReader logReader = new BufferedReader(new FileReader(logFile));
+            String logLine;
+            while ((logLine = logReader.readLine()) != null) {
+                if (content.length() > 0) {
+                    content.append('\n');
+                }
+                content.append(logLine);
+            }
+            logReader.close();
+
+            StringBuilder str = new StringBuilder();
+
+            String key = "0ec2eb25b6166c0c27a394ae118ad829"; // Found it some where ... so i guess free to use ^^
+            //String length = "10M"; // Just for testings
+            str.append("api_option=paste&");
+            str.append("api_dev_key=" + key + "&");
+            //str.append("&api_paste_expire_date=" + length + "&"); // Just for testings
+            str.append("api_paste_code=" + URLEncoder.encode(new String(content), "UTF-8") + "&");
+            str.append("api_paste_name=" + logFile.getName() + "&");
+
+            URL url = new URL("http://pastebin.com/api/api_post.php");
+
+            URLConnection connection = url.openConnection();
+            connection.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(
+                connection.getOutputStream());
+            wr.write(new String(str));
+            wr.flush();
+            wr.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                connection.getInputStream()));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (builder.length() > 0) {
+                    builder.append('\n');
+                }
+                builder.append(line);
+            }
+            reader.close();
+            String pageResponse = new String(builder);
+            getLogger().info("{??????????????????????} Pastebin link >> \"" + pageResponse + "\"");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private boolean connect() {
@@ -158,23 +251,19 @@ public class Teamspeak3Bot {
         Teamspeak3Bot.instance = instance;
     }
 
-    private static void enableDebugger(String [] args, String key){
-        //getLogger().info("" + StringUtils.hasValue(args, "auth-key", key));
-        if(StringUtils.hasValue(args, "auth-key", key)) {
-            Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
-            getLogger().info("Debugger has been enabled [key: " + MD5.getRawKey() + "]");
-        }
+    private static void enableDebugger(String [] args){
+        Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
+        if(Teamspeak3Bot.debuggerEnabled)
+            getLogger().info("{?} > Debugger has been enabled!");
     }
 
-    private String getWorkDirectory(String[] args) {
+    private static String getWorkDirectory(String[] args) {
         String ret = "Teamspeak3Bot/";
         if(StringUtils.hasKey(args,"workDir")) {
             ret = StringUtils.getValueOf(args, "workDir");
 
             if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
                 ret = "Teamspeak3Bot/";
-
-            getLogger().info("Set Working Directory: \"" + ret + "\"");
         }
         return ret;
     }

@@ -25,6 +25,11 @@ public class ConsoleManager {
                         line = input.nextLine();
                         Teamspeak3Bot.debug("{#} ADMIN INPUT > " + line);
 
+                        if(line.split(" ")[0].equalsIgnoreCase("exit")) {return;}
+                        if(line.split(" ")[0].equalsIgnoreCase("quit")) {return;}
+
+                        if(line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {Teamspeak3Bot.uploadErrorLog(); run();}
+
                         CommandManager.executeCommand(line.split(" "), CommandSource.CONSOLE, -1);
                     }
                 } catch (NullPointerException e) {
