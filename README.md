@@ -16,6 +16,3 @@ Parameters are used like the following (```--Key=Value```).
 
 ## Config
 The config is a simple properties file called ```config.ini```, which is located and generated in the work directory.
-
-## Commands(Comming soon)
-## Examples(Comming soon)
