@@ -4,6 +4,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
 import com.tattyhost.teamspeak3bot.listeners.Commnd_Help;
 import com.tattyhost.teamspeak3bot.utils.*;
+import com.tattyhost.teamspeak3bot.utils.Language.Languages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,18 +105,16 @@ public class Teamspeak3Bot {
 
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
-        debug("{?} > {?} Main Bot, {+} Event, {@} Command, {#} Console, {~} Plugin");
-
 
         Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
         ts3bot.initializeProperties();
-        if(ts3bot.prepare()) debug("{?} > Bot is prepared to login");
+        if(ts3bot.prepare()) debug(Language.MAIN + "Bot is prepared to login");
         else return;
-        if(ts3bot.connect()) debug("{?} > Bot connected successful");
+        if(ts3bot.connect()) debug(Language.MAIN + "Bot connected successful");
         else return;
 
         botClient = getApi().whoAmI();
-        debug("{?} ServerQuery > " + botClient.getMap());
+        debug(Language.MAIN + "ServerQuery > " + botClient.getMap());
 
         new CommandManager(getApi(), customChar);
         new ConsoleManager();
@@ -172,28 +171,30 @@ public class Teamspeak3Bot {
 
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(
-                connection.getOutputStream());
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+
             wr.write(new String(str));
             wr.flush();
             wr.close();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                connection.getInputStream()));
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
             String line;
+
             while ((line = reader.readLine()) != null) {
                 if (builder.length() > 0) {
                     builder.append('\n');
                 }
                 builder.append(line);
             }
+
             reader.close();
             String pageResponse = new String(builder);
-            getLogger().info("{??????????????????????} Pastebin link >> \"" + pageResponse + "\"");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+            if(pageResponse.startsWith("http")) getLogger().info(Language.MAIN + "Pastebin link >> \"" + pageResponse + "\"");
+            else getLogger().error(Language.MAIN + "Pastebin upload failed!");
+
+        } catch (IOException ignore) {}
     }
 
     private boolean connect() {
@@ -210,11 +211,13 @@ public class Teamspeak3Bot {
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
         String nickname = properties.getProperty("nickname");
+        Languages lang = Language.getNew(/*properties.getProperty("lang")*/ "english");
+        getLogger().info(Language.LANGUAGE + lang.getProperties().toString());
 
         customChar = properties.getProperty("prefix").charAt(0);
 
         bot = new Bot(host, port, username, password, nickname);
-        debug("{?} > Properties initialized");
+        debug(Language.MAIN + "Properties initialized");
     }
     public void saveProperties() {
 
@@ -239,12 +242,14 @@ public class Teamspeak3Bot {
             properties.setProperty("prefix", "!");
         }
 
+        if(!properties.containsKey("lang")){
+            properties.setProperty("lang", "english");
+        }
+
         try {
             //noinspection deprecation
             properties.save(new FileOutputStream(config), "Configuration File for the Teamspeak 3 bot");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (FileNotFoundException ignore) {}
     }
 
     private static void setInstance(Teamspeak3Bot instance) {
@@ -254,7 +259,7 @@ public class Teamspeak3Bot {
     private static void enableDebugger(String [] args){
         Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
         if(Teamspeak3Bot.debuggerEnabled)
-            getLogger().info("{?} > Debugger has been enabled!");
+            getLogger().info(Language.MAIN + "Debugger has been enabled!");
     }
 
     private static String getWorkDirectory(String[] args) {
