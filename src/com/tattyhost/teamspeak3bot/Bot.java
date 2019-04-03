@@ -5,6 +5,7 @@ import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.tattyhost.teamspeak3bot.utils.Language;
 import com.tattyhost.teamspeak3bot.utils.Validator;
 
 public class Bot {
@@ -33,7 +34,7 @@ public class Bot {
     public synchronized boolean prepareConnection() {
         if(Validator.notNull(config) || Validator.notNull(query) || Validator.notNull(api)) {
             try {
-                Teamspeak3Bot.debug("{/} > Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
                 config = new TS3Config();
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
                 config.setHost(host);
@@ -45,10 +46,10 @@ public class Bot {
 
                 api = query.getApi();
 
-                Teamspeak3Bot.debug("{/} > Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
                 return true;
             }catch (TS3ConnectionFailedException e) {
-                Teamspeak3Bot.debug("{/} ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
                 return false;
             }
         } else return false;
@@ -57,15 +58,15 @@ public class Bot {
     public synchronized boolean createConnection() {
         if(!Validator.notNull(api)) {
             try {
-                Teamspeak3Bot.debug("{/} > Trying login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "Trying login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
-                Teamspeak3Bot.debug("{/} > Logged as: \'" + nickname + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "Logged as: \'" + nickname + "\'");
                 return true;
             } catch (Exception e) {
                 api.logout();
                 query.exit();
-                Teamspeak3Bot.debug("{/} > Couldn't login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
+                Teamspeak3Bot.debug(Language.BOT + "Couldn't login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
                 return false;
             }
 

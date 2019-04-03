@@ -67,7 +67,7 @@ public class CommandManager {
 
             String [] arguments = {};
             String cmdString = aList.get(0);
-            String consoleMessage = "{@} Command From %source%: " + aList.get(0);
+            String consoleMessage = Language.COMMAND + "Command From %source%: " + aList.get(0);
 
             CommandSource source = null;
 

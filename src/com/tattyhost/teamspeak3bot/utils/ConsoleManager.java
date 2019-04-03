@@ -23,7 +23,7 @@ public class ConsoleManager {
                 try {
                     if(input.hasNextLine()){
                         line = input.nextLine();
-                        Teamspeak3Bot.debug("{#} ADMIN INPUT > " + line);
+                        Teamspeak3Bot.debug(Language.CONSOLE + "ADMIN INPUT > " + line);
 
                         if(line.split(" ")[0].equalsIgnoreCase("exit")) {return;}
                         if(line.split(" ")[0].equalsIgnoreCase("quit")) {return;}
