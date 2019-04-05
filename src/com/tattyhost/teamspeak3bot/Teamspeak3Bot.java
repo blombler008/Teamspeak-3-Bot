@@ -234,13 +234,13 @@ public class Teamspeak3Bot {
             properties.setProperty("port", "10011");
 
         if(!properties.containsKey("username"))
-            properties.setProperty("username", "example_user");
+            properties.setProperty("username", "username");
 
         if(!properties.containsKey("password"))
-            properties.setProperty("password", "example_password");
+            properties.setProperty("password", "password");
 
         if(!properties.containsKey("nickname"))
-            properties.setProperty("nickname", "example_bot");
+            properties.setProperty("nickname", "serverquerybot");
 
         if(!properties.containsKey("prefix")){
             properties.setProperty("prefix", "!");
