@@ -1,13 +1,14 @@
 package com.tattyhost.teamspeak3bot.events;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent;
 import com.tattyhost.teamspeak3bot.utils.Event;
 
+import java.util.Map;
+
 public class EventChannelPasswordChanged extends Event {
 
-    public EventChannelPasswordChanged(BaseEvent event, TS3Api api) {
+    public EventChannelPasswordChanged(Map<String, String> event, TS3Api api) {
         super(event, api);
     }
 

@@ -1,13 +1,14 @@
 package com.tattyhost.teamspeak3bot.events;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent;
 import com.tattyhost.teamspeak3bot.utils.Event;
 
+import java.util.Map;
+
 public class EventChannelDescriptionChanged extends Event {
 
-    public EventChannelDescriptionChanged(BaseEvent event, TS3Api api) {
+    public EventChannelDescriptionChanged(Map<String, String> event, TS3Api api) {
         super(event, api);
     }
 

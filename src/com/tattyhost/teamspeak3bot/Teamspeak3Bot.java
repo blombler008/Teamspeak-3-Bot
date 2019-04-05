@@ -197,6 +197,10 @@ public class Teamspeak3Bot {
         } catch (IOException ignore) {}
     }
 
+    public static ServerQueryInfo getClient() {
+        return botClient;
+    }
+
     private boolean connect() {
         return bot.createConnection();
     }

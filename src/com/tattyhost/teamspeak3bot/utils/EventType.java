@@ -14,7 +14,8 @@ public enum EventType {
     EVENT_CLIENT_MOVED(EventClientMoved.class),
     EVENT_PRIVILEGE_KEY_USED(EventPrivilegeKeyUsed.class),
     EVENT_SERVER_EDIT(EventServerEdit.class),
-    EVENT_TEXT_MESSAGE(EventTextMessage.class);
+    EVENT_TEXT_MESSAGE(EventTextMessage.class),
+    EVENT_COMMAND_PRE_PROCESS(EventCommandPreProcess.class);
 
     private Class< ?extends Event> evClass;
 

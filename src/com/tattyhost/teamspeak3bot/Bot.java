@@ -4,7 +4,7 @@ import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
-import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
 import com.tattyhost.teamspeak3bot.utils.Language;
 import com.tattyhost.teamspeak3bot.utils.Validator;
 
@@ -88,11 +88,11 @@ public class Bot {
         return api;
     }
 
-    public Client client() {
-        return api.getClientByNameExact(nickname, true);
+    public ServerQueryInfo getClient() {
+        return Teamspeak3Bot.getClient();
     }
 
-    public String clientName() {
-        return client().getNickname();
+    public String getExactClientName() {
+        return getClient().getNickname();
     }
 }
