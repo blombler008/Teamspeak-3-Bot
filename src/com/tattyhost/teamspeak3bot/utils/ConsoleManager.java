@@ -16,7 +16,9 @@ public class ConsoleManager {
         breaking = true;
         line = "";
         input = new Scanner(System.in);
+
         if(instance == null) instance = this;
+
         new Thread(new Runnable() {
 
             @Override public void run() {
@@ -30,7 +32,7 @@ public class ConsoleManager {
 
                         if(line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {Teamspeak3Bot.uploadErrorLog(); run();}
 
-                        CommandManager.executeCommand(line.split(" "), CommandSource.CONSOLE, -1);
+                        CommandManager.executeCommand(line.split(" "), CommandSource.CONSOLE, -1, true);
                     }
                 } catch (NullPointerException e) {
                     Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");
