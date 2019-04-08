@@ -42,7 +42,7 @@ public class Language {
     }
 
 
-    public static enum Languages {
+    public enum Languages {
         ENGLISH("english", "english.ini");
 
         private File propertiesFile;

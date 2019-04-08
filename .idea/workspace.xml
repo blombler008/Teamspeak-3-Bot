@@ -7,8 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b89eed5-216a-48d1-b3e0-a8f44006caa5" name="Default Changelist" comment="Failed to add the 2 files">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/StringUtils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,11 +24,11 @@
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
+            <state relative-caret-position="642">
               <caret line="42" column="34" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -34,10 +37,26 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#356#357#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#445#446#0" expanded="true" />
+                <element signature="e#497#498#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/CommandManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="68">
               <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -112,7 +131,6 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventType.java" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Event.java" />
-        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelCreate.java" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelDeleted.java" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelDescriptionChanged.java" />
@@ -131,6 +149,7 @@
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java" />
+        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java" />
       </list>
     </option>
   </component>
@@ -149,7 +168,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -183,6 +201,13 @@
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="teamspeak3bot" type="462c0819:PsiDirectoryNode" />
+              <item name="events" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="teamspeak3bot" type="462c0819:PsiDirectoryNode" />
               <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -193,10 +218,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554480882154" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554708391579" />
     <property name="last.edited.regexp" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -310,8 +336,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="10" width="1722" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49861497" visible="true" weight="0.23826715" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49861497" visible="true" weight="0.24127558" />
       <window_info id="Structure" order="1" sideWeight="0.50138503" side_tool="true" weight="0.25516224" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -710,18 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#356#357#0" expanded="true" />
-            <element signature="e#387#388#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="231">
@@ -791,9 +806,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="42" column="34" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/CommandManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="68">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -801,12 +826,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="42" column="34" selection-start-line="42" selection-start-column="34" selection-end-line="42" selection-end-column="34" />
+        <state relative-caret-position="238">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#356#357#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#445#446#0" expanded="true" />
+            <element signature="e#497#498#0" expanded="true" />
           </folding>
         </state>
       </provider>

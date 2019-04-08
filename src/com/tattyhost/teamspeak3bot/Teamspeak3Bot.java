@@ -118,11 +118,11 @@ public class Teamspeak3Bot {
 
         new CommandManager(getApi(), customChar);
         new ConsoleManager();
-        new EventManager(ts3bot.bot, getApi()).registerEvents();
+        new EventManager(bot, getApi()).registerEvents();
 
         CommandManager.registerNewCommand("help", new Commnd_Help());
         // EventManager.addEventToProcessList(new TestEvent());
-        pluginManager = new PluginManager(ts3bot.workDir);
+        pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
@@ -137,7 +137,7 @@ public class Teamspeak3Bot {
     }
 
     public static File getWorkDir() {
-        return getInstance().workDir;
+        return workDir;
     }
 
     public static File getLogsDir() {
@@ -286,7 +286,7 @@ public class Teamspeak3Bot {
     }
 
     public static Bot getBot() {
-        return getInstance().bot;
+        return bot;
     }
 
     public static char getCustomChar() {

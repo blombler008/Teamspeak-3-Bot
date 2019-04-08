@@ -27,10 +27,7 @@ public class StringUtils {
     }
 
     public static boolean hasKey(String entry, String key) {
-        if(entry.contains("--" + key)) {
-            return true;
-        }
-        return false;
+        return entry.contains("--" + key);
     }
 
     public static boolean hasKey(String [] args, String key) {

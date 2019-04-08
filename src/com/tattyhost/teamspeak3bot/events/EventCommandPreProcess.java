@@ -1,7 +1,6 @@
 package com.tattyhost.teamspeak3bot.events;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.tattyhost.teamspeak3bot.utils.Event;
 
 import java.util.Map;
@@ -12,7 +11,7 @@ public class EventCommandPreProcess extends Event {
         super(map, api);
     }
 
-    @Override public BaseEvent getEvent() {
+    @Override public EventCommandPreProcess getEvent() {
         return (EventCommandPreProcess) event;
     }
 
