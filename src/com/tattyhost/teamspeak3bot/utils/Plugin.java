@@ -10,7 +10,8 @@ public abstract class Plugin {
     protected Properties properties;
     protected boolean enabled = false;
 
-    public Plugin(){}
+    public Plugin() {
+    }
 
     public Plugin(PluginDescription pluginDescription, Properties properties) {
         this.pluginDescription = pluginDescription;
@@ -38,7 +39,9 @@ public abstract class Plugin {
     }
 
     public abstract void onEnable();
+
     public abstract void onDisable();
+
     public abstract void onLoad();
 
     @Override public String toString() {
@@ -46,7 +49,7 @@ public abstract class Plugin {
         sb.append("{");
         sb.append("\'" + this.getClass().getTypeName() + "\': {");
         int size = properties.size();
-        for(int i=0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             String key = (String) properties.keySet().iterator().next();
             sb.append("\'" + key + "\': \'" + properties.getProperty(key) + "\'");
             if (i + 1 != size)

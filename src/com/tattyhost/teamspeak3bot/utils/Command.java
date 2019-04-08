@@ -4,5 +4,6 @@ import com.tattyhost.teamspeak3bot.CommandSource;
 
 public abstract class Command {
 
-    public abstract void run(final CommandSource source, final int id, final String commandLabel, final String[] args);
+    public abstract void run(final CommandSource source, final int id, final String commandLabel,
+        final String[] args);
 }

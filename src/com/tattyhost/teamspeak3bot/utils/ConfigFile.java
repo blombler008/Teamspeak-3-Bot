@@ -14,7 +14,8 @@ public class ConfigFile {
     private Properties properties = new Properties();
     private String comment = "Standard comment!";
 
-    private ConfigFile() {}
+    private ConfigFile() {
+    }
 
     protected ConfigFile(File dir, String name) {
         configFile = new File(dir, name);
@@ -26,7 +27,8 @@ public class ConfigFile {
             properties.load(new FileReader(configFile));
             return true;
         } catch (IOException e) {
-            Teamspeak3Bot.getLogger().error("Error occurred while reading properties from File: " + configFile.getName());
+            Teamspeak3Bot.getLogger().error(
+                "Error occurred while reading properties from File: " + configFile.getName());
             e.printStackTrace();
             return false;
         }

@@ -14,18 +14,20 @@ public class ConfigManager {
     private Plugin plugin;
     private File dataFolder;
 
-    private ConfigManager(){}
+    private ConfigManager() {
+    }
 
     public ConfigManager(@NotNull File dataFolder) {
-        if(dataFolders.containsKey(dataFolder)) {
+        if (dataFolders.containsKey(dataFolder)) {
             Plugin p = dataFolders.get(dataFolder);
-            if(p.dataFolder == dataFolder) {
+            if (p.dataFolder == dataFolder) {
                 this.plugin = p;
                 this.dataFolder = dataFolder;
                 return;
             }
         }
-        throw new NullPointerException("DataFolder \"" + dataFolder.getName() + "\" is not available!");
+        throw new NullPointerException(
+            "DataFolder \"" + dataFolder.getName() + "\" is not available!");
     }
 
     public ConfigFile newConfig(File dir, String name) {

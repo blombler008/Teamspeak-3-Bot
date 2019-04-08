@@ -2,7 +2,7 @@ package com.tattyhost.teamspeak3bot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
-import com.tattyhost.teamspeak3bot.listeners.Commnd_Help;
+import com.tattyhost.teamspeak3bot.listeners.Command_Help;
 import com.tattyhost.teamspeak3bot.utils.*;
 import com.tattyhost.teamspeak3bot.utils.Language.Languages;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class Teamspeak3Bot {
     protected static char customChar;
 
     private Teamspeak3Bot(String[] args) {
-        if(instance == null) {
+        if (instance == null) {
             String strWorkDir = getWorkDirectory(args);
             workDir = new File(strWorkDir);
             getLogger().info("Set Working Directory: \"" + strWorkDir + "\"");
@@ -42,7 +42,7 @@ public class Teamspeak3Bot {
 
             config = new File(workDir, "config.ini");
             try {
-                if(!config.exists()) {
+                if (!config.exists()) {
                     //noinspection ResultOfMethodCallIgnored
                     config.createNewFile();
                 }
@@ -66,7 +66,7 @@ public class Teamspeak3Bot {
             config = null;
             properties = null;
         }
-        
+
         if ((Validator.notNull(config)))
             throw new AssertionError("Config is null!");
         if ((Validator.notNull(properties)))
@@ -76,9 +76,7 @@ public class Teamspeak3Bot {
 
 
 
-
-
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         workDir = new File(getWorkDirectory(args));
         workDir.mkdirs();
         logsDir = new File(getWorkDirectory(args) + "\\logs");
@@ -108,10 +106,14 @@ public class Teamspeak3Bot {
 
         Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
         ts3bot.initializeProperties();
-        if(ts3bot.prepare()) debug(Language.MAIN + "Bot is prepared to login");
-        else return;
-        if(ts3bot.connect()) debug(Language.MAIN + "Bot connected successful");
-        else return;
+        if (ts3bot.prepare())
+            debug(Language.MAIN + "Bot is prepared to login");
+        else
+            return;
+        if (ts3bot.connect())
+            debug(Language.MAIN + "Bot connected successful");
+        else
+            return;
 
         botClient = getApi().whoAmI();
         debug(Language.MAIN + "ServerQuery > " + botClient.getMap());
@@ -120,7 +122,7 @@ public class Teamspeak3Bot {
         new ConsoleManager();
         new EventManager(bot, getApi()).registerEvents();
 
-        CommandManager.registerNewCommand("help", new Commnd_Help());
+        CommandManager.registerNewCommand("help", new Command_Help());
         // EventManager.addEventToProcessList(new TestEvent());
         pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
@@ -129,11 +131,11 @@ public class Teamspeak3Bot {
 
 
 
-
     }
 
     public static void debug(String s) {
-        if(Teamspeak3Bot.debuggerEnabled) getLogger().debug(s);
+        if (Teamspeak3Bot.debuggerEnabled)
+            getLogger().debug(s);
     }
 
     public static File getWorkDir() {
@@ -158,8 +160,8 @@ public class Teamspeak3Bot {
             logReader.close();
 
             StringBuilder str = new StringBuilder();
-
-            String key = "0ec2eb25b6166c0c27a394ae118ad829"; // Found it some where ... so i guess free to use ^^
+            // Found it some where ... so i guess free to use ^^
+            String key = "0ec2eb25b6166c0c27a394ae118ad829";
             //String length = "10M"; // Just for testings
             str.append("api_option=paste&");
             str.append("api_dev_key=" + key + "&");
@@ -177,7 +179,8 @@ public class Teamspeak3Bot {
             wr.flush();
             wr.close();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader reader =
+                new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
             String line;
 
@@ -191,10 +194,13 @@ public class Teamspeak3Bot {
             reader.close();
             String pageResponse = new String(builder);
 
-            if(pageResponse.startsWith("http")) getLogger().info(Language.MAIN + "Pastebin link >> \"" + pageResponse + "\"");
-            else getLogger().error(Language.MAIN + "Pastebin upload failed!");
+            if (pageResponse.startsWith("http"))
+                getLogger().info(Language.MAIN + "Pastebin link >> \"" + pageResponse + "\"");
+            else
+                getLogger().error(Language.MAIN + "Pastebin upload failed!");
 
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
     public static ServerQueryInfo getClient() {
@@ -223,52 +229,56 @@ public class Teamspeak3Bot {
         bot = new Bot(host, port, username, password, nickname);
         debug(Language.MAIN + "Properties initialized");
     }
+
     public void saveProperties() {
 
         Set<String> list = properties.stringPropertyNames();
 
-        if(!properties.containsKey("host"))
+        if (!properties.containsKey("host"))
             properties.setProperty("host", "127.0.0.1");
 
-        if(!properties.containsKey("port"))
+        if (!properties.containsKey("port"))
             properties.setProperty("port", "10011");
 
-        if(!properties.containsKey("username"))
+        if (!properties.containsKey("username"))
             properties.setProperty("username", "username");
 
-        if(!properties.containsKey("password"))
+        if (!properties.containsKey("password"))
             properties.setProperty("password", "password");
 
-        if(!properties.containsKey("nickname"))
+        if (!properties.containsKey("nickname"))
             properties.setProperty("nickname", "serverquerybot");
 
-        if(!properties.containsKey("prefix")){
+        if (!properties.containsKey("prefix")) {
             properties.setProperty("prefix", "!");
         }
 
-        if(!properties.containsKey("lang")){
+        if (!properties.containsKey("lang")) {
             properties.setProperty("lang", "english");
         }
 
         try {
+            String comment = "Configuration File for the Teamspeak 3 bot";
             //noinspection deprecation
-            properties.save(new FileOutputStream(config), "Configuration File for the Teamspeak 3 bot");
-        } catch (FileNotFoundException ignore) {}
+            properties
+                .save(new FileOutputStream(config), comment);
+        } catch (FileNotFoundException ignore) {
+        }
     }
 
     private static void setInstance(Teamspeak3Bot instance) {
         Teamspeak3Bot.instance = instance;
     }
 
-    private static void enableDebugger(String [] args){
+    private static void enableDebugger(String[] args) {
         Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
-        if(Teamspeak3Bot.debuggerEnabled)
+        if (Teamspeak3Bot.debuggerEnabled)
             getLogger().info(Language.MAIN + "Debugger has been enabled!");
     }
 
     private static String getWorkDirectory(String[] args) {
         String ret = "Teamspeak3Bot/";
-        if(StringUtils.hasKey(args,"workDir")) {
+        if (StringUtils.hasKey(args, "workDir")) {
             ret = StringUtils.getValueOf(args, "workDir");
 
             if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))

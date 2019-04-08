@@ -17,28 +17,38 @@ public class ConsoleManager {
         line = "";
         input = new Scanner(System.in);
 
-        if(instance == null) instance = this;
+        if (instance == null)
+            instance = this;
 
         new Thread(new Runnable() {
 
             @Override public void run() {
                 try {
-                    if(input.hasNextLine()){
+                    if (input.hasNextLine()) {
                         line = input.nextLine();
                         Teamspeak3Bot.debug(Language.CONSOLE + "ADMIN INPUT > " + line);
 
-                        if(line.split(" ")[0].equalsIgnoreCase("exit")) {return;}
-                        if(line.split(" ")[0].equalsIgnoreCase("quit")) {return;}
+                        if (line.split(" ")[0].equalsIgnoreCase("exit")) {
+                            return;
+                        }
+                        if (line.split(" ")[0].equalsIgnoreCase("quit")) {
+                            return;
+                        }
 
-                        if(line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {Teamspeak3Bot.uploadErrorLog(); run();}
+                        if (line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {
+                            Teamspeak3Bot.uploadErrorLog();
+                            run();
+                        }
 
-                        CommandManager.executeCommand(line.split(" "), CommandSource.CONSOLE, -1, true);
+                        CommandManager
+                            .executeCommand(line.split(" "), CommandSource.CONSOLE, -1, true);
                     }
                 } catch (NullPointerException e) {
                     Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");
                     breaking = false;
                 }
-                if(breaking) run();
+                if (breaking)
+                    run();
             }
         }, "Console-Listener").start();
     }

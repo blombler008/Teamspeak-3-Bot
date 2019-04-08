@@ -24,23 +24,24 @@ public class EventManager {
         this.api = api;
     }
 
-    public void registerEvents () {
+    public void registerEvents() {
         api.registerAllEvents();
         api.addTS3Listeners(new TS3Listener() {
 
             @Override public void onTextMessage(TextMessageEvent e) {
-                if(e.getInvokerId() != bot.getClient().getId()){
-                    String [] cmdArray = e.getMessage().split(" ");
+                if (e.getInvokerId() != bot.getClient().getId()) {
+                    String[] cmdArray = e.getMessage().split(" ");
                     int invokerId = e.getInvokerId();
 
-                    if(!(CommandManager.checkCommand(cmdArray, CommandSource.CLIENT, invokerId))) {
+                    if (!(CommandManager.checkCommand(cmdArray, CommandSource.CLIENT, invokerId))) {
                         Map<String, String> map = e.getMap();
                         map.put("command", CommandManager.getCommandFromArray(cmdArray));
                         fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map);
                         Teamspeak3Bot.debug(Language.EVENT + "CommandPreProcessEvent > " + map);
                     }
                 } else {
-                    Teamspeak3Bot.debug(Language.EVENT + "TextMessageEvent > " + e.getMap().toString());
+                    Teamspeak3Bot
+                        .debug(Language.EVENT + "TextMessageEvent > " + e.getMap().toString());
                     fireEvent(EventType.EVENT_TEXT_MESSAGE, e.getMap());
                 }
             }
@@ -56,17 +57,20 @@ public class EventManager {
             }
 
             @Override public void onServerEdit(ServerEditedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ServerEditedEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "ServerEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_SERVER_EDIT, e.getMap());
             }
 
             @Override public void onChannelEdit(ChannelEditedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelEditedEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "ChannelEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_EDIT, e.getMap());
             }
 
             @Override public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelDescriptionEditedEvent > " + e.getMap().toString());
+                Teamspeak3Bot.debug(
+                    Language.EVENT + "ChannelDescriptionEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_DESCRIPTION_CHANGED, e.getMap());
             }
 
@@ -76,27 +80,32 @@ public class EventManager {
             }
 
             @Override public void onChannelCreate(ChannelCreateEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelCreateEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "ChannelCreateEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_CREATE, e.getMap());
             }
 
             @Override public void onChannelDeleted(ChannelDeletedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelDeletedEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "ChannelDeletedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_DELETED, e.getMap());
             }
 
             @Override public void onChannelMoved(ChannelMovedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelMovedEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "ChannelMovedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_MOVED, e.getMap());
             }
 
             @Override public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "ChannelPasswordChangedEvent > " + e.getMap().toString());
+                Teamspeak3Bot.debug(
+                    Language.EVENT + "ChannelPasswordChangedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_PASSWORD_CHANGED, e.getMap());
             }
 
             @Override public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT + "PrivilegeKeyUsedEvent > " + e.getMap().toString());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "PrivilegeKeyUsedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_PRIVILEGE_KEY_USED, e.getMap());
             }
         });
@@ -109,7 +118,8 @@ public class EventManager {
     private void run(EventType type, Map<String, String> e) {
 
         try {
-            if(!events.containsKey(type)) return;
+            if (!events.containsKey(type))
+                return;
             Method m = events.get(type).method;
 
 
@@ -154,30 +164,36 @@ public class EventManager {
     }
 
 
-    @SuppressWarnings(value={"unchecked", "unused"})
+    @SuppressWarnings(value = {"unchecked", "unused"})
     public static void addEventToProcessList(final Listener e) {
-        Teamspeak3Bot.debug(Language.EVENT + "-------------------------------addEventToProcessList--------------------------------");
+        Teamspeak3Bot.debug(Language.EVENT
+            + "-------------------------------addEventToProcessList--------------------------------");
         Teamspeak3Bot.debug(Language.EVENT + "Trying adding class: " + e.getClass().getName());
 
         Class<Listener> objClass = (Class<Listener>) e.getClass();
 
-        Method [] od = objClass.getDeclaredMethods();
+        Method[] od = objClass.getDeclaredMethods();
 
-        for(Method mod: od) {
+        for (Method mod : od) {
             boolean isAccessible = mod.isAccessible();
             mod.setAccessible(true);
 
             Teamspeak3Bot.debug(Language.EVENT + "Method: \"" + mod.getName() + "\"");
-            Teamspeak3Bot.debug(Language.EVENT + "- Declared Annotations: " + Arrays.toString(mod.getAnnotations()));
-            Teamspeak3Bot.debug(Language.EVENT + "- Declared Parameters: " + Arrays.toString(mod.getParameters()));
+            Teamspeak3Bot.debug(Language.EVENT + "- Declared Annotations: " + Arrays
+                .toString(mod.getAnnotations()));
+            Teamspeak3Bot.debug(
+                Language.EVENT + "- Declared Parameters: " + Arrays.toString(mod.getParameters()));
 
-            if(mod.isAnnotationPresent(EventListener.class) && mod.getParameterCount() == 1) {
+            if (mod.isAnnotationPresent(EventListener.class) && mod.getParameterCount() == 1) {
                 Parameter parm = mod.getParameters()[0];
 
-                Teamspeak3Bot.debug(Language.EVENT + "- Parameter Class: " + parm.getType().getName());
+                Teamspeak3Bot
+                    .debug(Language.EVENT + "- Parameter Class: " + parm.getType().getName());
 
-                if(parm.getType().getGenericSuperclass().getTypeName().equals(Event.class.getTypeName())) {
-                    Class<? extends Event> evType = EventType.getFromEventType((Class<? extends Event>) parm.getType());
+                if (parm.getType().getGenericSuperclass().getTypeName()
+                    .equals(Event.class.getTypeName())) {
+                    Class<? extends Event> evType =
+                        EventType.getFromEventType((Class<? extends Event>) parm.getType());
                     EventPoint p = new EventPoint();
                     p.method = mod;
                     p.methodClass = objClass;
@@ -186,13 +202,15 @@ public class EventManager {
                     events.put(p.eventType, p);
                     Teamspeak3Bot.debug(Language.EVENT + "{=} Added to the Event Listener!");
                     Teamspeak3Bot.debug(Language.EVENT + "{=} Method: " + p.method.getName());
-                    Teamspeak3Bot.debug(Language.EVENT + "{=} Class: " + p.methodClass.getSimpleName());
+                    Teamspeak3Bot
+                        .debug(Language.EVENT + "{=} Class: " + p.methodClass.getSimpleName());
                     Teamspeak3Bot.debug(Language.EVENT + "{=} Event Type: " + p.eventType);
                 }
             }
             mod.setAccessible(isAccessible);
         }
-        Teamspeak3Bot.debug("------------------------------------------------------------------------------------");
+        Teamspeak3Bot.debug(
+            "------------------------------------------------------------------------------------");
     }
 
 

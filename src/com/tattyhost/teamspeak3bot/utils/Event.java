@@ -22,5 +22,6 @@ public abstract class Event extends BaseEvent {
     }
 
     public abstract BaseEvent getEvent();
+
     public abstract TS3Api getApi();
 }

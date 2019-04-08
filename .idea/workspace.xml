@@ -1,12 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
       <artifact name="TeamspeakBot" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efc00c0a-3f17-4f66-9968-8d923acff74a" name="Default Changelist" comment="" />
+    <list default="true" id="efc00c0a-3f17-4f66-9968-8d923acff74a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v1/SimplePlugin-v1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v2/SimplePlugin-v2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v2/plugin.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/SimplePlugin/ExamplePlugin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/SimplePlugin/bin/plugin.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v1/plugin.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Examples/SimplePlugin/bin/src/com/tattyhost/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v1/src/com/tattyhost/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Teamspeak_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Teamspeak_bot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/JavaPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/JavaPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Commnd_Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Commad_Help.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/TestCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/TestEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/CommandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConfigFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConsoleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/EventType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Plugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PluginManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PluginManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Validator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Validator.java" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,7 +53,110 @@
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v1/src/com/tattyhost/example/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
+              <folding>
+                <element signature="e#208#209#0" expanded="true" />
+                <element signature="e#267#268#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/CommandSource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Commad_Help.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/JavaPlugin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="20" column="62" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="8" column="7" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Teamspeak_bot.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#9353#9354#0" expanded="true" />
+                <element signature="e#9382#9383#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -30,6 +170,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/TestCommand.java" />
+        <option value="$PROJECT_DIR$/Examples/SimplePlugin-v2/plugin.ini" />
+        <option value="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleEvent.java" />
+        <option value="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/Main.java" />
+        <option value="$PROJECT_DIR$/Teamspeak_bot.iml" />
+        <option value="$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java" />
+        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java" />
+        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Commnd_Help.java" />
+        <option value="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" />
       </list>
     </option>
   </component>
@@ -47,7 +197,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -58,12 +207,49 @@
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
-              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="Examples" type="462c0819:PsiDirectoryNode" />
+              <item name="SimplePlugin-v2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
@@ -88,30 +274,37 @@
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="teamspeak3bot" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="listeners" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="teamspeak3bot" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554708411759" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554737099749" />
     <property name="last.edited.regexp" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Examples/SimplePlugin-v2" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.42643678" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\Teamspeak_bot\Examples" />
+    </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.tattyhost.teamspeak3bot.utils.EventType" />
     </key>
@@ -119,18 +312,18 @@
       <recent name="com.tattyhost.teamspeak3bot.utils" />
       <recent name="com.tattyhost.teamspeak3bot" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Projects\Teamspeak_bot\Examples\SimplePlugin" />
+      <recent name="E:\Projects\Teamspeak_bot\Examples" />
+      <recent name="E:\Projects\Teamspeak_bot\assets\lang" />
+      <recent name="E:\Projects\Teamspeak_bot\Examples\SimplePlugin\bin" />
+      <recent name="E:\Projects\Teamspeak_bot\ExamplePlugins" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.tattyhost.teamspeak3bot.events" />
       <recent name="com.tattyhost.teamspeak3bot.utils" />
       <recent name="com.tattyhost.teamspeak3bot" />
       <recent name="com.tattyhost.teamspeak3bot.Utils" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\Projects\Teamspeak_bot\assets\lang" />
-      <recent name="E:\Projects\Teamspeak_bot\Examples\SimplePlugin\bin" />
-      <recent name="E:\Projects\Teamspeak_bot\Examples\SimplePlugin" />
-      <recent name="E:\Projects\Teamspeak_bot\ExamplePlugins" />
-      <recent name="A:\Downloads\javaapis\Teamspeak_bot\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -182,7 +375,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4b89eed5-216a-48d1-b3e0-a8f44006caa5" name="Default Changelist" comment="" />
+      <changelist id="efc00c0a-3f17-4f66-9968-8d923acff74a" name="Default Changelist" comment="" />
       <created>1552414242056</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -215,9 +408,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="10" width="1722" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49861497" visible="true" weight="0.24127558" />
-      <window_info id="Structure" order="1" sideWeight="0.50138503" side_tool="true" weight="0.25516224" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.24729241" />
+      <window_info id="Structure" order="1" sideWeight="0.50223714" side_tool="true" weight="0.24428399" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -233,7 +427,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32892805" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5007375" side_tool="true" weight="0.32997763" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49926254" visible="true" weight="0.2427293" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49926254" weight="0.2427293" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32996634" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -259,6 +453,210 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelCreate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelDeleted.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelDescriptionChanged.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelMoved.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventChannelPasswordChanged.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventClientJoin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventClientLeave.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventClientMoved.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventPrivilegeKeyUsed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventServerEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventTextMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v1/plugin.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/plugin.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/SimplePlugin-v2.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v1/SimplePlugin-v1.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Teamspeak_bot.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="62" selection-start-line="20" selection-start-column="62" selection-end-line="20" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v2/src/com/tattyhost/example/ExampleCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="7" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Examples/SimplePlugin-v1/src/com/tattyhost/example/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
+          <folding>
+            <element signature="e#208#209#0" expanded="true" />
+            <element signature="e#267#268#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/CommandSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/JavaPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Commad_Help.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#9353#9354#0" expanded="true" />
+            <element signature="e#9382#9383#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -322,7 +720,6 @@
             <option name="proportions">
               <list>
                 <option value="0.42643678" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

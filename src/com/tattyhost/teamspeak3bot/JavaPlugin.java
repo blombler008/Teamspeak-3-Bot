@@ -5,7 +5,7 @@ import com.tattyhost.teamspeak3bot.utils.Plugin;
 public class JavaPlugin extends Plugin {
 
     @Override public void onEnable() {
-        
+
     }
 
     @Override public void onDisable() {

@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class Validator {
 
     public static boolean notNull(Object obj) {
-         return (obj == null);
+        return (obj == null);
     }
 
     public static boolean isValidPath(String path) {
@@ -21,8 +21,9 @@ public class Validator {
         }
         return true;
     }
+
     public static boolean isDirectory(String path) {
-        if(!Files.isDirectory(Paths.get(path))) {
+        if (!Files.isDirectory(Paths.get(path))) {
             Teamspeak3Bot.getLogger().error("Path is not a Directory: " + path);
             return false;
         }

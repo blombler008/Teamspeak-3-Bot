@@ -22,7 +22,8 @@ public class Bot {
 
     public Bot(String host, String port, String username, String password, String nickname) {
 
-        if(!testForPort(port)) return;
+        if (!testForPort(port))
+            return;
 
         this.nickname = nickname;
         this.port = Integer.parseInt(port);
@@ -32,9 +33,13 @@ public class Bot {
     }
 
     public synchronized boolean prepareConnection() {
-        if(Validator.notNull(config) || Validator.notNull(query) || Validator.notNull(api)) {
+        if (Validator.notNull(config) || Validator.notNull(query) || Validator.notNull(api)) {
             try {
-                Teamspeak3Bot.debug(Language.BOT + "Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+
+                Teamspeak3Bot.debug(
+                    Language.BOT + "Trying to connect to server: \'ts3serverquery://" + host + ":"
+                        + port + "\'");
+
                 config = new TS3Config();
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
                 config.setHost(host);
@@ -46,31 +51,48 @@ public class Bot {
 
                 api = query.getApi();
 
-                Teamspeak3Bot.debug(Language.BOT + "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+                Teamspeak3Bot.debug(
+                    Language.BOT + "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+
                 return true;
-            }catch (TS3ConnectionFailedException e) {
-                Teamspeak3Bot.debug(Language.BOT + "ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+
+            } catch (TS3ConnectionFailedException e) {
+
+                Teamspeak3Bot.debug(
+                    Language.BOT + "ERROR > Couldn't connect to server: \'ts3serverquery://" + host
+                        + ":" + port + "\'");
+
                 return false;
             }
-        } else return false;
+        } else
+            return false;
     }
 
     public synchronized boolean createConnection() {
-        if(!Validator.notNull(api)) {
+        if (!Validator.notNull(api)) {
             try {
-                Teamspeak3Bot.debug(Language.BOT + "Trying login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
+                Teamspeak3Bot.debug(
+                    Language.BOT + "Trying login as: \'" + nickname + "\', with username: \'"
+                        + username + "\', and password: \'" + password + "\'");
+
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
                 Teamspeak3Bot.debug(Language.BOT + "Logged as: \'" + nickname + "\'");
+
                 return true;
             } catch (Exception e) {
                 api.logout();
                 query.exit();
-                Teamspeak3Bot.debug(Language.BOT + "Couldn't login as: \'" + nickname + "\', with username: \'" + username + "\', and password: \'" + password + "\'");
+
+                Teamspeak3Bot.debug(
+                    Language.BOT + "Couldn't login as: \'" + nickname + "\', with username: \'"
+                        + username + "\', and password: \'" + password + "\'");
+
                 return false;
             }
 
-        } else return false;
+        } else
+            return false;
     }
 
     private boolean testForPort(String port) {
