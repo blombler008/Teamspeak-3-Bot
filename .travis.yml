@@ -1,1 +1,8 @@
 language: java
+jdk: openjdk8
+install: true
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+sudo: false
