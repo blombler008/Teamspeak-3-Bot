@@ -19,19 +19,19 @@ public class ConsoleManager {
 
         if (instance == null)
             instance = this;
-
         new Thread(new Runnable() {
 
             @Override public void run() {
                 try {
                     if (input.hasNextLine()) {
                         line = input.nextLine();
-                        Teamspeak3Bot.debug(Language.CONSOLE + "ADMIN INPUT > " + line);
+                        Teamspeak3Bot.getLogger().info(Language.CONSOLE + "ADMIN INPUT > " + line);
 
                         if (line.split(" ")[0].equalsIgnoreCase("exit")) {
                             return;
                         }
                         if (line.split(" ")[0].equalsIgnoreCase("quit")) {
+                            Teamspeak3Bot.shutdown();
                             return;
                         }
 
@@ -42,6 +42,8 @@ public class ConsoleManager {
 
                         CommandManager
                             .executeCommand(line.split(" "), CommandSource.CONSOLE, -1, true);
+
+                        System.out.print("> ");
                     }
                 } catch (NullPointerException e) {
                     Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");

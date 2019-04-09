@@ -55,7 +55,7 @@ public class Teamspeak3Bot {
             try {
                 properties = new Properties();
                 properties.load(new FileReader(config));
-                saveProperties();
+                saveProperties(properties);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -73,8 +73,6 @@ public class Teamspeak3Bot {
             throw new AssertionError("Bot Properties is null!");
 
     }
-
-
 
     public static void main(String[] args) {
         workDir = new File(getWorkDirectory(args));
@@ -207,6 +205,11 @@ public class Teamspeak3Bot {
         return botClient;
     }
 
+    public static void shutdown() {
+        bot.getApi().logout();
+        System.exit(1);
+    }
+
     private boolean connect() {
         return bot.createConnection();
     }
@@ -216,21 +219,27 @@ public class Teamspeak3Bot {
     }
 
     public synchronized void initializeProperties() {
-        String host = properties.getProperty("host");
-        String port = properties.getProperty("port");
-        String username = properties.getProperty("username");
-        String password = properties.getProperty("password");
-        String nickname = properties.getProperty("nickname");
-        Languages lang = Language.getNew(/*properties.getProperty("lang")*/ "english");
-        getLogger().info(Language.LANGUAGE + lang.getProperties().toString());
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileReader(config));
+            String host = properties.getProperty("host");
+            String port = properties.getProperty("port");
+            String username = properties.getProperty("username");
+            String password = properties.getProperty("password");
+            String nickname = properties.getProperty("nickname");
+            // Languages lang = Language.getNew(properties.getProperty("lang"));
+            // languages getting added later //
+            Languages lang = Language.getNew("english");
+            debug(Language.LANGUAGE + lang.getProperties().toString());
 
-        customChar = properties.getProperty("prefix").charAt(0);
+            customChar = properties.getProperty("prefix").charAt(0);
 
-        bot = new Bot(host, port, username, password, nickname);
-        debug(Language.MAIN + "Properties initialized");
+            bot = new Bot(host, port, username, password, nickname);
+            debug(Language.MAIN + "Properties initialized");
+        } catch (IOException ignore) {}
     }
 
-    public void saveProperties() {
+    public void saveProperties(Properties properties) {
 
         Set<String> list = properties.stringPropertyNames();
 

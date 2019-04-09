@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="TeamspeakBot">
-    <output-path>$USER_HOME$/Desktop/ts3bot</output-path>
+    <output-path>$PROJECT_DIR$/out/production</output-path>
     <root id="archive" name="TeamspeakBot.jar">
       <element id="module-output" name="Teamspeak_bot" />
       <element id="directory" name="META-INF">

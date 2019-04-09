@@ -69,6 +69,7 @@ public class PluginManager {
                             new PluginDescription(version, description, name);
 
                         URL[] urls = {new URL("jar:file:" + file.getAbsolutePath() + "!/")};
+                        Teamspeak3Bot.debug(urls[0].getFile());
                         URLClassLoader cl = URLClassLoader.newInstance(urls);
                         //noinspection SingleStatementInBlock, unchecked
                         Class<JavaPlugin> pluginClass = (Class<JavaPlugin>) cl.loadClass(mainClass);

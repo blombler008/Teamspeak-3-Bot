@@ -2,10 +2,9 @@ package com.tattyhost.teamspeak3bot.utils;
 
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Properties;
 
 public class Language {
@@ -32,8 +31,6 @@ public class Language {
             Languages l = Languages.fromName(lang);
             currentLanguage = l != null ? l : Languages.ENGLISH;
 
-
-
         }
         return currentLanguage;
     }
@@ -46,7 +43,6 @@ public class Language {
     public enum Languages {
         ENGLISH("english", "english.ini");
 
-        private File propertiesFile;
         private Properties properties;
         private String propertyName;
 
@@ -54,14 +50,16 @@ public class Language {
             this.propertyName = propertyName;
             this.properties = new Properties();
             try {
-                this.propertiesFile = new File(
-                    ClassLoader.getSystemClassLoader().getResource("lang/" + fileName)
-                        .toURI());//Languages.class.getResourceAsStream();
-                this.properties.load(new FileReader(propertiesFile));
-            } catch (IOException | URISyntaxException e) {
+
+                this.properties.load(new InputStreamReader(ClassLoader.getSystemResource("lang/" + fileName).openStream()));
+                URL uri = ClassLoader.getSystemResource("lang/" + fileName);
+                Teamspeak3Bot.debug(LANGUAGE + "URL of language file: " + uri);
+
+                Teamspeak3Bot.getLogger().info(LANGUAGE + "loaded properties: " + propertyName);
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            Teamspeak3Bot.debug(LANGUAGE + "Loaded Language: " + propertyName);
         }
 
         public static Languages fromName(String lang) {
