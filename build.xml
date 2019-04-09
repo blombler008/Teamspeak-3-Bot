@@ -2,7 +2,7 @@
 <project name="teamspeak_bot" default="all">
   
   
-  <property file="teamspeak_bot.properties"/>
+  <property file="build.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
   <!-- 
   <property name="skip.tests" value="true"/>
