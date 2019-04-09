@@ -1,7 +1,5 @@
 package com.tattyhost.teamspeak3bot.utils;
 
-import com.sun.istack.internal.NotNull;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +15,8 @@ public class ConfigManager {
     private ConfigManager() {
     }
 
-    public ConfigManager(@NotNull File dataFolder) {
+    public ConfigManager(File dataFolder) {
+        if(Validator.notNull(dataFolder)) throw new NullPointerException("dataFolder is NULL!");
         if (dataFolders.containsKey(dataFolder)) {
             Plugin p = dataFolders.get(dataFolder);
             if (p.dataFolder == dataFolder) {
