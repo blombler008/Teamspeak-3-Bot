@@ -114,11 +114,272 @@
   
   <!-- Modules -->
   
-  <import file="${basedir}/module_teamspeak_bot.xml"/>
   
-  <import file="${basedir}/Examples/SimplePlugin-v1/module_simpleplugin-v1.xml"/>
+  <!-- Module Teamspeak_bot -->
   
-  <import file="${basedir}/Examples/SimplePlugin-v2/module_simpleplugin-v2.xml"/>
+  <dirname property="module.teamspeak_bot.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.teamspeak_bot" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.teamspeak_bot" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.teamspeak_bot" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.teamspeak_bot" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="teamspeak_bot.output.dir" value="${module.teamspeak_bot.basedir}/out/production/Teamspeak_bot"/>
+  <property name="teamspeak_bot.testoutput.dir" value="${module.teamspeak_bot.basedir}/out/test/Teamspeak_bot"/>
+  
+  <path id="teamspeak_bot.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="teamspeak_bot.module.production.classpath">
+    <path refid="${module.jdk.classpath.teamspeak_bot}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="teamspeak_bot.runtime.production.module.classpath">
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="teamspeak_bot.module.classpath">
+    <path refid="${module.jdk.classpath.teamspeak_bot}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="teamspeak_bot.runtime.module.classpath">
+    <pathelement location="${teamspeak_bot.testoutput.dir}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.teamspeak_bot">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.teamspeak_bot">
+    <patternset refid="excluded.from.module.teamspeak_bot"/>
+  </patternset>
+  
+  <path id="teamspeak_bot.module.sourcepath">
+    <dirset dir="${module.teamspeak_bot.basedir}">
+      <include name="src"/>
+      <include name="assets"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.teamspeak_bot" depends="compile.module.teamspeak_bot.production,compile.module.teamspeak_bot.tests" description="Compile module Teamspeak_bot"/>
+  
+  <target name="compile.module.teamspeak_bot.production" depends="register.custom.compilers" description="Compile module Teamspeak_bot; production classes">
+    <mkdir dir="${teamspeak_bot.output.dir}"/>
+    <javac2 destdir="${teamspeak_bot.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.teamspeak_bot}/javac">
+      <compilerarg line="${compiler.args.teamspeak_bot}"/>
+      <bootclasspath refid="teamspeak_bot.module.bootclasspath"/>
+      <classpath refid="teamspeak_bot.module.production.classpath"/>
+      <src refid="teamspeak_bot.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.teamspeak_bot"/>
+    </javac2>
+    
+    <copy todir="${teamspeak_bot.output.dir}">
+      <fileset dir="${module.teamspeak_bot.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.teamspeak_bot.basedir}/assets">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.teamspeak_bot.tests" depends="register.custom.compilers,compile.module.teamspeak_bot.production" description="compile module Teamspeak_bot; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.teamspeak_bot" description="cleanup module">
+    <delete dir="${teamspeak_bot.output.dir}"/>
+    <delete dir="${teamspeak_bot.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module SimplePlugin-v1 -->
+  
+  <dirname property="module.simpleplugin-v1.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.simpleplugin-v1" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.simpleplugin-v1" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.simpleplugin-v1" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.simpleplugin-v1" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="simpleplugin-v1.output.dir" value="${module.simpleplugin-v1.basedir}/out/production/SimplePlugin-v1"/>
+  <property name="simpleplugin-v1.testoutput.dir" value="${module.simpleplugin-v1.basedir}/out/test/SimplePlugin-v1"/>
+  
+  <path id="simpleplugin-v1.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="simpleplugin-v1.module.production.classpath">
+    <path refid="${module.jdk.classpath.simpleplugin-v1}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v1.runtime.production.module.classpath">
+    <pathelement location="${simpleplugin-v1.output.dir}"/>
+    <path refid="teamspeak_bot.runtime.production.module.classpath"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v1.module.classpath">
+    <path refid="${module.jdk.classpath.simpleplugin-v1}"/>
+    <pathelement location="${simpleplugin-v1.output.dir}"/>
+    <pathelement location="${teamspeak_bot.testoutput.dir}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v1.runtime.module.classpath">
+    <pathelement location="${simpleplugin-v1.testoutput.dir}"/>
+    <pathelement location="${simpleplugin-v1.output.dir}"/>
+    <path refid="teamspeak_bot.runtime.module.classpath"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.simpleplugin-v1">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.simpleplugin-v1">
+    <patternset refid="excluded.from.module.simpleplugin-v1"/>
+  </patternset>
+  
+  <path id="simpleplugin-v1.module.sourcepath">
+    <dirset dir="${module.simpleplugin-v1.basedir}/Examples/SimplePlugin-v1">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.simpleplugin-v1" depends="compile.module.simpleplugin-v1.production,compile.module.simpleplugin-v1.tests" description="Compile module SimplePlugin-v1"/>
+  
+  <target name="compile.module.simpleplugin-v1.production" depends="register.custom.compilers,compile.module.teamspeak_bot" description="Compile module SimplePlugin-v1; production classes">
+    <mkdir dir="${simpleplugin-v1.output.dir}"/>
+    <javac2 destdir="${simpleplugin-v1.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.simpleplugin-v1}/javac">
+      <compilerarg line="${compiler.args.simpleplugin-v1}"/>
+      <bootclasspath refid="simpleplugin-v1.module.bootclasspath"/>
+      <classpath refid="simpleplugin-v1.module.production.classpath"/>
+      <src refid="simpleplugin-v1.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.simpleplugin-v1"/>
+    </javac2>
+    
+    <copy todir="${simpleplugin-v1.output.dir}">
+      <fileset dir="${module.simpleplugin-v1.basedir}/Examples/SimplePlugin-v1/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.simpleplugin-v1.tests" depends="register.custom.compilers,compile.module.simpleplugin-v1.production" description="compile module SimplePlugin-v1; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.simpleplugin-v1" description="cleanup module">
+    <delete dir="${simpleplugin-v1.output.dir}"/>
+    <delete dir="${simpleplugin-v1.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module SimplePlugin-v2 -->
+  
+  <dirname property="module.simpleplugin-v2.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.simpleplugin-v2" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.simpleplugin-v2" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.simpleplugin-v2" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.simpleplugin-v2" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="simpleplugin-v2.output.dir" value="${module.simpleplugin-v2.basedir}/out/production/SimplePlugin-v2"/>
+  <property name="simpleplugin-v2.testoutput.dir" value="${module.simpleplugin-v2.basedir}/out/test/SimplePlugin-v2"/>
+  
+  <path id="simpleplugin-v2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="simpleplugin-v2.module.production.classpath">
+    <path refid="${module.jdk.classpath.simpleplugin-v2}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v2.runtime.production.module.classpath">
+    <pathelement location="${simpleplugin-v2.output.dir}"/>
+    <path refid="teamspeak_bot.runtime.production.module.classpath"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v2.module.classpath">
+    <path refid="${module.jdk.classpath.simpleplugin-v2}"/>
+    <pathelement location="${simpleplugin-v2.output.dir}"/>
+    <pathelement location="${teamspeak_bot.testoutput.dir}"/>
+    <pathelement location="${teamspeak_bot.output.dir}"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  <path id="simpleplugin-v2.runtime.module.classpath">
+    <pathelement location="${simpleplugin-v2.testoutput.dir}"/>
+    <pathelement location="${simpleplugin-v2.output.dir}"/>
+    <path refid="teamspeak_bot.runtime.module.classpath"/>
+    <path refid="library.teamspeak3-api-1.2.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.simpleplugin-v2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.simpleplugin-v2">
+    <patternset refid="excluded.from.module.simpleplugin-v2"/>
+  </patternset>
+  
+  <path id="simpleplugin-v2.module.sourcepath">
+    <dirset dir="${module.simpleplugin-v2.basedir}/Examples/SimplePlugin-v2">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.simpleplugin-v2" depends="compile.module.simpleplugin-v2.production,compile.module.simpleplugin-v2.tests" description="Compile module SimplePlugin-v2"/>
+  
+  <target name="compile.module.simpleplugin-v2.production" depends="register.custom.compilers,compile.module.teamspeak_bot" description="Compile module SimplePlugin-v2; production classes">
+    <mkdir dir="${simpleplugin-v2.output.dir}"/>
+    <javac2 destdir="${simpleplugin-v2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.simpleplugin-v2}/javac">
+      <compilerarg line="${compiler.args.simpleplugin-v2}"/>
+      <bootclasspath refid="simpleplugin-v2.module.bootclasspath"/>
+      <classpath refid="simpleplugin-v2.module.production.classpath"/>
+      <src refid="simpleplugin-v2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.simpleplugin-v2"/>
+    </javac2>
+    
+    <copy todir="${simpleplugin-v2.output.dir}">
+      <fileset dir="${module.simpleplugin-v2.basedir}/Examples/SimplePlugin-v2/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.simpleplugin-v2.tests" depends="register.custom.compilers,compile.module.simpleplugin-v2.production" description="compile module SimplePlugin-v2; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.simpleplugin-v2" description="cleanup module">
+    <delete dir="${simpleplugin-v2.output.dir}"/>
+    <delete dir="${simpleplugin-v2.testoutput.dir}"/>
+  </target>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
