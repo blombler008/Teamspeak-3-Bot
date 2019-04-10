@@ -1,10 +1,39 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 blombler008
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.tattyhost.teamspeak3bot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
+import com.github.theholywaffle.teamspeak3.api.wrapper.*;
 import com.tattyhost.teamspeak3bot.listeners.Command_Help;
-import com.tattyhost.teamspeak3bot.utils.*;
+import com.tattyhost.teamspeak3bot.listeners.Command_Reload;
+import com.tattyhost.teamspeak3bot.listeners.Event_CommandFired;
+import com.tattyhost.teamspeak3bot.utils.Language;
 import com.tattyhost.teamspeak3bot.utils.Language.Languages;
+import com.tattyhost.teamspeak3bot.utils.PrintStreamLogger;
+import com.tattyhost.teamspeak3bot.utils.StringUtils;
+import com.tattyhost.teamspeak3bot.utils.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,24 +43,29 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 public class Teamspeak3Bot {
 
+    public static boolean debuggerEnabled = false;
+    protected static char customChar;
     private static Bot bot;
     private static File workDir;
     private static File logsDir;
     private static File logFile;
+    private static File eventLogFile;
     private static File config;
     private static Teamspeak3Bot instance;
     private static Logger logger;
     private static Properties properties;
     private static PluginManager pluginManager;
     private static ServerQueryInfo botClient;
-
-    public static boolean debuggerEnabled = false;
-    protected static char customChar;
+    private static ClientInfo owner;
+    static Map<Integer, ClientInfo> clients = new HashMap<>();
+    static Map<Integer, ChannelInfo> channels = new HashMap<>();
 
     private Teamspeak3Bot(String[] args) {
         if (instance == null) {
@@ -77,16 +111,19 @@ public class Teamspeak3Bot {
     public static void main(String[] args) {
         workDir = new File(getWorkDirectory(args));
         workDir.mkdirs();
-        logsDir = new File(getWorkDirectory(args) + "\\logs");
+
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter fdt = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
+
+        logsDir = new File(getWorkDirectory(args) + "\\logs\\log-" + dt.format(fdt));
         logsDir.mkdir();
 
-        String name = "log-";
-        LocalDateTime dt = LocalDateTime.now();
-        DateTimeFormatter fdt = DateTimeFormatter.ofPattern("yyyy_dd_MM-HH_mm_ss_SSS");
-        name += dt.format(fdt) + ".txt.log";
+        String nameLogFile = "log.txt.log";
+        String nameEventLogFile = "event.txt.log";
 
         PrintStreamLogger prl = new PrintStreamLogger(System.out);
-        logFile = new File(logsDir, name);
+        logFile = new File(logsDir, nameLogFile);
+        eventLogFile = new File(logsDir, nameLogFile);
         try {
             logFile.createNewFile();
             prl.lg = new PrintStream(logFile);
@@ -97,7 +134,6 @@ public class Teamspeak3Bot {
 
         System.setOut(prl);
         System.out.println("Initialised Console!");
-
 
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
@@ -113,22 +149,37 @@ public class Teamspeak3Bot {
         else
             return;
 
+        owner = getApi().getClientByUId(properties.getProperty("owner"));
         botClient = getApi().whoAmI();
+        int id;
+
+        for (Client c : getApi().getClients()) {
+            id = c.getId();
+            clients.put(id, getApi().getClientInfo(id));
+        }
+
+        for (Channel c : getApi().getChannels()) {
+            id = c.getId();
+            channels.put(id, getApi().getChannelInfo(id));
+        }
+
+        debug(Language.MAIN + "Owner > " + owner.getMap());
         debug(Language.MAIN + "ServerQuery > " + botClient.getMap());
+        debug(Language.MAIN + "Channels > " + channels.size());
+        debug(Language.MAIN + "Online Clients > " + clients.size());
+
 
         new CommandManager(getApi(), customChar);
         new ConsoleManager();
         new EventManager(bot, getApi()).registerEvents();
 
         CommandManager.registerNewCommand("help", new Command_Help());
-        // EventManager.addEventToProcessList(new TestEvent());
+        CommandManager.registerNewCommand("reload", new Command_Reload());
+        EventManager.addEventToProcessList(new Event_CommandFired());
         pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
-
-
-
     }
 
     public static void debug(String s) {
@@ -143,6 +194,8 @@ public class Teamspeak3Bot {
     public static File getLogsDir() {
         return logsDir;
     }
+
+
 
     public static void uploadErrorLog() {
         try {
@@ -205,9 +258,70 @@ public class Teamspeak3Bot {
         return botClient;
     }
 
+    public static ClientInfo getClient(int client) {
+        return getClients().getOrDefault(client, null);
+    }
+
     public static void shutdown() {
         bot.getApi().logout();
         System.exit(1);
+    }
+
+    public static Map<Integer, ClientInfo> getClients() {
+        return new HashMap<>(clients);
+    }
+
+    public static Map<Integer, ChannelInfo> getChannels() {
+        return new HashMap<>(channels);
+    }
+
+    public static ClientInfo getOwner() {
+        return owner;
+    }
+
+    public static PluginManager getPluginManager() {
+        return pluginManager;
+    }
+
+    private static void enableDebugger(String[] args) {
+        Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
+        if (Teamspeak3Bot.debuggerEnabled)
+            getLogger().info(Language.MAIN + "Debugger has been enabled!");
+    }
+
+    private static String getWorkDirectory(String[] args) {
+        String ret = "Teamspeak3Bot/";
+        if (StringUtils.hasKey(args, "workDir")) {
+            ret = StringUtils.getValueOf(args, "workDir");
+
+            if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
+                ret = "Teamspeak3Bot/";
+        }
+        return ret;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static Teamspeak3Bot getInstance() {
+        return instance;
+    }
+
+    private static void setInstance(Teamspeak3Bot instance) {
+        Teamspeak3Bot.instance = instance;
+    }
+
+    public static Bot getBot() {
+        return bot;
+    }
+
+    public static char getCustomChar() {
+        return customChar;
+    }
+
+    public static TS3Api getApi() {
+        return getBot().getApi();
     }
 
     private boolean connect() {
@@ -236,7 +350,8 @@ public class Teamspeak3Bot {
 
             bot = new Bot(host, port, username, password, nickname);
             debug(Language.MAIN + "Properties initialized");
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
     public void saveProperties(Properties properties) {
@@ -258,62 +373,22 @@ public class Teamspeak3Bot {
         if (!properties.containsKey("nickname"))
             properties.setProperty("nickname", "serverquerybot");
 
-        if (!properties.containsKey("prefix")) {
+        if (!properties.containsKey("prefix"))
             properties.setProperty("prefix", "!");
-        }
 
-        if (!properties.containsKey("lang")) {
+        if (!properties.containsKey("lang"))
             properties.setProperty("lang", "english");
-        }
+
+        if (!properties.containsKey("owner"))
+            properties.setProperty("owner", "1234567890abdef");
+
 
         try {
             String comment = "Configuration File for the Teamspeak 3 bot";
             //noinspection deprecation
-            properties
-                .save(new FileOutputStream(config), comment);
+            properties.save(new FileOutputStream(config), comment);
         } catch (FileNotFoundException ignore) {
         }
-    }
-
-    private static void setInstance(Teamspeak3Bot instance) {
-        Teamspeak3Bot.instance = instance;
-    }
-
-    private static void enableDebugger(String[] args) {
-        Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
-        if (Teamspeak3Bot.debuggerEnabled)
-            getLogger().info(Language.MAIN + "Debugger has been enabled!");
-    }
-
-    private static String getWorkDirectory(String[] args) {
-        String ret = "Teamspeak3Bot/";
-        if (StringUtils.hasKey(args, "workDir")) {
-            ret = StringUtils.getValueOf(args, "workDir");
-
-            if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
-                ret = "Teamspeak3Bot/";
-        }
-        return ret;
-    }
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public static Teamspeak3Bot getInstance() {
-        return instance;
-    }
-
-    public static Bot getBot() {
-        return bot;
-    }
-
-    public static char getCustomChar() {
-        return customChar;
-    }
-
-    public static TS3Api getApi() {
-        return getBot().getApi();
     }
 
 }

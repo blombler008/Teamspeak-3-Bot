@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.teamspeak3bot.events;
+package com.tattyhost.teamspeak3bot;
 
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent;
-import com.tattyhost.teamspeak3bot.utils.Event;
+import com.tattyhost.teamspeak3bot.utils.CommandSender;
+import com.tattyhost.teamspeak3bot.utils.Validator;
 
-import java.util.Map;
+public class ClientCommandSender extends CommandSender {
 
-public class EventChannelDescriptionChanged extends Event {
-
-    public EventChannelDescriptionChanged(Map<String, String> event, TS3Api api) {
-        super(event, api);
+    public ClientCommandSender(String s) {
+        super(s);
     }
 
-    @Override public ChannelDescriptionEditedEvent getEvent() {
-        return (ChannelDescriptionEditedEvent) event;
-    }
-
-    @Override public TS3Api getApi() {
-        return api;
+    @Override public void sendMessage(int channel, int client, String message) {
+        if (Validator.clientExists(client)) {
+            Teamspeak3Bot.getApi().sendPrivateMessage(client, message);
+        }
     }
 }

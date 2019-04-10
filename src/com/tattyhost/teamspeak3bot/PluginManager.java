@@ -1,11 +1,38 @@
-package com.tattyhost.teamspeak3bot.utils;
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 blombler008
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-import com.tattyhost.teamspeak3bot.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
+package com.tattyhost.teamspeak3bot;
+
+import com.tattyhost.teamspeak3bot.utils.Language;
+import com.tattyhost.teamspeak3bot.utils.PluginDescription;
+import com.tattyhost.teamspeak3bot.utils.Validator;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -55,6 +82,7 @@ public class PluginManager {
                         null);
                     String mainClass =
                         (properties.containsKey("main") ? properties.getProperty("main") : null);
+                    properties.remove("main");
 
                     if (debug)
                         Teamspeak3Bot.debug(
@@ -69,16 +97,19 @@ public class PluginManager {
                             new PluginDescription(version, description, name);
 
                         URL[] urls = {new URL("jar:file:" + file.getAbsolutePath() + "!/")};
-                        Teamspeak3Bot.debug(urls[0].getFile());
+
+                        Teamspeak3Bot.debug(Language.PLUGIN + urls[0].getFile());
+
                         URLClassLoader cl = URLClassLoader.newInstance(urls);
                         //noinspection SingleStatementInBlock, unchecked
                         Class<JavaPlugin> pluginClass = (Class<JavaPlugin>) cl.loadClass(mainClass);
-                        JavaPlugin plugin = pluginClass.newInstance();
 
-                        properties.remove("main");
+                        Constructor<JavaPlugin> constructor =
+                            (Constructor<JavaPlugin>) pluginClass.getSuperclass()
+                                .getConstructor(PluginDescription.class, Properties.class);
+                        // getConstructor(Properties.class, PluginDescription.class);
+                        JavaPlugin plugin = constructor.newInstance(pluginDescription, properties);
 
-                        plugin.properties = properties;
-                        plugin.pluginDescription = pluginDescription;
                         plugins.add(plugin);
                         if (debug)
                             Teamspeak3Bot.debug(
@@ -86,10 +117,11 @@ public class PluginManager {
                                     .toString());
                     }
 
-                } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
+                } catch (ClassNotFoundException | NoSuchMethodException | IOException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     Teamspeak3Bot.getLogger().error(
                         Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
                     e.printStackTrace();
+                    return false;
                 }
             }
         }
@@ -104,9 +136,9 @@ public class PluginManager {
                 .info("Loading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
             try {
                 p.onLoad();
-                p.dataFolder = new File(pluginsDir, p.getName());
-                p.dataFolder.mkdir();
-                ConfigManager.add(p.dataFolder, p);
+                File dataF = p.setDataFolder(new File(pluginsDir, p.getName()));
+                dataF.mkdir();
+                ConfigManager.add(dataF, p);
                 if (debug)
                     Teamspeak3Bot.debug(Language.PLUGIN + "Plugin loaded > " + p.getName());
             } catch (Exception e) {
@@ -125,7 +157,7 @@ public class PluginManager {
             Teamspeak3Bot.getLogger()
                 .info("Enabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
             try {
-                p.onEnable();
+                p.setEnabled();
                 if (debug)
                     Teamspeak3Bot.debug(Language.PLUGIN + "Plugin enabled > " + p.getName());
             } catch (Exception e) {
@@ -144,7 +176,7 @@ public class PluginManager {
             Teamspeak3Bot.getLogger()
                 .info("Disabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
             try {
-                p.onDisable();
+                p.setDisabled();
                 if (debug)
                     Teamspeak3Bot.debug(Language.PLUGIN + "Plugin disabled > " + p.getName());
             } catch (Exception e) {

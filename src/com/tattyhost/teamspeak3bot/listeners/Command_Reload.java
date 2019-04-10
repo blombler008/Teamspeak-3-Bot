@@ -22,25 +22,29 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.teamspeak3bot.events;
+package com.tattyhost.teamspeak3bot.listeners;
 
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent;
-import com.tattyhost.teamspeak3bot.utils.Event;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import com.tattyhost.teamspeak3bot.ConsoleCommandSender;
+import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
+import com.tattyhost.teamspeak3bot.utils.Command;
+import com.tattyhost.teamspeak3bot.utils.CommandSender;
+import com.tattyhost.teamspeak3bot.utils.Language;
 
-import java.util.Map;
+public class Command_Reload extends Command {
+    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+        ClientInfo sender = Teamspeak3Bot.getClient(id);
 
-public class EventChannelDescriptionChanged extends Event {
+        if (source instanceof ConsoleCommandSender) {
+            Teamspeak3Bot.getPluginManager().reloadPlugins();
 
-    public EventChannelDescriptionChanged(Map<String, String> event, TS3Api api) {
-        super(event, api);
+        } else {
+            if (sender.getUniqueIdentifier().equals(Teamspeak3Bot.getOwner().getUniqueIdentifier())) {
+                Teamspeak3Bot.getPluginManager().reloadPlugins();
+            } else {
+                source.sendMessage(0, id, Language.get("nopermissions"));
+            }
+        }
     }
 
-    @Override public ChannelDescriptionEditedEvent getEvent() {
-        return (ChannelDescriptionEditedEvent) event;
-    }
-
-    @Override public TS3Api getApi() {
-        return api;
-    }
 }

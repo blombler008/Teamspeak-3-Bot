@@ -1,8 +1,11 @@
 package com.tattyhost.example;
 
-import com.tattyhost.teamspeak3bot.CommandSource;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
+import com.tattyhost.teamspeak3bot.ChannelCommandSender;
+import com.tattyhost.teamspeak3bot.ClientCommandSender;
+import com.tattyhost.teamspeak3bot.ConsoleCommandSender;
+import com.tattyhost.teamspeak3bot.ServerCommandSender;
 import com.tattyhost.teamspeak3bot.utils.Command;
+import com.tattyhost.teamspeak3bot.utils.CommandSender;
 
 public class ExampleCommand extends Command {
 
@@ -21,7 +24,17 @@ public class ExampleCommand extends Command {
      *              - commandLabel = "example"
      *              - args = {"hi", "there"}
      */
-    @Override public void run(CommandSource source, int id, String commandLabel, String[] args) {
-        Teamspeak3Bot.getApi().sendPrivateMessage(id, commandLabel);
+    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+        if (source instanceof ConsoleCommandSender)
+            source.sendMessage(0, id,
+                "This happens when a Console messages the bot with the command!");
+        if (source instanceof ClientCommandSender)
+            source.sendMessage(0, id, "This happens when a client entered a command the bot!");
+        if (source instanceof ServerCommandSender)
+            source.sendMessage(0, id,
+                "This happens when a client entered a command in the public server chat!");
+        if (source instanceof ChannelCommandSender)
+            source.sendMessage(0, id,
+                "This happens when a client entered a command in the channel chat!");
     }
 }

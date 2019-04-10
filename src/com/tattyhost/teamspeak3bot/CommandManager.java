@@ -1,8 +1,34 @@
-package com.tattyhost.teamspeak3bot.utils;
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 blombler008
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.tattyhost.teamspeak3bot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.tattyhost.teamspeak3bot.CommandSource;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
+import com.tattyhost.teamspeak3bot.utils.Command;
+import com.tattyhost.teamspeak3bot.utils.CommandSender;
+import com.tattyhost.teamspeak3bot.utils.Language;
+import com.tattyhost.teamspeak3bot.utils.Validator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,7 +50,7 @@ public class CommandManager {
         commands.put(str, cmd);
     }
 
-    static boolean executeCommand(String[] args, CommandSource source, int clientId, boolean run) {
+    public static boolean executeCommand(String[] args, CommandSender source, int clientId, boolean run) {
         List<String> aList = Arrays.asList(args);
         String cmdString = aList.get(0);
 
@@ -34,7 +60,7 @@ public class CommandManager {
                     parseRun(args, source, clientId);
                 return true;
             } else {
-                if (source == CommandSource.CONSOLE) {
+                if (source == CommandSender.CONSOLE) {
                     Teamspeak3Bot.getLogger()
                         .info(Language.COMMAND + "Unknown Command: " + cmdString);
                     Teamspeak3Bot.getLogger()
@@ -50,7 +76,7 @@ public class CommandManager {
         return false;
     }
 
-    private static void parseRun(String[] args, CommandSource source, int id) {
+    private static void parseRun(String[] args, CommandSender source, int id) {
         List<String> aList = Arrays.asList(args);
 
         String label = args[0];
@@ -60,11 +86,11 @@ public class CommandManager {
         cmd.run(source, id, label, aList.toArray(arguments));
     }
 
-    public static boolean checkCommand(String cmd, CommandSource source, int invokerId) {
+    public static boolean checkCommand(String cmd, CommandSender source, int invokerId) {
         return checkCommand(new String[] {cmd}, source, invokerId);
     }
 
-    public static boolean checkCommand(String[] cmdStringArray, CommandSource source,
+    public static boolean checkCommand(String[] cmdStringArray, CommandSender source,
         int invokerId) {
         List<String> aList = Arrays.asList(cmdStringArray);
 
