@@ -141,4 +141,8 @@ public class Bot {
     public String getExactClientName() {
         return getClient().getNickname();
     }
+
+    public TS3Query getQuery() {
+        return query;
+    }
 }

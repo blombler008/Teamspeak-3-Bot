@@ -25,7 +25,11 @@
 package com.tattyhost.teamspeak3bot;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.TS3QueryX;
 import com.github.theholywaffle.teamspeak3.api.wrapper.*;
+import com.github.theholywaffle.teamspeak3.commands.Command;
+import com.github.theholywaffle.teamspeak3.commands.CommandBuilderX;
+import com.github.theholywaffle.teamspeak3.commands.parameter.KeyValueParam;
 import com.tattyhost.teamspeak3bot.listeners.Command_Help;
 import com.tattyhost.teamspeak3bot.listeners.Command_Reload;
 import com.tattyhost.teamspeak3bot.listeners.Event_CommandFired;
@@ -168,10 +172,13 @@ public class Teamspeak3Bot {
         debug(Language.MAIN + "Channels > " + channels.size());
         debug(Language.MAIN + "Online Clients > " + clients.size());
 
-
         new CommandManager(getApi(), customChar);
         new ConsoleManager();
         new EventManager(bot, getApi()).registerEvents();
+
+        CommandBuilderX x = new CommandBuilderX("gm", 1);
+        x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
+        Command cmd = x.build();
 
         CommandManager.registerNewCommand("help", new Command_Help());
         CommandManager.registerNewCommand("reload", new Command_Reload());
@@ -180,6 +187,9 @@ public class Teamspeak3Bot {
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
+
+
+        TS3QueryX.doCommandAsync(bot.getQuery(), cmd);
     }
 
     public static void debug(String s) {

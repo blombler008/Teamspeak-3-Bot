@@ -104,7 +104,8 @@ public class EventManager {
         api.addTS3Listeners(new TS3Listener() {
 
             @Override public void onTextMessage(TextMessageEvent e) {
-                if (e.getInvokerId() != bot.getClient().getId()) {
+                if((e.getInvokerId() == 0)) return;
+                if (e.getInvokerId() != bot.getClient().getId() ) {
                     String[] cmdArray = e.getMessage().split(" ");
                     int invokerId = e.getInvokerId();
                     if ((CommandManager

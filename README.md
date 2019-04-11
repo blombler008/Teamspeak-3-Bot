@@ -26,7 +26,7 @@ The config is a simple properties file called ```config.ini```, which is located
 | host | 127.0.0.1 | host=ts.example.com | The hostname/Ip-address of the server |
 | username | username | username=example | Username to login as server query |
 | password | password | password=12345678 | Password to login as server query |
-| prefix | \\! | prefix=\\! | The command prefix for the commands entered by user in Teamspeak. **NOTE:** Special characters need a backslash like the `!` to be recognized! |
+| prefix | \\! | prefix=\\! | The command prefix for the com.github.theholywaffle.teamspeak3.commands entered by user in Teamspeak. **NOTE:** Special characters need a backslash like the `!` to be recognized! |
 | lang | english | lang=english | Let you change the language for plugins |
  
 
@@ -34,6 +34,6 @@ The config is a simple properties file called ```config.ini```, which is located
 | Command | Aliases | Parameters | Examples | Description |
 | --- | --- | --- | --- | --- |
 | ```uploadErrorLog``` | ***none*** | ***none*** | ```uploadErrorLog``` | Uploads the log file to pastebin. **NOTE:** Make sure that the debugging mode is used (with the ```debug``` parameter on start). |
-| ```help``` | ```[help, ?]``` | [command] | ```help```, ```help example``` | Shows the help of the given parameter, and list of commands if no parameter is present. |
+| ```help``` | ```[help, ?]``` | [command] | ```help```, ```help example``` | Shows the help of the given parameter, and list of com.github.theholywaffle.teamspeak3.commands if no parameter is present. |
 
 ## Examples(Comming soon)
