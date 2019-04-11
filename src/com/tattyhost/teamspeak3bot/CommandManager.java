@@ -30,10 +30,7 @@ import com.tattyhost.teamspeak3bot.utils.CommandSender;
 import com.tattyhost.teamspeak3bot.utils.Language;
 import com.tattyhost.teamspeak3bot.utils.Validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CommandManager {
 
@@ -92,7 +89,8 @@ public class CommandManager {
 
     public static boolean checkCommand(String[] cmdStringArray, CommandSender source,
         int invokerId) {
-        List<String> aList = Arrays.asList(cmdStringArray);
+        List<String> aList = new ArrayList<>();
+        Collections.addAll(aList, cmdStringArray);
 
         String[] arguments = {};
         String consoleMessage = Language.COMMAND + "Command From %source%: " + aList.get(0);
@@ -102,8 +100,11 @@ public class CommandManager {
 
         Teamspeak3Bot.debug(consoleMessage);
         Teamspeak3Bot.debug(Language.COMMAND + "Custom Prefix Key: " + customChar);
-
-        return executeCommand(aList.toArray(arguments), source, invokerId, false);
+        if( source instanceof ConsoleCommandSender)
+            return executeCommand(aList.toArray(arguments), source, invokerId, false);
+        else if(cmdStringArray[0].startsWith(String.valueOf(customChar)))
+            return executeCommand(aList.toArray(arguments), source, invokerId, false);
+        else return false;
     }
 
 

@@ -70,6 +70,7 @@ public class Teamspeak3Bot {
     private static ClientInfo owner;
     static Map<Integer, ClientInfo> clients = new HashMap<>();
     static Map<Integer, ChannelInfo> channels = new HashMap<>();
+    private static PrintStreamLogger out;
 
     private Teamspeak3Bot(String[] args) {
         if (instance == null) {
@@ -125,18 +126,18 @@ public class Teamspeak3Bot {
         String nameLogFile = "log.txt.log";
         String nameEventLogFile = "event.txt.log";
 
-        PrintStreamLogger prl = new PrintStreamLogger(System.out);
+        out = new PrintStreamLogger(System.out);
         logFile = new File(logsDir, nameLogFile);
         eventLogFile = new File(logsDir, nameLogFile);
         try {
             logFile.createNewFile();
-            prl.lg = new PrintStream(logFile);
-            prl.out = System.out;
+            out.lg = new PrintStream(logFile);
+            out.out = System.out;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.setOut(prl);
+        System.setOut(out);
         System.out.println("Initialised Console!");
 
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
@@ -332,6 +333,14 @@ public class Teamspeak3Bot {
 
     public static TS3Api getApi() {
         return getBot().getApi();
+    }
+
+    public static File getLogFile() {
+        return logFile;
+    }
+
+    public static void writeToFile(String line) {
+        out.writeSeparate(line + System.lineSeparator(), false);
     }
 
     private boolean connect() {

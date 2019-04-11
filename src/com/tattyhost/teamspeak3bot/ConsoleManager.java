@@ -40,7 +40,6 @@ public class ConsoleManager {
         breaking = true;
         line = "";
         input = new Scanner(System.in);
-
         if (instance == null)
             instance = this;
         new Thread(new Runnable() {
@@ -49,6 +48,7 @@ public class ConsoleManager {
                 try {
                     if (input.hasNextLine()) {
                         line = input.nextLine();
+                        Teamspeak3Bot.writeToFile(line);
                         Teamspeak3Bot.getLogger().info(Language.CONSOLE + "ADMIN INPUT > " + line);
 
                         if (line.split(" ")[0].equalsIgnoreCase("exit")) {
