@@ -360,6 +360,7 @@ public class Teamspeak3Bot {
             String username = properties.getProperty("username");
             String password = properties.getProperty("password");
             String nickname = properties.getProperty("nickname");
+            String channel = properties.getProperty("channel");
             // Languages lang = Language.getNew(properties.getProperty("lang"));
             // languages getting added later //
             Languages lang = Language.getNew("english");
@@ -367,7 +368,7 @@ public class Teamspeak3Bot {
 
             customChar = properties.getProperty("prefix").charAt(0);
 
-            bot = new Bot(host, port, username, password, nickname);
+            bot = new Bot(host, port, username, password, nickname, channel);
             debug(Language.MAIN + "Properties initialized");
         } catch (IOException ignore) {
         }
@@ -400,6 +401,9 @@ public class Teamspeak3Bot {
 
         if (!properties.containsKey("owner"))
             properties.setProperty("owner", "1234567890abdef");
+
+        if (!properties.containsKey("channel"))
+            properties.setProperty("channel", "0");
 
 
         try {

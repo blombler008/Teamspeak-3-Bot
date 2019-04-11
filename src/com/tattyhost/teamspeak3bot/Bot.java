@@ -35,25 +35,27 @@ import com.tattyhost.teamspeak3bot.utils.Validator;
 public class Bot {
 
     private String host;
-    private int port;
     private String username;
     private String password;
     private String nickname;
+    private int channel;
+    private int port;
 
     private TS3Api api;
     private TS3Config config;
     private TS3Query query;
 
-    public Bot(String host, String port, String username, String password, String nickname) {
+    public Bot(String host, String port, String username, String password, String nickname, String channel) {
 
         if (!testForPort(port))
             return;
 
         this.nickname = nickname;
-        this.port = Integer.parseInt(port);
         this.host = host;
         this.username = username;
         this.password = password;
+        this.port = Integer.parseInt(port);
+        this.channel = Integer.parseInt(channel);
     }
 
     public synchronized boolean prepareConnection() {
@@ -101,6 +103,7 @@ public class Bot {
 
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
+                api.moveClient(api.whoAmI().getId(), channel);
                 Teamspeak3Bot.debug(Language.BOT + "Logged as: \'" + nickname + "\'");
 
                 return true;
@@ -111,6 +114,7 @@ public class Bot {
                 Teamspeak3Bot.debug(
                     Language.BOT + "Couldn't login as: \'" + nickname + "\', with username: \'"
                         + username + "\', and password: \'" + password + "\'");
+                Teamspeak3Bot.shutdown();
 
                 return false;
             }

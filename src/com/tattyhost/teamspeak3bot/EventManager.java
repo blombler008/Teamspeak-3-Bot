@@ -106,7 +106,7 @@ public class EventManager {
             @Override public void onTextMessage(TextMessageEvent e) {
                 if((e.getInvokerId() == 0)) return;
                 if (e.getInvokerId() != bot.getClient().getId() ) {
-                    String[] cmdArray = e.getMessage().split(" ");
+                    String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
                     if ((CommandManager
                         .checkCommand(cmdArray, CommandSender.getSender(e.getTargetMode()),
