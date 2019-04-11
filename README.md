@@ -28,6 +28,8 @@ The config is a simple properties file called ```config.ini```, which is located
 | password | password | password=12345678 | Password to login as server query |
 | prefix | \\! | prefix=\\! | The command prefix for the com.github.theholywaffle.teamspeak3.commands entered by user in Teamspeak. **NOTE:** Special characters need a backslash like the `!` to be recognized! |
 | lang | english | lang=english | Let you change the language for plugins |
+| owner | 1234567890abdef | owner=zbv5DDqRa3jy4LuM1cfUeyurud8\\= | Sets the owner of the bot, so the owner kan execute admin commands first before any of the other users. **NOTE:** Put the UID from your own client in this property |
+| channel | 0 | channel=0 | Sets the channel where the bot ist going to connect to. **NOTE:** invalid channel id causes errors |
  
 
 ## Commands
