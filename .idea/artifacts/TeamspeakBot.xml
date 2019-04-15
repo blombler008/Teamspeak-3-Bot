@@ -8,6 +8,7 @@
       </element>
       <element id="extracted-dir" path="$PROJECT_DIR$/Apis/teamspeak3-api-1.2.0-with-dependencies.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/assets" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
