@@ -5,15 +5,18 @@
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
+      <artifact name="SimplePlugin-v1" />
+      <artifact name="SimplePlugin-v2" />
       <artifact name="TeamspeakBot" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efc00c0a-3f17-4f66-9968-8d923acff74a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/CommandManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/ConsoleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/ConsoleManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/blomb.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/blomb.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Teamspeak_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Teamspeak_bot.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PrintStreamLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PrintStreamLogger.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,16 +29,49 @@
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="342" column="25" selection-start-line="342" selection-start-column="25" selection-end-line="342" selection-end-column="25" />
+            <state relative-caret-position="217">
+              <caret line="141" column="51" lean-forward="true" selection-start-line="141" selection-start-column="51" selection-end-line="141" selection-end-column="51" />
               <folding>
+                <element signature="e#0#14211#0" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#11464#11465#0" expanded="true" />
-                <element signature="e#11494#11495#0" expanded="true" />
+                <element signature="e#7362#7363#0" expanded="true" />
+                <element signature="e#7392#7393#0" expanded="true" />
+                <element signature="e#7431#7432#0" expanded="true" />
+                <element signature="e#7461#7462#0" expanded="true" />
+                <element signature="e#9738#9739#0" expanded="true" />
+                <element signature="e#9770#9771#0" expanded="true" />
+                <element signature="e#10043#10044#0" expanded="true" />
+                <element signature="e#10088#10089#0" expanded="true" />
+                <element signature="e#10149#10150#0" expanded="true" />
+                <element signature="e#10195#10196#0" expanded="true" />
+                <element signature="e#10238#10239#0" expanded="true" />
+                <element signature="e#10266#10267#0" expanded="true" />
+                <element signature="e#10320#10321#0" expanded="true" />
+                <element signature="e#10356#10357#0" expanded="true" />
+                <element signature="e#10696#10697#0" expanded="true" />
+                <element signature="e#10726#10727#0" expanded="true" />
+                <element signature="e#11016#11017#0" expanded="true" />
+                <element signature="e#11045#11046#0" expanded="true" />
+                <element signature="e#11094#11095#0" expanded="true" />
+                <element signature="e#11125#11126#0" expanded="true" />
+                <element signature="e#11188#11189#0" expanded="true" />
+                <element signature="e#11237#11238#0" expanded="true" />
+                <element signature="e#11271#11272#0" expanded="true" />
+                <element signature="e#11297#11298#0" expanded="true" />
+                <element signature="e#11339#11340#0" expanded="true" />
+                <element signature="e#11372#11373#0" expanded="true" />
+                <element signature="e#11409#11410#0" expanded="true" />
+                <element signature="e#11449#11450#0" expanded="true" />
+                <element signature="e#11488#11489#0" expanded="true" />
+                <element signature="e#11518#11519#0" expanded="true" />
+                <element signature="e#11673#11674#0" expanded="true" />
+                <element signature="e#11718#11719#0" expanded="true" />
+                <element signature="e#11751#11752#0" expanded="true" />
+                <element signature="e#11797#11798#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -44,81 +80,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PrintStreamLogger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="89" column="29" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="29" />
+            <state relative-caret-position="-684">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://B:/Program Files/Java/jdk_8_u171/src.zip!/java/io/PrintStream.java">
+        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="1062" column="14" selection-start-line="1062" selection-start-column="14" selection-end-line="1062" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/CommandManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/EventManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="111" selection-start-line="111" selection-end-line="111" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#addEventToProcessList#0;class#EventManager#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/ConsoleManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="50" column="43" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/Apis/teamspeak3-api-1.2.0-sources.jar!/com/github/theholywaffle/teamspeak3/SocketReader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="49" column="39" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/github/theholywaffle/teamspeak3/TS3QueryX.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="56" selection-start-line="56" selection-end-line="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/Apis/teamspeak3-api-1.2.0-sources.jar!/com/github/theholywaffle/teamspeak3/commands/Command.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="51" selection-start-line="51" selection-end-line="51" />
-              <folding>
-                <element signature="e#1942#1943#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-1143">
+              <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -223,6 +195,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -239,22 +212,22 @@
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
               <item name="Apis" type="462c0819:PsiDirectoryNode" />
-              <item name="teamspeak3-api-1.2.0-with-dependencies.jar" type="ab9368bb:PsiFileNode" />
+              <item name="mysql-connector-java-8.0.15.jar" type="ab9368bb:PsiFileNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
               <item name="Apis" type="462c0819:PsiDirectoryNode" />
-              <item name="teamspeak3-api-1.2.0-with-dependencies.jar" type="ab9368bb:PsiFileNode" />
-              <item name="teamspeak3" type="462c0819:PsiDirectoryNode" />
+              <item name="mysql-connector-java-8.0.15.jar" type="ab9368bb:PsiFileNode" />
+              <item name="mysql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Teamspeak_bot" type="462c0819:PsiDirectoryNode" />
               <item name="Apis" type="462c0819:PsiDirectoryNode" />
-              <item name="teamspeak3-api-1.2.0-with-dependencies.jar" type="ab9368bb:PsiFileNode" />
-              <item name="teamspeak3" type="462c0819:PsiDirectoryNode" />
-              <item name="commands" type="462c0819:PsiDirectoryNode" />
+              <item name="mysql-connector-java-8.0.15.jar" type="ab9368bb:PsiFileNode" />
+              <item name="mysql" type="462c0819:PsiDirectoryNode" />
+              <item name="jdbc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Teamspeak_bot" type="b2602c69:ProjectViewProjectNode" />
@@ -347,8 +320,17 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="Teamspeak_bot" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="SimplePlugin-v1" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -356,10 +338,10 @@
     <property name="GenerateAntBuildDialog.generateSingleFile" value="true" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="build" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554987576565" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555333884792" />
     <property name="last.edited.regexp" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar!/" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.42643678" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -475,10 +457,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="73" y="25" width="1684" height="999" extended-state="0" />
+    <frame x="118" y="29" width="1684" height="999" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.23152709" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.24076355" />
       <window_info id="Structure" order="1" sideWeight="0.50223714" side_tool="true" weight="0.24428399" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -570,37 +552,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/ConfigFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="43" column="11" selection-start-line="43" selection-start-column="11" selection-end-line="43" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#2887#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/Plugin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="88" column="24" selection-start-line="88" selection-start-column="24" selection-end-line="88" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#3125#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PluginDescription.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#1679#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/StringUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -847,17 +798,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
-          <folding>
-            <element signature="e#1857#1858#0" expanded="true" />
-            <element signature="e#1886#1887#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/events/EventCommandPreProcess.java" />
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/listeners/Command_Reload.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
@@ -956,11 +897,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Bot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1887">
-          <caret line="145" selection-start-line="145" selection-end-line="145" />
-          <folding>
-            <element signature="e#4917#4918#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-1143">
+          <caret line="55" column="18" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -1028,8 +966,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/utils/PrintStreamLogger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="89" column="29" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="29" />
+        <state relative-caret-position="-684">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
@@ -1058,14 +996,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
+    <entry file="jar://B:/Program Files/Java/jdk_8_u171/src.zip!/java/sql/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="342" column="25" selection-start-line="342" selection-start-column="25" selection-end-line="342" selection-end-column="25" />
+        <state relative-caret-position="-192">
+          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar!/com/mysql/cj/jdbc/Driver.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" column="69" lean-forward="true" selection-start-line="10" selection-start-column="69" selection-end-line="10" selection-end-column="69" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11464#11465#0" expanded="true" />
-            <element signature="e#11494#11495#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar!/com/mysql/jdbc/Driver.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="14" column="132" selection-start-line="14" selection-start-column="132" selection-end-line="14" selection-end-column="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="141" column="51" lean-forward="true" selection-start-line="141" selection-start-column="51" selection-end-line="141" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#14211#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7362#7363#0" expanded="true" />
+            <element signature="e#7392#7393#0" expanded="true" />
+            <element signature="e#7431#7432#0" expanded="true" />
+            <element signature="e#7461#7462#0" expanded="true" />
+            <element signature="e#9738#9739#0" expanded="true" />
+            <element signature="e#9770#9771#0" expanded="true" />
+            <element signature="e#10043#10044#0" expanded="true" />
+            <element signature="e#10088#10089#0" expanded="true" />
+            <element signature="e#10149#10150#0" expanded="true" />
+            <element signature="e#10195#10196#0" expanded="true" />
+            <element signature="e#10238#10239#0" expanded="true" />
+            <element signature="e#10266#10267#0" expanded="true" />
+            <element signature="e#10320#10321#0" expanded="true" />
+            <element signature="e#10356#10357#0" expanded="true" />
+            <element signature="e#10696#10697#0" expanded="true" />
+            <element signature="e#10726#10727#0" expanded="true" />
+            <element signature="e#11016#11017#0" expanded="true" />
+            <element signature="e#11045#11046#0" expanded="true" />
+            <element signature="e#11094#11095#0" expanded="true" />
+            <element signature="e#11125#11126#0" expanded="true" />
+            <element signature="e#11188#11189#0" expanded="true" />
+            <element signature="e#11237#11238#0" expanded="true" />
+            <element signature="e#11271#11272#0" expanded="true" />
+            <element signature="e#11297#11298#0" expanded="true" />
+            <element signature="e#11339#11340#0" expanded="true" />
+            <element signature="e#11372#11373#0" expanded="true" />
+            <element signature="e#11409#11410#0" expanded="true" />
+            <element signature="e#11449#11450#0" expanded="true" />
+            <element signature="e#11488#11489#0" expanded="true" />
+            <element signature="e#11518#11519#0" expanded="true" />
+            <element signature="e#11673#11674#0" expanded="true" />
+            <element signature="e#11718#11719#0" expanded="true" />
+            <element signature="e#11751#11752#0" expanded="true" />
+            <element signature="e#11797#11798#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1113,11 +1108,11 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>teamspeak3-api-1.2.0-with-dependencies</last-edited>
+          <last-edited>mysql-connector-java-8.0.15</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.42643678" />
               </list>
             </option>
           </splitter-proportions>
@@ -1137,7 +1132,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>SimplePlugin-v1</last-edited>
+          <last-edited>Teamspeak_bot</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

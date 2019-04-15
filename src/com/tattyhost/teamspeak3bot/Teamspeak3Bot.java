@@ -38,6 +38,7 @@ import com.tattyhost.teamspeak3bot.utils.Language.Languages;
 import com.tattyhost.teamspeak3bot.utils.PrintStreamLogger;
 import com.tattyhost.teamspeak3bot.utils.StringUtils;
 import com.tattyhost.teamspeak3bot.utils.Validator;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,10 +118,10 @@ public class Teamspeak3Bot {
         workDir = new File(getWorkDirectory(args));
         workDir.mkdirs();
 
-        LocalDateTime dt = LocalDateTime.now();
-        DateTimeFormatter fdt = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
 
-        logsDir = new File(getWorkDirectory(args) + "\\logs\\log-" + dt.format(fdt));
+        logsDir = new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
         logsDir.mkdir();
 
         String nameLogFile = "log.txt.log";
@@ -139,9 +140,16 @@ public class Teamspeak3Bot {
 
         System.setOut(out);
         System.out.println("Initialised Console!");
+        new ConsoleManager();
 
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
+
+        debug(Language.MAIN + "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            debug(Language.MAIN + "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
+        } catch (Exception ignore) {}
 
         Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
         ts3bot.initializeProperties();
@@ -174,7 +182,6 @@ public class Teamspeak3Bot {
         debug(Language.MAIN + "Online Clients > " + clients.size());
 
         new CommandManager(getApi(), customChar);
-        new ConsoleManager();
         new EventManager(bot, getApi()).registerEvents();
 
         CommandBuilderX x = new CommandBuilderX("gm", 1);
@@ -300,15 +307,19 @@ public class Teamspeak3Bot {
             getLogger().info(Language.MAIN + "Debugger has been enabled!");
     }
 
+    private static File getWorkDirectory() {
+        return workDir;
+    }
+
     private static String getWorkDirectory(String[] args) {
-        String ret = "Teamspeak3Bot/";
+        String ret = "Teamspeak3Bot";
         if (StringUtils.hasKey(args, "workDir")) {
             ret = StringUtils.getValueOf(args, "workDir");
 
             if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
-                ret = "Teamspeak3Bot/";
+                ret = "Teamspeak3Bot";
         }
-        return ret;
+        return ret + File.separator;
     }
 
     public static Logger getLogger() {
