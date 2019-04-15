@@ -12,11 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efc00c0a-3f17-4f66-9968-8d923acff74a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/blomb.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/blomb.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teamspeak_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Teamspeak_bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/TeamspeakBot.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/TeamspeakBot.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +29,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="141" column="51" lean-forward="true" selection-start-line="141" selection-start-column="51" selection-end-line="141" selection-end-column="51" />
+            <state relative-caret-position="47">
+              <caret line="131" column="54" lean-forward="true" selection-start-line="131" selection-start-column="54" selection-end-line="131" selection-end-column="54" />
               <folding>
                 <element signature="e#0#14211#0" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -338,10 +334,10 @@
     <property name="GenerateAntBuildDialog.generateSingleFile" value="true" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="build" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555333884792" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555334144794" />
     <property name="last.edited.regexp" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Apis/mysql-connector-java-8.0.15.jar!/" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.42643678" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -458,7 +454,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="118" y="29" width="1684" height="999" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49776286" visible="true" weight="0.24076355" />
       <window_info id="Structure" order="1" sideWeight="0.50223714" side_tool="true" weight="0.24428399" />
@@ -470,7 +465,7 @@
       <window_info anchor="bottom" id="Thumbnails" order="0" weight="0.3290993" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.1408776" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.3995381" />
+      <window_info anchor="bottom" id="Run" order="3" weight="0.3995381" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.5" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -1022,8 +1017,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tattyhost/teamspeak3bot/Teamspeak3Bot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="141" column="51" lean-forward="true" selection-start-line="141" selection-start-column="51" selection-end-line="141" selection-end-column="51" />
+        <state relative-caret-position="47">
+          <caret line="131" column="54" lean-forward="true" selection-start-line="131" selection-start-column="54" selection-end-line="131" selection-end-column="54" />
           <folding>
             <element signature="e#0#14211#0" expanded="true" />
             <element signature="imports" expanded="true" />
@@ -1071,7 +1066,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>SimplePlugin-v2</last-edited>
+          <last-edited>TeamspeakBot</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
