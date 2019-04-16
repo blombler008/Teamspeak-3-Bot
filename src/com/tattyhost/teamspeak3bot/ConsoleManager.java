@@ -76,8 +76,6 @@ public class ConsoleManager {
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
                         Teamspeak3Bot.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map);
-                        CommandManager
-                            .executeCommand(line.split(" "), CommandSender.CONSOLE, -1, true);
 
                     }
                 } catch (NullPointerException e) {

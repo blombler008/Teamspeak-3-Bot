@@ -237,4 +237,8 @@ public class PluginManager {
 
         super.finalize();
     }
+
+    public List<JavaPlugin> getPlugins() {
+        return plugins;
+    }
 }

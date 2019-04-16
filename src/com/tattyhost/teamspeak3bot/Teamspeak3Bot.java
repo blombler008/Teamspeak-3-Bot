@@ -31,6 +31,7 @@ import com.github.theholywaffle.teamspeak3.commands.Command;
 import com.github.theholywaffle.teamspeak3.commands.CommandBuilderX;
 import com.github.theholywaffle.teamspeak3.commands.parameter.KeyValueParam;
 import com.tattyhost.teamspeak3bot.listeners.Command_Help;
+import com.tattyhost.teamspeak3bot.listeners.Command_Plugins;
 import com.tattyhost.teamspeak3bot.listeners.Command_Reload;
 import com.tattyhost.teamspeak3bot.listeners.Event_CommandFired;
 import com.tattyhost.teamspeak3bot.utils.Language;
@@ -197,6 +198,7 @@ public class Teamspeak3Bot {
 
         CommandManager.registerNewCommand("help", new Command_Help());
         CommandManager.registerNewCommand("reload", new Command_Reload());
+        CommandManager.registerNewCommand("plugins", new Command_Plugins());
         EventManager.addEventToProcessList(new Event_CommandFired());
         pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
