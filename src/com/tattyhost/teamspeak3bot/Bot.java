@@ -63,7 +63,7 @@ public class Bot {
             try {
 
                 Teamspeak3Bot.debug(
-                    Language.BOT + "Trying to connect to server: \'ts3serverquery://" + host + ":"
+                    Language.BOT, "Trying to connect to server: \'ts3serverquery://" + host + ":"
                         + port + "\'");
 
                 config = new TS3Config();
@@ -78,14 +78,14 @@ public class Bot {
                 api = query.getApi();
 
                 Teamspeak3Bot.debug(
-                    Language.BOT + "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+                    Language.BOT, "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
 
                 return true;
 
             } catch (TS3ConnectionFailedException e) {
 
                 Teamspeak3Bot.debug(
-                    Language.BOT + "ERROR > Couldn't connect to server: \'ts3serverquery://" + host
+                    Language.BOT, "ERROR > Couldn't connect to server: \'ts3serverquery://" + host
                         + ":" + port + "\'");
 
                 return false;
@@ -98,13 +98,13 @@ public class Bot {
         if (!Validator.notNull(api)) {
             try {
                 Teamspeak3Bot.debug(
-                    Language.BOT + "Trying login as: \'" + nickname + "\', with username: \'"
+                    Language.BOT, "Trying login as: \'" + nickname + "\', with username: \'"
                         + username + "\', and password: \'" + password + "\'");
 
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
                 api.moveClient(api.whoAmI().getId(), channel);
-                Teamspeak3Bot.debug(Language.BOT + "Logged as: \'" + nickname + "\'");
+                Teamspeak3Bot.debug(Language.BOT, "Logged as: \'" + nickname + "\'");
 
                 return true;
             } catch (Exception e) {
@@ -112,7 +112,7 @@ public class Bot {
                 query.exit();
 
                 Teamspeak3Bot.debug(
-                    Language.BOT + "Couldn't login as: \'" + nickname + "\', with username: \'"
+                    Language.BOT, "Couldn't login as: \'" + nickname + "\', with username: \'"
                         + username + "\', and password: \'" + password + "\'");
                 Teamspeak3Bot.shutdown();
 

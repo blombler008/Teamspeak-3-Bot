@@ -4,15 +4,15 @@
  */
 package org.json.simple;
 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
-
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 
 /**
@@ -90,7 +90,7 @@ public class JSONValue {
      * @see org.json.simple.JSONArray#writeJSONString(List, Writer)
      * 
      * @param value
-     * @param writer
+     * @param out
      */
 	public static void writeJSONString(Object value, Writer out) throws IOException {
 		if(value == null){

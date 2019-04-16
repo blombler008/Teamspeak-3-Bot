@@ -62,6 +62,8 @@ public abstract class CommandSender {
                 return CHANNEL;
             case "CLIENT":
                 return CLIENT;
+            case "CONSOLE":
+                return CONSOLE;
         }
         return null;
     }

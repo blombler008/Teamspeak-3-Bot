@@ -81,7 +81,7 @@ public class Language {
                 this.properties.load(new InputStreamReader(
                     ClassLoader.getSystemResource("lang/" + fileName).openStream()));
                 URL uri = ClassLoader.getSystemResource("lang/" + fileName);
-                Teamspeak3Bot.debug(LANGUAGE + "URL of language file: " + uri);
+                Teamspeak3Bot.debug(LANGUAGE, "URL of language file: " + uri);
 
                 Teamspeak3Bot.getLogger().info(LANGUAGE + "loaded properties: " + propertyName);
 

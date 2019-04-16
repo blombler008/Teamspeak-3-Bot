@@ -25,8 +25,11 @@
 package com.tattyhost.teamspeak3bot;
 
 import com.tattyhost.teamspeak3bot.utils.CommandSender;
+import com.tattyhost.teamspeak3bot.utils.EventType;
 import com.tattyhost.teamspeak3bot.utils.Language;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleManager {
@@ -64,7 +67,15 @@ public class ConsoleManager {
                             Teamspeak3Bot.uploadErrorLog();
                             run();
                         }
-
+                        Map<String, String> map = new HashMap<>();
+                        map.put("source", CommandSender.CONSOLE.toString());
+                        map.put("command", line);
+                        map.put("invokerid", "-1");
+                        map.put("invokername", "");
+                        map.put("invokeruid", "superadmin");
+                        map.put("reasonid", "0");
+                        map.put("reasonmsg", "");
+                        Teamspeak3Bot.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map);
                         CommandManager
                             .executeCommand(line.split(" "), CommandSender.CONSOLE, -1, true);
 

@@ -3,12 +3,16 @@
     <words>
       <w>invokerid</w>
       <w>invokername</w>
+      <w>invokeruid</w>
       <w>jdbc</w>
       <w>parm</w>
       <w>pastebin</w>
+      <w>reasonid</w>
+      <w>reasonmsg</w>
       <w>serveradmin</w>
       <w>serverquery</w>
       <w>serverquerybot</w>
+      <w>superadmin</w>
       <w>teamspeak</w>
     </words>
   </dictionary>

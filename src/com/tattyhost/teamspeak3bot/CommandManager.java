@@ -93,13 +93,13 @@ public class CommandManager {
         Collections.addAll(aList, cmdStringArray);
 
         String[] arguments = {};
-        String consoleMessage = Language.COMMAND + "Command From %source%: " + aList.get(0);
+        String consoleMessage = "Command From %source%: " + aList.get(0);
 
         aList.set(0, aList.get(0).replaceFirst(String.valueOf(customChar), ""));
         consoleMessage = consoleMessage.replaceAll("%source%", source.toString().toLowerCase());
 
-        Teamspeak3Bot.debug(consoleMessage);
-        Teamspeak3Bot.debug(Language.COMMAND + "Custom Prefix Key: " + customChar);
+        Teamspeak3Bot.debug(Language.COMMAND, consoleMessage);
+        Teamspeak3Bot.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
         if( source instanceof ConsoleCommandSender)
             return executeCommand(aList.toArray(arguments), source, invokerId, false);
         else if(cmdStringArray[0].startsWith(String.valueOf(customChar)))

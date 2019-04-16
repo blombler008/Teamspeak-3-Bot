@@ -68,12 +68,15 @@ public class Teamspeak3Bot {
     private static Properties properties;
     private static PluginManager pluginManager;
     private static ServerQueryInfo botClient;
-    private static ClientInfo owner;
-    static Map<Integer, ClientInfo> clients = new HashMap<>();
-    static Map<Integer, ChannelInfo> channels = new HashMap<>();
     private static PrintStreamLogger out;
+    private static EventManager eventManager;
+    private static ClientInfo owner;
+
+    static Map<Integer, ChannelInfo> channels = new HashMap<>();
+    static Map<Integer, ClientInfo> clients = new HashMap<>();
 
     private Teamspeak3Bot(String[] args) {
+
         if (instance == null) {
             String strWorkDir = getWorkDirectory(args);
             workDir = new File(strWorkDir);
@@ -145,20 +148,22 @@ public class Teamspeak3Bot {
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
 
-        debug(Language.MAIN + "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
+        debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            debug(Language.MAIN + "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
-        } catch (Exception ignore) {}
+            debug(Language.MAIN, "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
+        } catch (Exception ignore) {
+            debug(Language.MAIN, "Failed to load MySQL Driver!");
+        }
 
         Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
         ts3bot.initializeProperties();
         if (ts3bot.prepare())
-            debug(Language.MAIN + "Bot is prepared to login");
+            debug(Language.MAIN, "Bot is prepared to login");
         else
             return;
         if (ts3bot.connect())
-            debug(Language.MAIN + "Bot connected successful");
+            debug(Language.MAIN, "Bot connected successful");
         else
             return;
 
@@ -176,13 +181,15 @@ public class Teamspeak3Bot {
             channels.put(id, getApi().getChannelInfo(id));
         }
 
-        debug(Language.MAIN + "Owner > " + owner.getMap());
-        debug(Language.MAIN + "ServerQuery > " + botClient.getMap());
-        debug(Language.MAIN + "Channels > " + channels.size());
-        debug(Language.MAIN + "Online Clients > " + clients.size());
+        debug(Language.MAIN, "Owner > " + owner.getMap());
+        debug(Language.MAIN, "ServerQuery > " + botClient.getMap());
+        debug(Language.MAIN, "Channels > " + channels.size());
+        debug(Language.MAIN, "Online Clients > " + clients.size());
 
         new CommandManager(getApi(), customChar);
-        new EventManager(bot, getApi()).registerEvents();
+
+        eventManager = new EventManager(bot, getApi());
+        eventManager.registerEvents();
 
         CommandBuilderX x = new CommandBuilderX("gm", 1);
         x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
@@ -200,9 +207,9 @@ public class Teamspeak3Bot {
         TS3QueryX.doCommandAsync(bot.getQuery(), cmd);
     }
 
-    public static void debug(String s) {
+    public static void debug(String l, String s) {
         if (Teamspeak3Bot.debuggerEnabled)
-            getLogger().debug(s);
+            getLogger().debug(l + s);
     }
 
     public static File getWorkDir() {
@@ -354,6 +361,10 @@ public class Teamspeak3Bot {
         out.writeSeparate(line + System.lineSeparator(), false);
     }
 
+    public static EventManager getEventManager() {
+        return eventManager;
+    }
+
     private boolean connect() {
         return bot.createConnection();
     }
@@ -375,12 +386,12 @@ public class Teamspeak3Bot {
             // Languages lang = Language.getNew(properties.getProperty("lang"));
             // languages getting added later //
             Languages lang = Language.getNew("english");
-            debug(Language.LANGUAGE + lang.getProperties().toString());
+            debug(Language.LANGUAGE, lang.getProperties().toString());
 
             customChar = properties.getProperty("prefix").charAt(0);
 
             bot = new Bot(host, port, username, password, nickname, channel);
-            debug(Language.MAIN + "Properties initialized");
+            debug(Language.MAIN, "Properties initialized");
         } catch (IOException ignore) {
         }
     }
