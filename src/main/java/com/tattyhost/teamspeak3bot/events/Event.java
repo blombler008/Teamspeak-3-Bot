@@ -22,31 +22,31 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.events;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
+import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 
-import java.util.Properties;
+import java.util.Map;
 
-public class Main extends JavaPlugin {
+public abstract class Event extends BaseEvent {
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
+    protected BaseEvent event;
+    protected TS3Api api;
+
+    public Event(Map<String, String> map, TS3Api api) {
+        super(map);
+        this.event = event;
+        this.api = api;
     }
 
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
+    @Override public void fire(TS3Listener listener) {
 
     }
 
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
-    }
+    public abstract BaseEvent getEvent();
+
+    public abstract TS3Api getApi();
+
 }

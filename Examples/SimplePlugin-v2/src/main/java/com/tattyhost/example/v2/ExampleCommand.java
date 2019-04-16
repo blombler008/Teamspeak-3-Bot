@@ -24,12 +24,12 @@
 
 package com.tattyhost.example.v2;
 
-import com.tattyhost.teamspeak3bot.ChannelCommandSender;
-import com.tattyhost.teamspeak3bot.ClientCommandSender;
-import com.tattyhost.teamspeak3bot.ConsoleCommandSender;
-import com.tattyhost.teamspeak3bot.ServerCommandSender;
-import com.tattyhost.teamspeak3bot.utils.Command;
-import com.tattyhost.teamspeak3bot.utils.CommandSender;
+import com.tattyhost.teamspeak3bot.commands.ChannelCommandSender;
+import com.tattyhost.teamspeak3bot.commands.ClientCommandSender;
+import com.tattyhost.teamspeak3bot.commands.ConsoleCommandSender;
+import com.tattyhost.teamspeak3bot.commands.ServerCommandSender;
+import com.tattyhost.teamspeak3bot.commands.Command;
+import com.tattyhost.teamspeak3bot.commands.CommandSender;
 
 public class ExampleCommand extends Command {
 

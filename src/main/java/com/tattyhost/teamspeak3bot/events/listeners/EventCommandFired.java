@@ -22,31 +22,22 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.events.listeners;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.tattyhost.teamspeak3bot.commands.CommandManager;
+import com.tattyhost.teamspeak3bot.events.EventListener;
+import com.tattyhost.teamspeak3bot.events.Listener;
+import com.tattyhost.teamspeak3bot.events.handlers.EventCommandPreProcess;
 
-import java.util.Properties;
+import java.util.Arrays;
+import java.util.List;
 
-public class Main extends JavaPlugin {
+public class EventCommandFired implements Listener {
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
-
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+    @EventListener
+    public void onCommandFire(EventCommandPreProcess e) {
+        int id = e.getInvokerId();
+        List<String> args = Arrays.asList(e.get("command").replaceFirst("!", "").split(" "));
+        CommandManager.executeCommand((String[]) args.toArray(), e.getCommandSource(), id, true);
     }
 }

@@ -24,11 +24,11 @@
 
 package com.tattyhost.example.v2;
 
-import com.tattyhost.teamspeak3bot.CommandManager;
-import com.tattyhost.teamspeak3bot.EventManager;
-import com.tattyhost.teamspeak3bot.JavaPlugin;
+import com.tattyhost.teamspeak3bot.commands.CommandManager;
+import com.tattyhost.teamspeak3bot.events.EventManager;
+import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.utils.PluginDescription;
+import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
 
 import java.util.Properties;
 

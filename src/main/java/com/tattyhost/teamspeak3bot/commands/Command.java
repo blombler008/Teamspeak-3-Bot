@@ -22,31 +22,12 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.commands;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+public abstract class Command {
 
-import java.util.Properties;
 
-public class Main extends JavaPlugin {
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
-
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
-    }
+    public abstract void run(final CommandSender source, final int id, final String commandLabel,
+        final String[] args);
 }

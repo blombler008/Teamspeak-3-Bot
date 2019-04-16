@@ -24,10 +24,10 @@
 
 package com.tattyhost.example.v2;
 
-import com.tattyhost.teamspeak3bot.EventListener;
-import com.tattyhost.teamspeak3bot.Listener;
+import com.tattyhost.teamspeak3bot.events.EventListener;
+import com.tattyhost.teamspeak3bot.events.Listener;
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.events.EventTextMessage;
+import com.tattyhost.teamspeak3bot.events.handlers.EventTextMessage;
 
 public class ExampleEvent implements Listener {
 

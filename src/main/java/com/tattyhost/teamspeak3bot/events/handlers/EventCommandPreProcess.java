@@ -22,31 +22,33 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.events.handlers;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.tattyhost.teamspeak3bot.commands.CommandSender;
+import com.tattyhost.teamspeak3bot.events.Event;
 
-import java.util.Properties;
+import java.util.Map;
 
-public class Main extends JavaPlugin {
+public class EventCommandPreProcess extends Event {
+    protected CommandSender source;
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
 
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
+    public EventCommandPreProcess(Map<String, String> map, TS3Api api) {
+        super(map, api);
+        this.source = CommandSender.getSender(map.get("source").toUpperCase());
 
     }
 
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+    @Override public EventCommandPreProcess getEvent() {
+        return (EventCommandPreProcess) event;
+    }
+
+    @Override public TS3Api getApi() {
+        return null;
+    }
+
+    public CommandSender getCommandSource() {
+        return source;
     }
 }

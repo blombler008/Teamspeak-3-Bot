@@ -22,31 +22,29 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.commands.listeners;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
+import com.tattyhost.teamspeak3bot.commands.ConsoleCommandSender;
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.tattyhost.teamspeak3bot.commands.Command;
+import com.tattyhost.teamspeak3bot.commands.CommandSender;
+import com.tattyhost.teamspeak3bot.utils.Language;
 
-import java.util.Properties;
+public class CommandReload extends Command {
+    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+        ClientInfo sender = Teamspeak3Bot.getClient(id);
 
-public class Main extends JavaPlugin {
+        if (source instanceof ConsoleCommandSender) {
+            Teamspeak3Bot.getPluginManager().reloadPlugins();
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
+        } else {
+            if (sender.getUniqueIdentifier().equals(Teamspeak3Bot.getOwner().getUniqueIdentifier())) {
+                Teamspeak3Bot.getPluginManager().reloadPlugins();
+            } else {
+                source.sendMessage(0, id, Language.get("nopermissions"));
+            }
+        }
     }
 
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
-    }
 }

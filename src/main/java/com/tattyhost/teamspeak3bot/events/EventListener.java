@@ -22,31 +22,17 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.events;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.Properties;
+@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD) public @interface EventListener {
+    Priority priority() default Priority.MEDIUM;
 
-public class Main extends JavaPlugin {
-
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
-
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+    enum Priority {
+        LOW, MEDIUM, HIGH
     }
 }

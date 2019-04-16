@@ -22,31 +22,20 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.commands;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.tattyhost.teamspeak3bot.utils.Validator;
 
-import java.util.Properties;
+public class ChannelCommandSender extends CommandSender {
 
-public class Main extends JavaPlugin {
-
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
+    public ChannelCommandSender(String s) {
+        super(s);
     }
 
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+    @Override public void sendMessage(int channel, int client, String message) {
+        if (Validator.channelExists(channel)) {
+            Teamspeak3Bot.getApi().sendChannelMessage(channel, message);
+        }
     }
 }

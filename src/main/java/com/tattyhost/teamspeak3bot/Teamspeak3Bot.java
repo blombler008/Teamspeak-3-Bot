@@ -30,13 +30,17 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.*;
 import com.github.theholywaffle.teamspeak3.commands.Command;
 import com.github.theholywaffle.teamspeak3.commands.CommandBuilderX;
 import com.github.theholywaffle.teamspeak3.commands.parameter.KeyValueParam;
-import com.tattyhost.teamspeak3bot.listeners.Command_Help;
-import com.tattyhost.teamspeak3bot.listeners.Command_Plugins;
-import com.tattyhost.teamspeak3bot.listeners.Command_Reload;
-import com.tattyhost.teamspeak3bot.listeners.Event_CommandFired;
+import com.tattyhost.teamspeak3bot.commands.CommandManager;
+import com.tattyhost.teamspeak3bot.console.ConsoleManager;
+import com.tattyhost.teamspeak3bot.commands.listeners.CommandHelp;
+import com.tattyhost.teamspeak3bot.commands.listeners.CommandPlugins;
+import com.tattyhost.teamspeak3bot.commands.listeners.CommandReload;
+import com.tattyhost.teamspeak3bot.events.EventManager;
+import com.tattyhost.teamspeak3bot.events.listeners.EventCommandFired;
+import com.tattyhost.teamspeak3bot.plugins.PluginManager;
 import com.tattyhost.teamspeak3bot.utils.Language;
 import com.tattyhost.teamspeak3bot.utils.Language.Languages;
-import com.tattyhost.teamspeak3bot.utils.PrintStreamLogger;
+import com.tattyhost.teamspeak3bot.console.PrintStreamLogger;
 import com.tattyhost.teamspeak3bot.utils.StringUtils;
 import com.tattyhost.teamspeak3bot.utils.Validator;
 import org.json.simple.JSONObject;
@@ -62,7 +66,7 @@ public class Teamspeak3Bot {
     private static File workDir;
     private static File logsDir;
     private static File logFile;
-    private static File eventLogFile;
+    private static File eventLogFile; // Used Later
     private static File config;
     private static Teamspeak3Bot instance;
     private static Logger logger;
@@ -72,6 +76,7 @@ public class Teamspeak3Bot {
     private static PrintStreamLogger out;
     private static EventManager eventManager;
     private static ClientInfo owner;
+    private static ConsoleManager consoleManager;
 
     static Map<Integer, ChannelInfo> channels = new HashMap<>();
     static Map<Integer, ClientInfo> clients = new HashMap<>();
@@ -144,7 +149,7 @@ public class Teamspeak3Bot {
 
         System.setOut(out);
         System.out.println("Initialised Console!");
-        new ConsoleManager();
+        consoleManager = new ConsoleManager();
 
         logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
@@ -196,10 +201,10 @@ public class Teamspeak3Bot {
         x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
-        CommandManager.registerNewCommand("help", new Command_Help());
-        CommandManager.registerNewCommand("reload", new Command_Reload());
-        CommandManager.registerNewCommand("plugins", new Command_Plugins());
-        EventManager.addEventToProcessList(new Event_CommandFired());
+        CommandManager.registerNewCommand("help", new CommandHelp());
+        CommandManager.registerNewCommand("reload", new CommandReload());
+        CommandManager.registerNewCommand("plugins", new CommandPlugins());
+        EventManager.addEventToProcessList(new EventCommandFired());
         pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
@@ -290,6 +295,7 @@ public class Teamspeak3Bot {
     }
 
     public static void shutdown() {
+        consoleManager.getThread().interrupt();
         bot.getApi().logout();
         System.exit(1);
     }

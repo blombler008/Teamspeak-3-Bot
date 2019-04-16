@@ -22,31 +22,26 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.events.handlers;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent;
+import com.tattyhost.teamspeak3bot.events.Event;
 
-import java.util.Properties;
+import java.util.Map;
 
-public class Main extends JavaPlugin {
+public class EventChannelPasswordChanged extends Event {
 
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
+    public EventChannelPasswordChanged(Map<String, String> event, TS3Api api) {
+        super(event, api);
     }
 
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
+    @Override public ChannelPasswordChangedEvent getEvent() {
+        return (ChannelPasswordChangedEvent) event;
     }
 
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
+    @Override public TS3Api getApi() {
+        return api;
     }
 
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
-    }
 }

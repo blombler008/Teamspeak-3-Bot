@@ -22,31 +22,16 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+package com.tattyhost.teamspeak3bot.commands.listeners;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
+import com.tattyhost.teamspeak3bot.commands.ClientCommandSender;
+import com.tattyhost.teamspeak3bot.commands.Command;
+import com.tattyhost.teamspeak3bot.commands.CommandSender;
 
-import java.util.Properties;
-
-public class Main extends JavaPlugin {
-
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
-
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+public class CommandHelp extends Command {
+    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+        if (source instanceof ClientCommandSender) {
+            source.sendMessage(0, id, "Help Command ^^");
+        }
     }
 }
