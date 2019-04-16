@@ -25,6 +25,7 @@
 package com.tattyhost.teamspeak3bot.events.handlers;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.event.TextMessageEvent;
 import com.tattyhost.teamspeak3bot.events.Event;
 
@@ -32,15 +33,15 @@ import java.util.Map;
 
 public class EventTextMessage extends Event {
 
-    public EventTextMessage(Map<String, String> event, TS3Api api) {
-        super(event, api);
+    public EventTextMessage(Map<String, String> map, TS3Api api, BaseEvent event) {
+        super(map, api, event);
     }
 
     @Override public TextMessageEvent getEvent() {
-        return (TextMessageEvent) event;
+        return (TextMessageEvent) super.event;
     }
 
     @Override public TS3Api getApi() {
-        return api;
+        return super.api;
     }
 }

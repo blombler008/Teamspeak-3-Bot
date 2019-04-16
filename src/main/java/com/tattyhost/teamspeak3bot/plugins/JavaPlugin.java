@@ -26,14 +26,17 @@ package com.tattyhost.teamspeak3bot.plugins;
 
 import java.util.Properties;
 
-public class JavaPlugin extends Plugin {
+public abstract class JavaPlugin extends Plugin {
 
-    public JavaPlugin(PluginDescription description, Properties pr) {
-        super(description, pr);
+    public JavaPlugin() {
+
+    }
+
+    public JavaPlugin(PluginDescription pluginDescription, Properties properties){
+
     }
 
     @Override public void onEnable() {
-
     }
 
     @Override public void onDisable() {

@@ -35,10 +35,10 @@ public abstract class Event extends BaseEvent {
     protected BaseEvent event;
     protected TS3Api api;
 
-    public Event(Map<String, String> map, TS3Api api) {
+    public Event(Map<String, String> map, TS3Api api, BaseEvent event) {
         super(map);
-        this.event = event;
         this.api = api;
+        this.event = event;
     }
 
     @Override public void fire(TS3Listener listener) {

@@ -24,17 +24,15 @@
 
 package com.tattyhost.teamspeak3bot.plugins;
 
-import com.tattyhost.teamspeak3bot.utils.Validator;
-
 import java.io.File;
 import java.util.Properties;
 
 public class Plugin {
 
-    protected boolean enabled = false;
-    private File dataFolder;
-    private PluginDescription pluginDescription;
-    private Properties properties;
+    boolean enabled = false;
+    File dataFolder;
+    PluginDescription pluginDescription;
+    Properties properties;
 
     public Plugin() {
     }
@@ -64,15 +62,9 @@ public class Plugin {
         return dataFolder;
     }
 
-    public File setDataFolder(File dataFolder) {
-        if (Validator.notNull(this.dataFolder))
-            this.dataFolder = dataFolder;
-        return dataFolder;
-    }
-
     public boolean setEnabled() {
         enabled = true;
-        onEnable();
+        this.onEnable();
         return enabled;
     }
 
@@ -94,11 +86,17 @@ public class Plugin {
     @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        sb.append("\'" + this.getClass().getTypeName() + "\': {");
+        sb.append("\'");
+        sb.append(this.getClass().getTypeName());
+        sb.append("\': {");
         int size = properties.size();
         for (int i = 0; i < size; i++) {
             String key = (String) properties.keySet().iterator().next();
-            sb.append("\'" + key + "\': \'" + properties.getProperty(key) + "\'");
+            sb.append("\'");
+            sb.append(key);
+            sb.append("\': \'");
+            sb.append(properties.getProperty(key));
+            sb.append("\'");
             if (i + 1 != size)
                 sb.append(", ");
             properties.keySet().remove(key);

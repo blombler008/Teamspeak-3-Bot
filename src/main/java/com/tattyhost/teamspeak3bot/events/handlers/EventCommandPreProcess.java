@@ -25,6 +25,7 @@
 package com.tattyhost.teamspeak3bot.events.handlers;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.tattyhost.teamspeak3bot.commands.CommandSender;
 import com.tattyhost.teamspeak3bot.events.Event;
 
@@ -34,14 +35,13 @@ public class EventCommandPreProcess extends Event {
     protected CommandSender source;
 
 
-    public EventCommandPreProcess(Map<String, String> map, TS3Api api) {
-        super(map, api);
+    public EventCommandPreProcess(Map<String, String> map, TS3Api api, BaseEvent event) {
+        super(map, api, event);
         this.source = CommandSender.getSender(map.get("source").toUpperCase());
-
     }
 
     @Override public EventCommandPreProcess getEvent() {
-        return (EventCommandPreProcess) event;
+        return this;
     }
 
     @Override public TS3Api getApi() {

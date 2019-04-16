@@ -77,7 +77,7 @@ public class ConsoleManager {
                         map.put("invokeruid", "superadmin");
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
-                        Teamspeak3Bot.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map);
+                        Teamspeak3Bot.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
 
                     }
                 } catch (NullPointerException e) {

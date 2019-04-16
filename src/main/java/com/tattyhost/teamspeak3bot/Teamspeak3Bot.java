@@ -131,7 +131,7 @@ public class Teamspeak3Bot {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
 
         logsDir = new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
-        logsDir.mkdir();
+        logsDir.mkdirs();
 
         String nameLogFile = "log.txt.log";
         String nameEventLogFile = "event.txt.log";

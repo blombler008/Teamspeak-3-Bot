@@ -24,17 +24,10 @@
 
 package com.tattyhost.example.v1;
 
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
 import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.PluginDescription;
-
-import java.util.Properties;
+import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
 
 public class Main extends JavaPlugin {
-
-    public Main(PluginDescription description, Properties pr) {
-        super(description, pr);
-    }
 
     @Override public void onDisable() {
         Teamspeak3Bot.getLogger().info("On disable Example");

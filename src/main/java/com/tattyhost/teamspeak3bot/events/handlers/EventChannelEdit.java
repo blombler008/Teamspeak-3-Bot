@@ -25,6 +25,7 @@
 package com.tattyhost.teamspeak3bot.events.handlers;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent;
 import com.tattyhost.teamspeak3bot.events.Event;
 
@@ -32,8 +33,8 @@ import java.util.Map;
 
 public class EventChannelEdit extends Event {
 
-    public EventChannelEdit(Map<String, String> event, TS3Api api) {
-        super(event, api);
+    public EventChannelEdit(Map<String, String> map, TS3Api api, BaseEvent event) {
+        super(map, api, event);
     }
 
     @Override public ChannelEditedEvent getEvent() {
