@@ -86,7 +86,7 @@ public class Teamspeak3Bot {
         if (instance == null) {
             String strWorkDir = getWorkDirectory(args);
             workDir = new File(strWorkDir);
-            getLogger().info("Set Working Directory: \"" + strWorkDir + "\"");
+            getLogger().info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
             workDir.mkdirs();
 
             config = new File(workDir, "config.ini");
