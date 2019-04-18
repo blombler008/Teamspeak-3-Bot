@@ -1,5 +1,5 @@
 # Teamspeak 3 Bot
-[![Build Status](https://travis-ci.org/blombler008/Teamspeak-3-Bot.svg?branch=master)](https://travis-ci.org/blombler008/Teamspeak-3-Bot)  
+[![Build Status](https://img.shields.io/travis/blombler008/Teamspeak-3-Bot.svg?style=for-the-badge)](https://travis-ci.org/blombler008/Teamspeak-3-Bot)  
 
 This bot is 'Plugin Based'. Which means Admins/Users are able to Create their own plugins for their server. It uses the [TeamSpeak-3-Java-API](https://github.com/TheHolyWaffle/TeamSpeak-3-Java-API) by [TheHolyWaffle](https://github.com/TheHolyWaffle) as engine.
 
