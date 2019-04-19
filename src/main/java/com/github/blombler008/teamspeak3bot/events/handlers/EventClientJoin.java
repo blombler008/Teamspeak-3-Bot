@@ -22,21 +22,26 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.events.handlers;
 
-import com.github.blombler008.teamspeak3bot.events.EventListener;
-import com.github.blombler008.teamspeak3bot.events.Listener;
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
+import com.github.theholywaffle.teamspeak3.api.event.ClientJoinEvent;
+import com.github.blombler008.teamspeak3bot.events.Event;
 
-public class ExampleEvent implements Listener {
+import java.util.Map;
 
+public class EventClientJoin extends Event {
 
-    @EventListener
-    // If a client Messages the bot this Event is executed ...
-    // NOTE: the name of the event doesn't matter at all
-    public void onTextMessage(EventTextMessage e) {
-        Teamspeak3Bot.info("Example Event Stun > " + e.getEvent().getMessage());
+    public EventClientJoin(Map<String, String> map, TS3Api api, BaseEvent event) {
+        super(map, api, event);
     }
 
+    @Override public ClientJoinEvent getEvent() {
+        return (ClientJoinEvent) event;
+    }
+
+    @Override public TS3Api getApi() {
+        return api;
+    }
 }

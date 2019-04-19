@@ -22,21 +22,16 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.commands.listeners;
 
-import com.github.blombler008.teamspeak3bot.events.EventListener;
-import com.github.blombler008.teamspeak3bot.events.Listener;
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
+import com.github.blombler008.teamspeak3bot.commands.ClientCommandSender;
+import com.github.blombler008.teamspeak3bot.commands.Command;
+import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 
-public class ExampleEvent implements Listener {
-
-
-    @EventListener
-    // If a client Messages the bot this Event is executed ...
-    // NOTE: the name of the event doesn't matter at all
-    public void onTextMessage(EventTextMessage e) {
-        Teamspeak3Bot.info("Example Event Stun > " + e.getEvent().getMessage());
+public class CommandHelp extends Command {
+    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+        if (source instanceof ClientCommandSender) {
+            source.sendMessage(0, id, "Help Command ^^");
+        }
     }
-
 }

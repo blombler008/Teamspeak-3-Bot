@@ -22,21 +22,17 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.events;
 
-import com.github.blombler008.teamspeak3bot.events.EventListener;
-import com.github.blombler008.teamspeak3bot.events.Listener;
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class ExampleEvent implements Listener {
+@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD) public @interface EventListener {
+    Priority priority() default Priority.MEDIUM;
 
-
-    @EventListener
-    // If a client Messages the bot this Event is executed ...
-    // NOTE: the name of the event doesn't matter at all
-    public void onTextMessage(EventTextMessage e) {
-        Teamspeak3Bot.info("Example Event Stun > " + e.getEvent().getMessage());
+    enum Priority {
+        LOW, MEDIUM, HIGH
     }
-
 }

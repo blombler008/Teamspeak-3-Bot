@@ -22,21 +22,43 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.utils;
 
-import com.github.blombler008.teamspeak3bot.events.EventListener;
-import com.github.blombler008.teamspeak3bot.events.Listener;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
 
-public class ExampleEvent implements Listener {
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 
+public class Validator {
 
-    @EventListener
-    // If a client Messages the bot this Event is executed ...
-    // NOTE: the name of the event doesn't matter at all
-    public void onTextMessage(EventTextMessage e) {
-        Teamspeak3Bot.info("Example Event Stun > " + e.getEvent().getMessage());
+    public static boolean notNull(Object obj) {
+        return (obj == null);
     }
 
+    public static boolean isValidPath(String path) {
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException | NullPointerException ex) {
+            Teamspeak3Bot.getLogger().error("Invalid Path: " + path);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isDirectory(String path) {
+        if (!Files.isDirectory(Paths.get(path))) {
+            Teamspeak3Bot.getLogger().error("Path is not a Directory: " + path);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean clientExists(int client) {
+        return Teamspeak3Bot.getClients().containsKey(client);
+    }
+
+    public static boolean channelExists(int channel) {
+        return Teamspeak3Bot.getChannels().containsKey(channel);
+    }
 }

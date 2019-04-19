@@ -24,8 +24,8 @@
 
 package com.tattyhost.example.v1;
 
-import com.tattyhost.teamspeak3bot.Teamspeak3Bot;
-import com.tattyhost.teamspeak3bot.plugins.JavaPlugin;
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
