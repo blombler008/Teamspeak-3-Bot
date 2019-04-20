@@ -44,7 +44,10 @@ public class ConsoleManager {
     private ConsoleReader reader;
 
     public ConsoleManager() {
-        if(System.getenv().containsKey("intellij")) jline.TerminalFactory.registerFlavor( jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
+        if(System.getenv().containsKey("intellij")) {
+            Teamspeak3Bot.info(Language.CONSOLE + "Intellij added on");
+            jline.TerminalFactory.registerFlavor( jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
+        }
 
         breakOut = false;
         line = "";
