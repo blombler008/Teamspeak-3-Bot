@@ -159,7 +159,7 @@
     </target>
 
 
-    <!-- Module SimplePlugin-v1 -->
+    <!-- Module SimplePlugin-v2 -->
 
     <dirname property="module.simpleplugin-v1.basedir" file="${ant.file}"/>
 

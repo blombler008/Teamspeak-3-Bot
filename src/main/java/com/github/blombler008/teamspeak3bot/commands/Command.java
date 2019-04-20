@@ -26,8 +26,7 @@ package com.github.blombler008.teamspeak3bot.commands;
 
 public abstract class Command {
 
-
-
     public abstract void run(final CommandSender source, final int id, final String commandLabel,
         final String[] args);
+
 }

@@ -1,4 +1,5 @@
-/*
+package com.github.blombler008.teamspeak3bot.commands;/*
+ *
  * MIT License
  *
  * Copyright (c) 2019 blombler008
@@ -22,24 +23,13 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v1;
+import jline.console.completer.Completer;
+import jline.console.completer.StringsCompleter;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
+public class CommandCompleter {
 
-public class Main extends JavaPlugin {
-
-    @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
+    public static Completer getCompleter() {
+        return new StringsCompleter(CommandManager.getCommandList());
     }
 
-    @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-    }
-
-    @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
-    }
 }

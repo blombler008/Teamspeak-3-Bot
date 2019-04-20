@@ -68,6 +68,7 @@
         <teamspeak3-api.version>1.2.0</teamspeak3-api.version>
         <json-simple.version>1.1.1</json-simple.version>
         <mysql.version>8.0.15</mysql.version>
+        <jline.version>2.14.6</jline.version>
     </properties>
 
     <repositories>
@@ -102,11 +103,15 @@
             <version>${json-simple.version}</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>${jline.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <defaultGoal>run</defaultGoal>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

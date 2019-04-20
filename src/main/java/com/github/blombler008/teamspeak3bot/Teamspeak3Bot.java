@@ -38,7 +38,6 @@ import com.github.blombler008.teamspeak3bot.utils.Language.Languages;
 import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.TS3QueryX;
 import com.github.theholywaffle.teamspeak3.api.wrapper.*;
 import com.github.theholywaffle.teamspeak3.commands.Command;
 import com.github.theholywaffle.teamspeak3.commands.CommandBuilderX;
@@ -60,23 +59,24 @@ import java.util.Set;
 
 public class Teamspeak3Bot {
 
-    public static boolean debuggerEnabled = false;
-    protected static char customChar;
+    private static boolean debuggerEnabled = false;
+    private static char customChar;
+
     private static Bot bot;
+    private static ClientInfo owner;
+    private static ConsoleManager consoleManager;
+    private static EventManager eventManager;
     private static File workDir;
     private static File logsDir;
     private static File logFile;
-    private static File eventLogFile; // Used Later
+    private static File eventLogFile; // TODO: add implementation : Used Later
     private static File config;
-    private static Teamspeak3Bot instance;
     private static Logger logger;
     private static Properties properties;
     private static PluginManager pluginManager;
-    private static ServerQueryInfo botClient;
     private static PrintStreamLogger out;
-    private static EventManager eventManager;
-    private static ClientInfo owner;
-    private static ConsoleManager consoleManager;
+    private static ServerQueryInfo botClient;
+    private static Teamspeak3Bot instance;
 
     static Map<Integer, ChannelInfo> channels = new HashMap<>();
     static Map<Integer, ClientInfo> clients = new HashMap<>();
@@ -148,10 +148,11 @@ public class Teamspeak3Bot {
         }
 
         System.setOut(out);
+        logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         System.out.println("Initialised Console!");
+
         consoleManager = new ConsoleManager();
 
-        logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
         enableDebugger(args);
 
         debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
@@ -192,7 +193,7 @@ public class Teamspeak3Bot {
         debug(Language.MAIN, "Channels > " + channels.size());
         debug(Language.MAIN, "Online Clients > " + clients.size());
 
-        new CommandManager(getApi(), customChar);
+        CommandManager commandManager = new CommandManager(getApi(), customChar);
 
         eventManager = new EventManager(bot, getApi());
         eventManager.registerEvents();
@@ -201,17 +202,16 @@ public class Teamspeak3Bot {
         x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
-        CommandManager.registerNewCommand("help", new CommandHelp());
-        CommandManager.registerNewCommand("reload", new CommandReload());
-        CommandManager.registerNewCommand("plugins", new CommandPlugins());
+        CommandManager.registerNewCommand("Teamspeak3Bot", "help", new String[]{"help", "?"}, new CommandHelp());
+        CommandManager.registerNewCommand("Teamspeak3Bot", "reload",  new String[]{"reload", "rl"}, new CommandReload());
+        CommandManager.registerNewCommand("Teamspeak3Bot", "plugins",  new String[]{"plugins", "p"}, new CommandPlugins());
         EventManager.addEventToProcessList(new EventCommandFired());
         pluginManager = new PluginManager(workDir);
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
-
-
-        TS3QueryX.doCommandAsync(bot.getQuery(), cmd);
+        pluginManager.isFinished(consoleManager::setCompleters);
+        // TS3QueryX.doCommandAsync(bot.getQuery(), cmd);
     }
 
     public static void debug(String l, String s) {
@@ -375,6 +375,14 @@ public class Teamspeak3Bot {
 
     public static void info(String str) {
         getLogger().info(str);
+    }
+
+    public static boolean getDebugged() {
+        return Teamspeak3Bot.debuggerEnabled;
+    }
+
+    public static ConsoleManager getConsoleManager() {
+        return consoleManager;
     }
 
     private boolean connect() {

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.example.v2;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.commands.CommandManager;
@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
         EventManager.addEventToProcessList(new ExampleEvent());
 
         // Adding a Command for the bot ...
-        CommandManager.registerNewCommand("example", new ExampleCommand());
+        CommandManager.registerNewCommand("ExamplePlugin", "example", new String[]{"example"}, new ExampleCommand());
     }
 
     @Override public void onLoad() {

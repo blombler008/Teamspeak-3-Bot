@@ -40,15 +40,7 @@ public abstract class CommandSender {
     }
 
     public static CommandSender getSender(TextMessageTargetMode targetMode) {
-        switch (targetMode) {
-            case SERVER:
-                return SERVER;
-            case CHANNEL:
-                return CHANNEL;
-            case CLIENT:
-                return CLIENT;
-        }
-        return null;
+        return getSender(String.valueOf(targetMode));
     }
     public static CommandSender getSender(String targetMode) {
         switch (targetMode) {

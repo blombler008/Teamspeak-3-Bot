@@ -24,6 +24,7 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.utils.Language;
@@ -35,12 +36,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CommandManager {
 
     private static Map<String, Command> commands = new HashMap<>();
+    private static Map<String, String[]> commandAliases = new HashMap<>();
+    private static Map<String, String> commandPlugin = new HashMap<>();
     private static String customChar;
     private static TS3Api api;
     private static List<Thread> commandThreads = new ArrayList<>();
     private static Thread listenerThread;
+    private static List<String> registeredCommands = new ArrayList<>();
 
     public CommandManager(TS3Api api, char customChar) {
+        registeredCommands.add("quit");
+        registeredCommands.add("exit");
+        registeredCommands.add("uploadErrorLog");
         CommandManager.customChar = String.valueOf(customChar);
         CommandManager.api = api;
         AtomicBoolean breakOut = new AtomicBoolean(false);
@@ -72,18 +79,37 @@ public class CommandManager {
         listenerThread.start();
     }
 
-    public static void registerNewCommand(String str, Command cmd) {
-        commands.put(str, cmd);
+    public static void registerNewCommand(JavaPlugin plugin, String str, String[] aliases, Command cmd) {
+        registerNewCommand(plugin.getName(), str, aliases, cmd);
     }
 
-    public static boolean executeCommand(String[] args, CommandSender source, int clientId, boolean run) {
+    public static void registerNewCommand(String pluginName, String str, String[] aliases, Command cmd) {
+        commands.put(str, cmd);
+        commandPlugin.put(str, pluginName);
+        String[] x = new String[]{};
+        List<String> aliasList = Arrays.asList(aliases);
+        if(!aliasList.contains(str)) {
+            aliasList.add(str);
+        }
+        commandAliases.put(str, aliasList.toArray(x));
+
+        for(String s: aliasList) {
+            registeredCommands.add(pluginName + ":" + s);
+            registeredCommands.add(s);
+        }
+    }
+
+    public static boolean executeCommand(String cmd, String[] args, CommandSender source, int clientId, boolean run) {
         List<String> aList = Arrays.asList(args);
-        String cmdString = aList.get(0);
+        if(!(aList.size() == 1))
+            aList.remove(0);
+
+        String cmdString = getCommandStringFromAlias(resolveCommand(cmd));
 
         if (!Validator.notNull(api)) {
             if (commands.containsKey(cmdString)) {
                 if (run)
-                    parseRun(args, source, clientId);
+                    parseRun(cmdString, args, source, clientId);
                 return true;
             } else {
                 if (source == CommandSender.CONSOLE) {
@@ -102,25 +128,24 @@ public class CommandManager {
         return false;
     }
 
-    private static void parseRun(String[] args, CommandSender source, int id) {
+    private static void parseRun(String cmdString, String[] args, CommandSender source, int id) {
         List<String> aList = Arrays.asList(args);
 
-        String label = args[0];
-        Command cmd = commands.get(label);
+        Command cmd = commands.get(cmdString);
 
         String[] arguments = {};
         //To prevent a constant loop in the command
-        Thread thread = new Thread(() -> cmd.run(source, id, label, aList.toArray(arguments)),label + "-" + commandThreads.size());
+        Thread thread = new Thread(() -> cmd.run(source, id, cmdString, aList.toArray(arguments)),cmdString + "-" + commandThreads.size());
         commandThreads.add(thread);
         Teamspeak3Bot.debug(Language.COMMAND, thread.getName());
         thread.start();
     }
 
-    public static boolean checkCommand(String cmdString, CommandSender source, int invokerId) {
-        return checkCommand(new String[] {cmdString}, source, invokerId);
+    public static boolean checkCommand(String cmdString, CommandSender source) {
+        return checkCommand(new String[] {cmdString}, source);
     }
 
-    public static boolean checkCommand(String[] cmd, CommandSender source, int invokerId) {
+    public static boolean checkCommand(String[] cmd, CommandSender source) {
         List<String> aList = new ArrayList<>();
         Collections.addAll(aList, cmd);
 
@@ -132,13 +157,52 @@ public class CommandManager {
 
         Teamspeak3Bot.debug(Language.COMMAND, consoleMessage);
         Teamspeak3Bot.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
-        if(source instanceof ConsoleCommandSender || cmd[0].startsWith(customChar))
-            return executeCommand(aList.toArray(arguments), source, invokerId, false);
-        else return false;
+
+        String str = getCommandStringFromAlias(resolveCommand(aList.get(0)));
+        if(str == null) {
+            return false;
+        }
+        String cPlugin = commandPlugin.get(str);
+        String[] cAliases = commandAliases.get(str);
+        Command cCommand = commands.get(str);
+        Teamspeak3Bot.debug(Language.COMMAND, cPlugin + ":" + str + ", " + Arrays.toString(cAliases));
+        if (source instanceof ConsoleCommandSender || cmd[0].startsWith(customChar)) {
+            return commands.containsKey(str);
+        //executeCommand(aList.get(0), aList.toArray(arguments), source, invokerId, false);
+        }
+        return false;
     }
 
+    public static String getCommandStringFromAlias(String alias) {
+        for(String key: commandAliases.keySet()) {
+            if(alias.equalsIgnoreCase(key)) {
+                return key;
+            }
+            String[] values = commandAliases.get(key);
+            for(String vStr: values) {
+                if(alias.equalsIgnoreCase(vStr)) {
+                    return key;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String resolveCommand(String arg) {
+        String[] str = arg.split(":+");
+        if(str.length == 1) {
+            return str[0];
+        } else if(str.length > 1) {
+            return str[1];
+        }
+        return "";
+    }
 
     public static String getCommandFromArray(String[] cmdArray) {
         return cmdArray[0].replaceFirst(String.valueOf(customChar), "");
+    }
+
+    public static List<String> getCommandList() {
+        return registeredCommands;
     }
 }

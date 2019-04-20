@@ -24,14 +24,13 @@
 
 package com.github.blombler008.teamspeak3bot.events;
 
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.*;
 import com.github.blombler008.teamspeak3bot.Bot;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.commands.CommandManager;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 import com.github.blombler008.teamspeak3bot.events.handlers.*;
 import com.github.blombler008.teamspeak3bot.utils.Language;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -70,6 +69,7 @@ public class EventManager {
                 Language.EVENT, "- Declared Parameters: " + Arrays.toString(method.getParameters()));
 
             if (method.isAnnotationPresent(EventListener.class) && method.getParameterCount() == 1) {
+                EventListener evL = method.getAnnotation(EventListener.class);
                 Parameter parm = method.getParameters()[0];
 
                 Teamspeak3Bot
@@ -85,15 +85,33 @@ public class EventManager {
                     eventPoint.method = method;
                     eventPoint.methodClass = objClass;
                     eventPoint.eventType = EventType.getForEventType(evType);
-
+                    eventPoint.eventListener = evL;
 
                     List<EventPoint> eventPoints = events.getOrDefault(eventPoint.eventType, new ArrayList<>());
-                    eventPoints.add(eventPoint);
+                    if(eventPoints.size()==0) {
+                        eventPoints.add(eventPoint);
+                    } else {
+                        int count = eventPoints.size()-1;
+                        for(int i=0; i<eventPoints.size(); i++) {
+                            EventPoint p = eventPoints.get(i);
+                            switch (p.getEventAnnotation().priority().compareTo(evL)) {
+                                case -1:
+                                    count++;
+                                    break;
+                                case 0:
+                                    break;
+                                case 1:
+                                    count--;
+                                    break;
+                            }
+                        }
+                        if(count < 0) count = 0;
+                        eventPoints.add(count, eventPoint);
+                    }
                     events.put(eventPoint.eventType, eventPoints);
                     Teamspeak3Bot.debug(Language.EVENT, "{=} Added to the Event Listener!");
                     Teamspeak3Bot.debug(Language.EVENT, "{=} Method: " + eventPoint.method);
-                    Teamspeak3Bot
-                        .debug(Language.EVENT, "{=} Class: " + eventPoint.methodClass.getSimpleName());
+                    Teamspeak3Bot.debug(Language.EVENT, "{=} Class: " + eventPoint.methodClass.getSimpleName());
                     Teamspeak3Bot.debug(Language.EVENT, "{=} Event Type: " + eventPoint.eventType);
                 }
             }
@@ -112,17 +130,12 @@ public class EventManager {
                 if (e.getInvokerId() != bot.getClient().getId() ) {
                     String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
-                    if ((CommandManager
-                        .checkCommand(cmdArray, CommandSender.getSender(e.getTargetMode()),
-                            invokerId))) {
-
-                        Map<String, String> map = new HashMap<>(e.getMap());
-                        map.put("source", CommandSender.getSender(e.getTargetMode()).toString());
-                        map.put("command", e.getMessage());
-                        fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
-                        Teamspeak3Bot.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
-                        return;
-                    }
+                    Map<String, String> map = new HashMap<>(e.getMap());
+                    map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
+                    map.put("command", e.getMessage());
+                    Teamspeak3Bot.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
+                    fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
+                    return;
                 }
                 Teamspeak3Bot.debug(Language.EVENT, "TextMessageEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_TEXT_MESSAGE, e.getMap(), e);
@@ -208,6 +221,7 @@ public class EventManager {
                 return;
 
             List<EventPoint> eventPoints = events.get(type);
+
             for(EventPoint eventPoint: eventPoints) {
                 Method method = eventPoint.method;
 
@@ -216,6 +230,7 @@ public class EventManager {
                 Teamspeak3Bot.debug(Language.EVENT, "Class: " + ev.getSimpleName());
                 Teamspeak3Bot.debug(Language.EVENT, "Event Type: " + type);
                 Teamspeak3Bot.debug(Language.EVENT, "Event Map: " + map);
+                Teamspeak3Bot.debug(Language.EVENT, "Event Priority: " + method.getAnnotation(EventListener.class).priority());
                 Teamspeak3Bot.debug(Language.EVENT, "executing...");
 
                 switch (type) {
@@ -271,5 +286,11 @@ public class EventManager {
         private Method method;
         private Class<Listener> methodClass;
         private EventType eventType;
+
+        private EventListener eventListener;
+
+        public EventListener getEventAnnotation() {
+            return eventListener;
+        }
     }
 }

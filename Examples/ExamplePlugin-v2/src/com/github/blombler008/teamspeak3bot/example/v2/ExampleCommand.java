@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.tattyhost.example.v2;
+package com.github.blombler008.teamspeak3bot.example.v2;
 
 import com.github.blombler008.teamspeak3bot.commands.ChannelCommandSender;
 import com.github.blombler008.teamspeak3bot.commands.ClientCommandSender;

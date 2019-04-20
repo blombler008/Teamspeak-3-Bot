@@ -70,7 +70,7 @@ public class Bot {
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
                 config.setHost(host);
                 config.setQueryPort(port);
-                config.setEnableCommunicationsLogging(Teamspeak3Bot.debuggerEnabled);
+                config.setEnableCommunicationsLogging(Teamspeak3Bot.getDebugged());
 
                 query = new TS3Query(config);
                 query.connect();

@@ -22,36 +22,24 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events;
+package com.github.blombler008.teamspeak3bot.example.v1;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 
-@Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD) public @interface EventListener {
-    Priority priority() default Priority.MEDIUM;
+public class Main extends JavaPlugin {
 
+    @Override public void onDisable() {
+        Teamspeak3Bot.getLogger().info("On disable Example");
+    }
 
-    enum Priority {
-        LOWEST(5), LOW(4), MEDIUM(3), HIGH(2), HIGHEST(1);
-        int priority;
-        Priority(int i) {
-            priority = i;
-        }
-        public int compareTo(EventListener evL) {
-            if(evL.priority().getLevel() < priority) {
-                return 1;
-            } else if(evL.priority().getLevel() > priority) {
-                return -1;
-            } else {
-                return 0;
-            }
-        }
+    @Override public void onEnable() {
+        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
 
-        private int getLevel() {
-            return priority;
-        }
+    }
 
+    @Override public void onLoad() {
+        Teamspeak3Bot.getLogger()
+            .info("Plugin description: " + getPluginDescription().getDescription());
     }
 }

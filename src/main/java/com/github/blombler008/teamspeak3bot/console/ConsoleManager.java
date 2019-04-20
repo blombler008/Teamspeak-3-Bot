@@ -25,34 +25,40 @@
 package com.github.blombler008.teamspeak3bot.console;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.commands.CommandCompleter;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 import com.github.blombler008.teamspeak3bot.events.EventType;
 import com.github.blombler008.teamspeak3bot.utils.Language;
+import jline.console.ConsoleReader;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ConsoleManager {
 
     private static ConsoleManager instance;
     private Thread thread;
     private boolean breakOut;
-    private Scanner input;
     private String line;
+    private ConsoleReader reader;
 
     public ConsoleManager() {
+        if(System.getenv().containsKey("intellij")) jline.TerminalFactory.registerFlavor( jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
+
         breakOut = false;
         line = "";
-        input = new Scanner(System.in);
         if (instance == null)
             instance = this;
-        thread = new Thread(new Runnable() {
 
-            @Override public void run() {
-                try {
-                    if (input.hasNextLine()) {
-                        line = input.nextLine();
+        thread = new Thread(() -> { // A new thread is used to run the listener aside the main code
+
+            try {
+                reader = new ConsoleReader();
+
+                while (!breakOut) {
+                    line = reader.readLine();
+                    if(line != null) {
                         Teamspeak3Bot.writeToFile(line);
                         Teamspeak3Bot.getLogger().info(Language.CONSOLE + "ADMIN INPUT > " + line);
 
@@ -67,7 +73,7 @@ public class ConsoleManager {
 
                         if (line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {
                             Teamspeak3Bot.uploadErrorLog();
-                            run();
+                            continue;
                         }
                         Map<String, String> map = new HashMap<>();
                         map.put("source", CommandSender.CONSOLE.toString());
@@ -77,15 +83,13 @@ public class ConsoleManager {
                         map.put("invokeruid", "superadmin");
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
-                        Teamspeak3Bot.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
-
+                        Teamspeak3Bot.getEventManager()
+                            .fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
                     }
-                } catch (NullPointerException e) {
-                    Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");
-                    breakOut = true;
                 }
-                if (!breakOut)
-                    run();
+            } catch (NullPointerException | IOException e) {
+                Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");
+                breakOut = true;
             }
         }, "Console-Listener");
         thread.start();
@@ -95,7 +99,18 @@ public class ConsoleManager {
         return instance;
     }
 
+    public ConsoleReader getReader() {
+        return reader;
+    }
+
     public Thread getThread() {
         return thread;
     }
+
+    public void setCompleters() {
+        reader.addCompleter(CommandCompleter.getCompleter());
+        //Readline.load(ReadlineLibrary.GnuReadline);
+        //Readline.setCompleter(new CommandCompleter());
+    }
+
 }

@@ -34,9 +34,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -46,6 +44,8 @@ public class PluginManager {
     private File pluginsDir;
     private File[] pluginFiles;
     private List<JavaPlugin> plugins = new ArrayList<>();
+    private boolean fished = false;
+    private Map<JavaPlugin, Boolean> pluginstates = new HashMap<>();
 
     public PluginManager(File workDir) {
         this.workDir = workDir;
@@ -124,10 +124,11 @@ public class PluginManager {
                 }
             }
         }
+
         return true;
     }
 
-    //TODO: make it reload the complete jar not just the already loaded files and code!
+    // TODO: make it reload the complete jar not just the already loaded files and code!
     public void reloadPlugins() {
         reloadPlugins(false);
     }
@@ -153,18 +154,21 @@ public class PluginManager {
     public void loadPlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             loadPlugin(p, debug);
+            pluginstates.remove(p);
         }
     }
 
     public void enablePlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             enablePlugin(p, debug);
+            pluginstates.put(p, true);
         }
     }
 
     public void disablePlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             disablePlugin(p, debug);
+            pluginstates.put(p, false);
         }
     }
 
@@ -270,5 +274,22 @@ public class PluginManager {
 
     public List<JavaPlugin> getPlugins() {
         return plugins;
+    }
+
+
+    public void isFinished(Callback c) {
+        new Thread(() -> {
+            while (true) {
+                if(plugins.size() == pluginstates.size() && Teamspeak3Bot.getConsoleManager().getReader() != null) {
+                    Teamspeak3Bot.info("Done! For help use \"help\" or \"?\".");
+                    c.call();
+                    break;
+                }
+            }
+        }, "Waiter").start();
+    }
+
+    public interface Callback {
+        void call();
     }
 }

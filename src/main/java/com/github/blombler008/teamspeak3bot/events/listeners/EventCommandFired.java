@@ -34,10 +34,11 @@ import java.util.List;
 
 public class EventCommandFired implements Listener {
 
-    @EventListener
+    @EventListener(priority = EventListener.Priority.MEDIUM)
     public void onCommandFire(EventCommandPreProcess e) {
         int id = e.getInvokerId();
         List<String> args = Arrays.asList(e.get("command").replaceFirst("!", "").split(" "));
-        CommandManager.executeCommand((String[]) args.toArray(), e.getCommandSource(), id, true);
+        if(CommandManager.checkCommand((String[]) args.toArray(), e.getCommandSource()) )
+            CommandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id, true);
     }
 }
