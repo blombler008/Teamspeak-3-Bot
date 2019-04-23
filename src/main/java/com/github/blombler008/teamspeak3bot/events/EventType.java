@@ -28,17 +28,16 @@ import com.github.blombler008.teamspeak3bot.events.handlers.*;
 
 public enum EventType {
     EVENT_CHANNEL_CREATE(EventChannelCreate.class), EVENT_CHANNEL_DELETED(
-        EventChannelDeleted.class), EVENT_CHANNEL_DESCRIPTION_CHANGED(
-        EventChannelDescriptionChanged.class), EVENT_CHANNEL_EDIT(
-        EventChannelEdit.class), EVENT_CHANNEL_MOVED(
-        EventChannelMoved.class), EVENT_CHANNEL_PASSWORD_CHANGED(
-        EventChannelPasswordChanged.class), EVENT_CLIENT_JOIN(
-        EventClientJoin.class), EVENT_CLIENT_LEAVE(EventClientLeave.class), EVENT_CLIENT_MOVED(
-        EventClientMoved.class), EVENT_PRIVILEGE_KEY_USED(
-        EventPrivilegeKeyUsed.class), EVENT_SERVER_EDIT(
-        EventServerEdit.class), EVENT_COMMAND_PRE_PROCESS(
-        EventCommandPreProcess.class), EVENT_TEXT_MESSAGE(EventTextMessage.class);
-
+            EventChannelDeleted.class), EVENT_CHANNEL_DESCRIPTION_CHANGED(
+            EventChannelDescriptionChanged.class), EVENT_CHANNEL_EDIT(
+            EventChannelEdit.class), EVENT_CHANNEL_MOVED(
+            EventChannelMoved.class), EVENT_CHANNEL_PASSWORD_CHANGED(
+            EventChannelPasswordChanged.class), EVENT_CLIENT_JOIN(
+            EventClientJoin.class), EVENT_CLIENT_LEAVE(EventClientLeave.class), EVENT_CLIENT_MOVED(
+            EventClientMoved.class), EVENT_PRIVILEGE_KEY_USED(
+            EventPrivilegeKeyUsed.class), EVENT_SERVER_EDIT(
+            EventServerEdit.class), EVENT_COMMAND_PRE_PROCESS(
+            EventCommandPreProcess.class), EVENT_TEXT_MESSAGE(EventTextMessage.class);
 
 
     private Class<? extends Event> evClass;

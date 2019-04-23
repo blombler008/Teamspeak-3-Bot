@@ -44,7 +44,8 @@ public abstract class Event extends BaseEvent {
         this.instance = instance;
     }
 
-    @Override public void fire(TS3Listener listener) {
+    @Override
+    public void fire(TS3Listener listener) {
 
     }
 

@@ -47,7 +47,7 @@ public class Bot {
     private TS3Query query;
 
     public Bot(Teamspeak3Bot instance, String host, String port, String username, String password,
-        String nickname, String channel) {
+               String nickname, String channel) {
 
         if (!testForPort(port))
             return;
@@ -65,7 +65,7 @@ public class Bot {
             try {
 
                 instance.debug(Language.BOT,
-                    "Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+                        "Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
 
                 config = new TS3Config();
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
@@ -79,15 +79,15 @@ public class Bot {
                 api = query.getApi();
 
                 instance.debug(Language.BOT,
-                    "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+                        "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
 
                 return true;
 
             } catch (TS3ConnectionFailedException e) {
 
                 instance.debug(Language.BOT,
-                    "ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port
-                        + "\'");
+                        "ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port
+                                + "\'");
 
                 return false;
             }
@@ -99,8 +99,8 @@ public class Bot {
         if (!Validator.notNull(api)) {
             try {
                 instance.debug(Language.BOT,
-                    "Trying login as: \'" + nickname + "\', with username: \'" + username
-                        + "\', and password: \'" + password + "\'");
+                        "Trying login as: \'" + nickname + "\', with username: \'" + username
+                                + "\', and password: \'" + password + "\'");
 
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
@@ -113,8 +113,8 @@ public class Bot {
                 query.exit();
 
                 instance.debug(Language.BOT,
-                    "Couldn't login as: \'" + nickname + "\', with username: \'" + username
-                        + "\', and password: \'" + password + "\'");
+                        "Couldn't login as: \'" + nickname + "\', with username: \'" + username
+                                + "\', and password: \'" + password + "\'");
                 instance.shutdown();
 
                 return false;

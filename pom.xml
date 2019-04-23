@@ -23,9 +23,7 @@
   ~ SOFTWARE.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.blombler008</groupId>
@@ -37,8 +35,7 @@
 
     <name>Teamspeak 3 Bot</name>
     <url>https://github.com/blombler008/Teamspeak-3-Bot</url>
-    <description>A Teamspeak 3 ServerQuery bot, build on the Teamspeak 3 Java Api from
-        TheHolyWaffle
+    <description>A Teamspeak 3 ServerQuery bot, build on the Teamspeak 3 Java Api from TheHolyWaffle
     </description>
 
     <licenses>

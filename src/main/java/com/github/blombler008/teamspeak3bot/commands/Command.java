@@ -64,8 +64,8 @@ public class Command {
 
     public JavaPlugin getPlugin() {
         List<JavaPlugin> javaPlugins = instance.getPluginManager().getPlugins();
-        for(JavaPlugin javaPlugin: javaPlugins) {
-            if(javaPlugin.getName().equals(plugin)) {
+        for (JavaPlugin javaPlugin : javaPlugins) {
+            if (javaPlugin.getName().equals(plugin)) {
                 return javaPlugin;
             }
         }

@@ -36,13 +36,16 @@ public class EventCommandFired implements Listener {
 
     @EventListener(priority = EventListener.Priority.MEDIUM)
     public void onCommandFire(EventCommandPreProcess e) {
+
         CommandManager commandManager = e.getInstance().getCommandManager();
+
         int id = e.getInvokerId();
         int chId = e.getChannelId();
+
         List<String> args = Arrays.asList(e.get("command").replaceFirst("!", "").split(" "));
-        if(commandManager.checkCommand((String[]) args.toArray(), id, e.getCommandSource()) ) {
-            commandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id,
-                    chId, true);
+
+        if (commandManager.checkCommand((String[]) args.toArray(), id, e.getCommandSource())) {
+            commandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id, chId, true);
         }
     }
 }

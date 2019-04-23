@@ -34,15 +34,17 @@ import java.util.Map;
 
 public class EventChannelPasswordChanged extends Event {
 
-    public EventChannelPasswordChanged(Teamspeak3Bot instance,Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventChannelPasswordChanged(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
-    @Override public ChannelPasswordChangedEvent getEvent() {
+    @Override
+    public ChannelPasswordChangedEvent getEvent() {
         return (ChannelPasswordChangedEvent) event;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return api;
     }
 

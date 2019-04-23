@@ -34,15 +34,17 @@ import java.util.Map;
 
 public class EventClientLeave extends Event {
 
-    public EventClientLeave(Teamspeak3Bot instance,Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventClientLeave(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
-    @Override public ClientLeaveEvent getEvent() {
+    @Override
+    public ClientLeaveEvent getEvent() {
         return (ClientLeaveEvent) event;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return api;
     }
 }

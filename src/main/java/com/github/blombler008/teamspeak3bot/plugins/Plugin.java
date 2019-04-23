@@ -90,7 +90,8 @@ public class Plugin {
     public void onLoad() {
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\'");

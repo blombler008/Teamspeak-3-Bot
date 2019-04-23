@@ -42,16 +42,18 @@ public class EventCommandPreProcess extends Event {
         super(instance, e, api, event);
         this.map = e;
         this.source = CommandSender.getSender(map.get("source").toUpperCase());
-        if(source instanceof ChannelCommandSender) {
+        if (source instanceof ChannelCommandSender) {
             ((ChannelCommandSender) source).setChannelId(Integer.parseInt(map.get("channelid")));
         }
     }
 
-    @Override public EventCommandPreProcess getEvent() {
+    @Override
+    public EventCommandPreProcess getEvent() {
         return this;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return null;
     }
 

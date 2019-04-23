@@ -45,25 +45,33 @@ public class CommandManager {
     private Teamspeak3Bot instance;
 
     public CommandManager(TS3Api api, char customChar, Teamspeak3Bot instance) {
+
         registeredCommands.add("quit");
         registeredCommands.add("exit");
         registeredCommands.add("uploadErrorLog");
+
         this.customChar = String.valueOf(customChar);
         this.api = api;
         this.instance = instance;
+
         AtomicBoolean breakOut = new AtomicBoolean(false);
+
         listenerThread = new Thread(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 try {
                     Thread.sleep(60000);
                     int x = commandThreads.size();
-                    if(x==0) {
+
+                    if (x == 0) {
                         instance.debug(Language.COMMAND, "Nothing found to remove.");
                         run();
                     }
-                    for(int i=x-1;i>=0;i--) {
+
+                    for (int i = x - 1; i >= 0; i--) {
+
                         Thread thr = commandThreads.get(i);
-                        if(thr.isInterrupted() || !thr.isAlive()) {
+                        if (thr.isInterrupted() || !thr.isAlive()) {
                             commandThreads.remove(thr);
                             instance.debug(Language.COMMAND, "Thread " + thr.getName() + " removed from list.");
                         }
@@ -72,7 +80,7 @@ public class CommandManager {
                     x.printStackTrace();
                     breakOut.set(true);
                 }
-                if(!breakOut.get()) {
+                if (!breakOut.get()) {
                     run();
                 }
             }
@@ -92,17 +100,19 @@ public class CommandManager {
 
     public CommandTemplate getCommand(String pluginName, String str, CommandExecutor cmdEx) {
         CommandTemplate cmd = commands.get(str);
+
         List<CommandExecutor> executors = commandExecutors.getOrDefault(str, new ArrayList<>());
         executors.add(cmdEx);
+
         commandExecutors.put(str, executors);
         List<String> aliasList = cmd.getAliases();
-        if(!aliasList.contains(str)) {
+        if (!aliasList.contains(str)) {
             aliasList.add(str);
         }
 
-       // Command cmd = new Command(aliasList.toArray(new String[]{}), description, str, pluginName);
+        // Command cmd = new Command(aliasList.toArray(new String[]{}), description, str, pluginName);
         commands.put(str, cmd);
-        for(String s: cmd.getAliases()) {
+        for (String s : cmd.getAliases()) {
             registeredCommands.add(pluginName + ":" + s);
             registeredCommands.add(s);
         }
@@ -111,7 +121,7 @@ public class CommandManager {
 
     public boolean executeCommand(String cmd, String[] args, CommandSender source, int clientId, int channelId, boolean run) {
         List<String> aList = Arrays.asList(args);
-        if(!(aList.size() == 1))
+        if (!(aList.size() == 1))
             aList.remove(0);
 
 
@@ -134,12 +144,13 @@ public class CommandManager {
     }
 
     private void parseRun(String cmd, String[] args, CommandSender source, Map<String, String> map) {
+
         List<CommandExecutor> executors = commandExecutors.getOrDefault(getCommandStringFromAlias(resolveCommand(cmd)), new ArrayList<>());
         CommandTemplate cmdTemp = commands.get(getCommandStringFromAlias(resolveCommand(cmd)));
 
-        for(CommandExecutor executor: executors) {
+        for (CommandExecutor executor : executors) {
             //To prevent a constant loop in the command
-            Thread thread = new Thread(() -> executor.run(source, new Command(cmdTemp, map), cmd, args),cmdTemp.getCommand() + "-" + commandThreads.size());
+            Thread thread = new Thread(() -> executor.run(source, new Command(cmdTemp, map), cmd, args), cmdTemp.getCommand() + "-" + commandThreads.size());
             commandThreads.add(thread);
             instance.debug(Language.COMMAND, thread.getName());
 
@@ -147,8 +158,8 @@ public class CommandManager {
         }
     }
 
-    public boolean checkCommand(String cmdString, int clientId,  CommandSender source) {
-        return checkCommand(new String[] {cmdString}, clientId,  source);
+    public boolean checkCommand(String cmdString, int clientId, CommandSender source) {
+        return checkCommand(new String[]{cmdString}, clientId, source);
     }
 
     public boolean checkCommand(String[] cmd, int clientId, CommandSender source) {
@@ -164,7 +175,7 @@ public class CommandManager {
         instance.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
 
         String str = getCommandStringFromAlias(resolveCommand(aList.get(0)));
-        if(str == null) {
+        if (str == null) {
             source.sendMessage(0, clientId, "Unknown Command: " + cmd[0]);
             source.sendMessage(0, clientId, "Please use help or ? for help");
             return false;
@@ -184,13 +195,13 @@ public class CommandManager {
 
     public String getCommandStringFromAlias(String alias) {
 
-        for(String key: commands.keySet()) {
-            if(alias.equalsIgnoreCase(key)) {
+        for (String key : commands.keySet()) {
+            if (alias.equalsIgnoreCase(key)) {
                 return key;
             }
             List<String> values = commands.get(key).getAliases();
-            for(String value: values) {
-                if(alias.equalsIgnoreCase(value)) {
+            for (String value : values) {
+                if (alias.equalsIgnoreCase(value)) {
                     return key;
                 }
             }
@@ -202,10 +213,11 @@ public class CommandManager {
     public String resolveCommand(String arg) {
         String[] str = arg.split(":+");
         String command = "";
-        if(str.length == 1) {
+
+        if (str.length == 1) {
             command = str[0];
-        } else if(str.length > 1) {
-            if(commands.containsKey(getCommandStringFromAlias(str[1]))) {
+        } else if (str.length > 1) {
+            if (commands.containsKey(getCommandStringFromAlias(str[1]))) {
                 if (commands.get(getCommandStringFromAlias(str[1])).getPlugin().equalsIgnoreCase(str[0])) {
                     command = str[1];
                 }

@@ -27,11 +27,13 @@ package com.github.blombler008.teamspeak3bot.commands;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 
 public class ConsoleCommandSender extends CommandSender {
+
     public ConsoleCommandSender(String s) {
         super(s);
     }
 
-    @Override public void sendMessage(int channel, int client, String message) {
+    @Override
+    public void sendMessage(int channel, int client, String message) {
         Teamspeak3Bot.getLogger().info(message);
     }
 }

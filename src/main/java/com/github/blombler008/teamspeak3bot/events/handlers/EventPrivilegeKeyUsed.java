@@ -34,15 +34,17 @@ import java.util.Map;
 
 public class EventPrivilegeKeyUsed extends Event {
 
-    public EventPrivilegeKeyUsed(Teamspeak3Bot instance,Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventPrivilegeKeyUsed(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
-    @Override public PrivilegeKeyUsedEvent getEvent() {
+    @Override
+    public PrivilegeKeyUsedEvent getEvent() {
         return (PrivilegeKeyUsedEvent) event;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return api;
     }
 

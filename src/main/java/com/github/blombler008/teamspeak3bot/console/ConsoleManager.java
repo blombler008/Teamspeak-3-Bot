@@ -46,9 +46,9 @@ public class ConsoleManager {
     public ConsoleManager(Teamspeak3Bot instance) {
         this.instance = instance;
 
-        if(System.getenv().containsKey("intellij")) {
+        if (System.getenv().containsKey("intellij")) {
             instance.info(Language.CONSOLE + "Intellij added on");
-            jline.TerminalFactory.registerFlavor( jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
+            jline.TerminalFactory.registerFlavor(jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
         }
 
         breakOut = false;
@@ -61,7 +61,7 @@ public class ConsoleManager {
 
                 while (!breakOut) {
                     line = reader.readLine();
-                    if(line != null) {
+                    if (line != null) {
                         instance.writeToFile(line);
                         instance.info("ADMIN INPUT > " + line);
 
@@ -86,8 +86,7 @@ public class ConsoleManager {
                         map.put("invokeruid", "superadmin");
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
-                        instance.getEventManager()
-                            .fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
+                        instance.getEventManager().fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
                     }
                 }
             } catch (NullPointerException | IOException e) {
@@ -108,8 +107,8 @@ public class ConsoleManager {
 
     public void setCompleters() {
         reader.addCompleter(CommandCompleter.getCompleter(instance));
-        //Readline.load(ReadlineLibrary.GnuReadline);
-        //Readline.setCompleter(new CommandCompleter());
+        // Readline.load(ReadlineLibrary.GnuReadline);
+        // Readline.setCompleter(new CommandCompleter());
     }
 
 }

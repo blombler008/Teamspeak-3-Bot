@@ -41,8 +41,7 @@ public class CommandReload extends CommandExecutor {
             source.getInstance().getPluginManager().reloadPlugins();
 
         } else {
-            if (sender.getUniqueIdentifier()
-                .equals(source.getInstance().getOwner().getUniqueIdentifier())) {
+            if (sender.getUniqueIdentifier().equals(source.getInstance().getOwner().getUniqueIdentifier())) {
                 source.getInstance().getPluginManager().reloadPlugins();
             } else {
                 source.sendMessage(0, id, Language.get("nopermissions"));

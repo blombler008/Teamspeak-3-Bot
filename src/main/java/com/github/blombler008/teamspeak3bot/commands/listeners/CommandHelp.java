@@ -31,34 +31,39 @@ public class CommandHelp extends CommandExecutor {
     public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
         int clId = cmd.getInvokerId();
         int chId = cmd.getChannelId();
-        source.sendMessage(chId, clId,
-            "-------------------------------- Help --------------------------------");
+
+        source.sendMessage(chId, clId, "-------------------------------- Help --------------------------------");
+
         for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
             resolveCommand(chId, clId, source, command);
         }
-        source.sendMessage(chId, clId,
-            "----------------------------------------------------------------------");
+
+        source.sendMessage(chId, clId, "----------------------------------------------------------------------");
     }
 
     private void resolveCommand(int chId, int clId, CommandSender source, String command) {
         StringBuilder stringBuilder = new StringBuilder(" - ");
+
         if (!(source instanceof ConsoleCommandSender)) {
             stringBuilder.append(source.getInstance().getCustomChar());
         }
-        CommandTemplate cmdTemp =
-            source.getInstance().getCommandManager().getCommands().get(command);
+
+        CommandTemplate cmdTemp = source.getInstance().getCommandManager().getCommands().get(command);
+
         stringBuilder.append(cmdTemp.getCommand());
         source.sendMessage(chId, clId, stringBuilder.toString());
 
         stringBuilder = new StringBuilder("    * ");
         stringBuilder.append("Description: ");
         StringBuilder desc = new StringBuilder(cmdTemp.getDescription());
+
         if (desc.length() > 45) {
             desc.substring(0, 45);
             desc.delete(45, desc.length());
             desc.append("...");
         }
         stringBuilder.append(desc);
+
         source.sendMessage(chId, clId, stringBuilder.toString());
     }
 }

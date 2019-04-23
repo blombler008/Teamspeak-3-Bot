@@ -40,7 +40,7 @@ public class PrintStreamLogger extends PrintStream {
     }
 
     public PrintStreamLogger(OutputStream out, boolean autoFlush, String encoding)
-        throws UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
         super(out, autoFlush, encoding);
     }
 
@@ -48,8 +48,7 @@ public class PrintStreamLogger extends PrintStream {
         super(fileName);
     }
 
-    public PrintStreamLogger(String fileName, String csn)
-        throws FileNotFoundException, UnsupportedEncodingException {
+    public PrintStreamLogger(String fileName, String csn) throws FileNotFoundException, UnsupportedEncodingException {
         super(fileName, csn);
     }
 
@@ -57,32 +56,36 @@ public class PrintStreamLogger extends PrintStream {
         super(file);
     }
 
-    public PrintStreamLogger(File file, String csn)
-        throws FileNotFoundException, UnsupportedEncodingException {
+    public PrintStreamLogger(File file, String csn) throws FileNotFoundException, UnsupportedEncodingException {
         super(file, csn);
     }
 
-    @Override public void flush() {
+    @Override
+    public void flush() {
         lg.flush();
         out.flush();
     }
 
-    @Override public void close() {
+    @Override
+    public void close() {
         lg.close();
         out.close();
     }
 
-    @Override public void write(int b) {
+    @Override
+    public void write(int b) {
         lg.write(b);
         out.write(b);
     }
 
-    @Override public void write(byte[] buf, int off, int len) {
+    @Override
+    public void write(byte[] buf, int off, int len) {
         lg.write(buf, off, len);
         out.write(buf, off, len);
     }
 
-    @Override public void write(byte[] b) throws IOException {
+    @Override
+    public void write(byte[] b) throws IOException {
         lg.write(b);
         out.write(b);
     }

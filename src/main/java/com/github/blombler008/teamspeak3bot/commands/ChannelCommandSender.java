@@ -37,7 +37,8 @@ public class ChannelCommandSender extends CommandSender {
         return channelId;
     }
 
-    @Override public void sendMessage(int channel, int client, String message) {
+    @Override
+    public void sendMessage(int channel, int client, String message) {
         if (Validator.channelExists(getInstance(), channel)) {
             getInstance().getApi().sendChannelMessage(channel, message);
         }

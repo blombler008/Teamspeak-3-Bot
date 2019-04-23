@@ -35,7 +35,7 @@ public class CommandTemplate {
     private final String plugin;
     private Teamspeak3Bot instance;
 
-    public CommandTemplate(Teamspeak3Bot instance,String [] aliases, String description, String command, String plugin) {
+    public CommandTemplate(Teamspeak3Bot instance, String[] aliases, String description, String command, String plugin) {
         this.command = command;
         this.aliases = aliases;
         this.description = description;

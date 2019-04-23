@@ -90,16 +90,15 @@ public class Teamspeak3Bot {
             consoleManager = new ConsoleManager(this);
 
             debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject
-                .escape(File.separator));
+                    .escape(File.separator));
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 debug(Language.MAIN,
-                    "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
+                        "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
             } catch (Exception ignore) {
                 debug(Language.MAIN, "Failed to load MySQL Driver!");
             }
             info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
-
 
 
             config = new File(workDir, "config.ini");
@@ -134,7 +133,6 @@ public class Teamspeak3Bot {
             throw new AssertionError("Config is null!");
         if ((Validator.notNull(properties)))
             throw new AssertionError("Bot Properties is null!");
-
 
 
         initializeProperties();
@@ -177,18 +175,18 @@ public class Teamspeak3Bot {
 
         CommandBuilderX x = new CommandBuilderX("gm", 1);
         x.add(new KeyValueParam("msg",
-            Language.MAIN + "I just joined the server but got not fully implemented!!"));
+                Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
         CommandTemplate helpTemplate =
-            new CommandTemplate(this, new String[] {"help", "?"}, "Shows a list of commands",
-                "help", "Teamspeak");
+                new CommandTemplate(this, new String[]{"help", "?"}, "Shows a list of commands",
+                        "help", "Teamspeak");
         CommandTemplate reloadTemplate =
-            new CommandTemplate(this, new String[] {"reload", "rl"}, "Reload all plugins", "reload",
-                "Teamspeak");
+                new CommandTemplate(this, new String[]{"reload", "rl"}, "Reload all plugins", "reload",
+                        "Teamspeak");
         CommandTemplate pluginsTemplate =
-            new CommandTemplate(this, new String[] {"plugins", "pl"}, "Shows a list of plugins",
-                "plugins", "TeamspeakT");
+                new CommandTemplate(this, new String[]{"plugins", "pl"}, "Shows a list of plugins",
+                        "plugins", "TeamspeakT");
 
         commandManager.registerNewCommand(helpTemplate).setExecutor(new CommandHelp());
         commandManager.registerNewCommand(reloadTemplate).setExecutor(new CommandReload());
@@ -213,7 +211,7 @@ public class Teamspeak3Bot {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
 
         logsDir =
-            new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
+                new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
         logsDir.mkdirs();
 
         String nameLogFile = "log.txt.log";
@@ -318,7 +316,7 @@ public class Teamspeak3Bot {
             wr.close();
 
             BufferedReader reader =
-                new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder builder = new StringBuilder();
             String line;
 

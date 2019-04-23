@@ -30,14 +30,17 @@ public abstract class JavaPlugin extends Plugin {
     }
 
 
-    @Override public void onEnable() {
+    @Override
+    public void onEnable() {
     }
 
-    @Override public void onDisable() {
+    @Override
+    public void onDisable() {
 
     }
 
-    @Override public void onLoad() {
+    @Override
+    public void onLoad() {
 
     }
 

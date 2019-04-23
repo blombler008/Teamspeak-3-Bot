@@ -32,7 +32,8 @@ public class ClientCommandSender extends CommandSender {
         super(s);
     }
 
-    @Override public void sendMessage(int channel, int client, String message) {
+    @Override
+    public void sendMessage(int channel, int client, String message) {
         if (Validator.clientExists(getInstance(), client)) {
             getInstance().getApi().sendPrivateMessage(client, message);
         }

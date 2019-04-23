@@ -43,20 +43,22 @@ public class ExampleCommand extends CommandExecutor {
      *              - commandLabel = "example"
      *              - args = {"hi", "there"}
      */
-    @Override public void run(CommandSender source, Command cmd, String commandLabel,
-        String[] args) {
+    @Override
+    public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+
         int clId = cmd.getInvokerId();
         int chId = cmd.getChannelId();
+
         if (source instanceof ConsoleCommandSender)
-            source.sendMessage(chId, clId,
-                "This happens when a Console messages the bot with the command!");
+            source.sendMessage(chId, clId, "This happens when a Console messages the bot with the command!");
+
         if (source instanceof ClientCommandSender)
             source.sendMessage(chId, clId, "This happens when a client entered a command the bot!");
+
         if (source instanceof ServerCommandSender)
-            source.sendMessage(chId, clId,
-                "This happens when a client entered a command in the public server chat!");
+            source.sendMessage(chId, clId, "This happens when a client entered a command in the public server chat!");
+
         if (source instanceof ChannelCommandSender)
-            source.sendMessage(chId, clId,
-                "This happens when a client entered a command in the channel chat!");
+            source.sendMessage(chId, clId, "This happens when a client entered a command in the channel chat!");
     }
 }

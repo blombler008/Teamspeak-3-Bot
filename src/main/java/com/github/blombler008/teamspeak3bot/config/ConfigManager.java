@@ -55,7 +55,7 @@ public class ConfigManager {
             }
         }
         throw new NullPointerException(
-            "DataFolder \"" + dataFolder.getName() + "\" is not available!");
+                "DataFolder \"" + dataFolder.getName() + "\" is not available!");
     }
 
     public static Map<File, Plugin> getDataFolders() {

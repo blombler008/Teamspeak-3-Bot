@@ -34,16 +34,17 @@ import java.util.Map;
 
 public class EventTextMessage extends Event {
 
-    public EventTextMessage(Teamspeak3Bot instance, Map<String, String> e, TS3Api api,
-        BaseEvent event) {
+    public EventTextMessage(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
-    @Override public TextMessageEvent getEvent() {
+    @Override
+    public TextMessageEvent getEvent() {
         return (TextMessageEvent) super.event;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return super.api;
     }
 }

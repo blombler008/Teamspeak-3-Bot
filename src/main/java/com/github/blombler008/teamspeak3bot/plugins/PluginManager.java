@@ -70,23 +70,23 @@ public class PluginManager {
 
             String name = (properties.containsKey("name") ? properties.getProperty("name") : null);
             String version =
-                (properties.containsKey("version") ? properties.getProperty("version") : null);
+                    (properties.containsKey("version") ? properties.getProperty("version") : null);
             String description = (properties.containsKey("description") ?
-                properties.getProperty("description") :
-                null);
+                    properties.getProperty("description") :
+                    null);
             String mainClass =
-                (properties.containsKey("main") ? properties.getProperty("main") : null);
+                    (properties.containsKey("main") ? properties.getProperty("main") : null);
             properties.remove("main");
 
             instance.debug(Language.PLUGIN,
-                "Properties of plugin \'" + name + "\' > " + properties.toString());
+                    "Properties of plugin \'" + name + "\' > " + properties.toString());
 
 
             if (!Validator.notNull(name) && !Validator.notNull(version) && !Validator
-                .notNull(description) && !Validator.notNull(mainClass)) {
+                    .notNull(description) && !Validator.notNull(mainClass)) {
 
                 PluginDescription pluginDescription =
-                    new PluginDescription(version, description, name);
+                        new PluginDescription(version, description, name);
 
                 URL[] urls = {new URL("jar:file:" + file.getAbsolutePath() + "!/")};
 
@@ -95,7 +95,7 @@ public class PluginManager {
                 URLClassLoader cl = URLClassLoader.newInstance(urls);
 
                 @SuppressWarnings("unchecked") Class<JavaPlugin> pluginClass =
-                    (Class<JavaPlugin>) cl.loadClass(mainClass);
+                        (Class<JavaPlugin>) cl.loadClass(mainClass);
 
                 //Constructor<JavaPlugin> constructor =
                 //    (Constructor<JavaPlugin>) pluginClass.getSuperclass()
@@ -110,13 +110,13 @@ public class PluginManager {
 
                 if (debug)
                     instance.debug(Language.PLUGIN,
-                        "Plugin \'" + name + "\' added > " + plugin.toString());
+                            "Plugin \'" + name + "\' added > " + plugin.toString());
                 pluginFileMap.put(plugin, file);
             }
 
         } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
             Teamspeak3Bot.getLogger()
-                .error(Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
+                    .error(Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
             e.printStackTrace();
             return false;
         }
@@ -201,11 +201,11 @@ public class PluginManager {
 
     public boolean reloadPlugin(JavaPlugin p, boolean debug) {
         Teamspeak3Bot.getLogger()
-            .info("--------------------------------------------------------------------");
+                .info("--------------------------------------------------------------------");
         if (debug)
             instance.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
         Teamspeak3Bot.getLogger()
-            .info("Reloading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
+                .info("Reloading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             disablePlugin(p);
             prepare(pluginFileMap.get(p), debug);
@@ -216,7 +216,7 @@ public class PluginManager {
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
-                .error("Error occurred while reloading > " + p.getClass().getSimpleName());
+                    .error("Error occurred while reloading > " + p.getClass().getSimpleName());
             e.printStackTrace();
         }
         return false;
@@ -226,7 +226,7 @@ public class PluginManager {
         if (debug)
             instance.debug(Language.PLUGIN, "Loading plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
-            .info("Loading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
+                .info("Loading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.onLoad();
             File dataF = (p.dataFolder = new File(pluginsDir, p.getName()));
@@ -237,7 +237,7 @@ public class PluginManager {
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
-                .error("Error occurred while loading > " + p.getClass().getSimpleName());
+                    .error("Error occurred while loading > " + p.getClass().getSimpleName());
             e.printStackTrace();
         }
         return false;
@@ -247,7 +247,7 @@ public class PluginManager {
         if (debug)
             instance.debug(Language.PLUGIN, "Enabling plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
-            .info("Enabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
+                .info("Enabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.setEnabled();
             if (debug)
@@ -255,7 +255,7 @@ public class PluginManager {
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
-                .error("Error occurred while enabling > " + p.getClass().getSimpleName());
+                    .error("Error occurred while enabling > " + p.getClass().getSimpleName());
             e.printStackTrace();
         }
         return false;
@@ -265,7 +265,7 @@ public class PluginManager {
         if (debug)
             instance.debug(Language.PLUGIN, "Disabling plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
-            .info("Disabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
+                .info("Disabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.setDisabled();
             if (debug)
@@ -273,13 +273,14 @@ public class PluginManager {
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
-                .error("Error occurred while disabling > " + p.getClass().getSimpleName());
+                    .error("Error occurred while disabling > " + p.getClass().getSimpleName());
             e.printStackTrace();
         }
         return false;
     }
 
-    @Override protected void finalize() throws Throwable {
+    @Override
+    protected void finalize() throws Throwable {
 
         disablePlugins();
 
@@ -295,7 +296,7 @@ public class PluginManager {
         new Thread(() -> {
             while (true) {
                 if (plugins.size() == pluginStates.size()
-                    && instance.getConsoleManager().getReader() != null && finished) {
+                        && instance.getConsoleManager().getReader() != null && finished) {
                     instance.info("Done! For help use \"help\" or \"?\".");
                     c.call();
                     break;

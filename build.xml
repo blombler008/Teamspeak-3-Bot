@@ -71,13 +71,10 @@
     <dirname property="module.teamspeak_bot.basedir" file="${ant.file}"/>
 
 
-    <property name="compiler.args.teamspeak_bot"
-              value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+    <property name="compiler.args.teamspeak_bot" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
 
-    <property name="teamspeak_bot.output.dir"
-              value="${module.teamspeak_bot.basedir}/out/production/Teamspeak_bot"/>
-    <property name="teamspeak_bot.testoutput.dir"
-              value="${module.teamspeak_bot.basedir}/out/test/Teamspeak_bot"/>
+    <property name="teamspeak_bot.output.dir" value="${module.teamspeak_bot.basedir}/out/production/Teamspeak_bot"/>
+    <property name="teamspeak_bot.testoutput.dir" value="${module.teamspeak_bot.basedir}/out/test/Teamspeak_bot"/>
 
     <path id="teamspeak_bot.module.bootclasspath">
         <!-- Paths to be included in compilation bootclasspath -->
@@ -120,16 +117,11 @@
     </path>
 
 
-    <target name="compile.module.teamspeak_bot"
-            depends="compile.module.teamspeak_bot.production,compile.module.teamspeak_bot.tests"
-            description="Compile module Teamspeak_bot"/>
+    <target name="compile.module.teamspeak_bot" depends="compile.module.teamspeak_bot.production,compile.module.teamspeak_bot.tests" description="Compile module Teamspeak_bot"/>
 
-    <target name="compile.module.teamspeak_bot.production"
-            description="Compile module Teamspeak_bot; production classes">
+    <target name="compile.module.teamspeak_bot.production" description="Compile module Teamspeak_bot; production classes">
         <mkdir dir="${teamspeak_bot.output.dir}"/>
-        <javac destdir="${teamspeak_bot.output.dir}" debug="${compiler.debug}"
-               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
-               fork="true">
+        <javac destdir="${teamspeak_bot.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
             <compilerarg line="${compiler.args.teamspeak_bot}"/>
             <bootclasspath refid="teamspeak_bot.module.bootclasspath"/>
             <classpath refid="teamspeak_bot.module.production.classpath"/>
@@ -149,9 +141,7 @@
         </copy>
     </target>
 
-    <target name="compile.module.teamspeak_bot.tests"
-            depends="compile.module.teamspeak_bot.production"
-            description="compile module Teamspeak_bot; test classes" unless="skip.tests"/>
+    <target name="compile.module.teamspeak_bot.tests" depends="compile.module.teamspeak_bot.production" description="compile module Teamspeak_bot; test classes" unless="skip.tests"/>
 
     <target name="clean.module.teamspeak_bot" description="cleanup module">
         <delete dir="${teamspeak_bot.output.dir}"/>
@@ -164,13 +154,10 @@
     <dirname property="module.simpleplugin-v1.basedir" file="${ant.file}"/>
 
 
-    <property name="compiler.args.simpleplugin-v1"
-              value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+    <property name="compiler.args.simpleplugin-v1" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
 
-    <property name="simpleplugin-v1.output.dir"
-              value="${module.simpleplugin-v1.basedir}/out/production/SimplePlugin-v1"/>
-    <property name="simpleplugin-v1.testoutput.dir"
-              value="${module.simpleplugin-v1.basedir}/out/test/SimplePlugin-v1"/>
+    <property name="simpleplugin-v1.output.dir" value="${module.simpleplugin-v1.basedir}/out/production/SimplePlugin-v1"/>
+    <property name="simpleplugin-v1.testoutput.dir" value="${module.simpleplugin-v1.basedir}/out/test/SimplePlugin-v1"/>
 
     <path id="simpleplugin-v1.module.bootclasspath">
         <!-- Paths to be included in compilation bootclasspath -->
@@ -218,16 +205,11 @@
     </path>
 
 
-    <target name="compile.module.simpleplugin-v1"
-            depends="compile.module.simpleplugin-v1.production,compile.module.simpleplugin-v1.tests"
-            description="Compile module SimplePlugin-v1"/>
+    <target name="compile.module.simpleplugin-v1" depends="compile.module.simpleplugin-v1.production,compile.module.simpleplugin-v1.tests" description="Compile module SimplePlugin-v1"/>
 
-    <target name="compile.module.simpleplugin-v1.production" depends="compile.module.teamspeak_bot"
-            description="Compile module SimplePlugin-v1; production classes">
+    <target name="compile.module.simpleplugin-v1.production" depends="compile.module.teamspeak_bot" description="Compile module SimplePlugin-v1; production classes">
         <mkdir dir="${simpleplugin-v1.output.dir}"/>
-        <javac destdir="${simpleplugin-v1.output.dir}" debug="${compiler.debug}"
-               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
-               fork="true">
+        <javac destdir="${simpleplugin-v1.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
             <compilerarg line="${compiler.args.simpleplugin-v1}"/>
             <bootclasspath refid="simpleplugin-v1.module.bootclasspath"/>
             <classpath refid="simpleplugin-v1.module.production.classpath"/>
@@ -243,9 +225,7 @@
         </copy>
     </target>
 
-    <target name="compile.module.simpleplugin-v1.tests"
-            depends="compile.module.simpleplugin-v1.production"
-            description="compile module SimplePlugin-v1; test classes" unless="skip.tests"/>
+    <target name="compile.module.simpleplugin-v1.tests" depends="compile.module.simpleplugin-v1.production" description="compile module SimplePlugin-v1; test classes" unless="skip.tests"/>
 
     <target name="clean.module.simpleplugin-v1" description="cleanup module">
         <delete dir="${simpleplugin-v1.output.dir}"/>
@@ -258,13 +238,10 @@
     <dirname property="module.simpleplugin-v2.basedir" file="${ant.file}"/>
 
 
-    <property name="compiler.args.simpleplugin-v2"
-              value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+    <property name="compiler.args.simpleplugin-v2" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
 
-    <property name="simpleplugin-v2.output.dir"
-              value="${module.simpleplugin-v2.basedir}/out/production/SimplePlugin-v2"/>
-    <property name="simpleplugin-v2.testoutput.dir"
-              value="${module.simpleplugin-v2.basedir}/out/test/SimplePlugin-v2"/>
+    <property name="simpleplugin-v2.output.dir" value="${module.simpleplugin-v2.basedir}/out/production/SimplePlugin-v2"/>
+    <property name="simpleplugin-v2.testoutput.dir" value="${module.simpleplugin-v2.basedir}/out/test/SimplePlugin-v2"/>
 
     <path id="simpleplugin-v2.module.bootclasspath">
         <!-- Paths to be included in compilation bootclasspath -->
@@ -312,16 +289,11 @@
     </path>
 
 
-    <target name="compile.module.simpleplugin-v2"
-            depends="compile.module.simpleplugin-v2.production,compile.module.simpleplugin-v2.tests"
-            description="Compile module SimplePlugin-v2"/>
+    <target name="compile.module.simpleplugin-v2" depends="compile.module.simpleplugin-v2.production,compile.module.simpleplugin-v2.tests" description="Compile module SimplePlugin-v2"/>
 
-    <target name="compile.module.simpleplugin-v2.production" depends="compile.module.teamspeak_bot"
-            description="Compile module SimplePlugin-v2; production classes">
+    <target name="compile.module.simpleplugin-v2.production" depends="compile.module.teamspeak_bot" description="Compile module SimplePlugin-v2; production classes">
         <mkdir dir="${simpleplugin-v2.output.dir}"/>
-        <javac destdir="${simpleplugin-v2.output.dir}" debug="${compiler.debug}"
-               nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
-               fork="true">
+        <javac destdir="${simpleplugin-v2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
             <compilerarg line="${compiler.args.simpleplugin-v2}"/>
             <bootclasspath refid="simpleplugin-v2.module.bootclasspath"/>
             <classpath refid="simpleplugin-v2.module.production.classpath"/>
@@ -337,9 +309,7 @@
         </copy>
     </target>
 
-    <target name="compile.module.simpleplugin-v2.tests"
-            depends="compile.module.simpleplugin-v2.production"
-            description="compile module SimplePlugin-v2; test classes" unless="skip.tests"/>
+    <target name="compile.module.simpleplugin-v2.tests" depends="compile.module.simpleplugin-v2.production" description="compile module SimplePlugin-v2; test classes" unless="skip.tests"/>
 
     <target name="clean.module.simpleplugin-v2" description="cleanup module">
         <delete dir="${simpleplugin-v2.output.dir}"/>
@@ -350,40 +320,30 @@
         <!-- Perform any build initialization in this target -->
     </target>
 
-    <target name="clean"
-            depends="clean.module.teamspeak_bot, clean.module.simpleplugin-v1, clean.module.simpleplugin-v2"
-            description="cleanup all"/>
+    <target name="clean" depends="clean.module.teamspeak_bot, clean.module.simpleplugin-v1, clean.module.simpleplugin-v2" description="cleanup all"/>
 
-    <target name="build.modules"
-            depends="init, clean, compile.module.teamspeak_bot, compile.module.simpleplugin-v1, compile.module.simpleplugin-v2"
-            description="build all modules"/>
+    <target name="build.modules" depends="init, clean, compile.module.teamspeak_bot, compile.module.simpleplugin-v1, compile.module.simpleplugin-v2" description="build all modules"/>
 
     <target name="init.artifacts">
         <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
         <property name="artifact.output.teamspeakbot" value="C:/Users/blomb/Desktop/ts3bot"/>
         <mkdir dir="${artifacts.temp.dir}"/>
-        <property name="temp.jar.path.TeamspeakBot.jar"
-                  value="${artifacts.temp.dir}/TeamspeakBot.jar"/>
+        <property name="temp.jar.path.TeamspeakBot.jar" value="${artifacts.temp.dir}/TeamspeakBot.jar"/>
     </target>
 
-    <target name="artifact.teamspeakbot" depends="init.artifacts, compile.module.teamspeak_bot"
-            description="Build &#39;TeamspeakBot&#39; artifact">
-        <property name="artifact.temp.output.teamspeakbot"
-                  value="${artifacts.temp.dir}/TeamspeakBot"/>
+    <target name="artifact.teamspeakbot" depends="init.artifacts, compile.module.teamspeak_bot" description="Build &#39;TeamspeakBot&#39; artifact">
+        <property name="artifact.temp.output.teamspeakbot" value="${artifacts.temp.dir}/TeamspeakBot"/>
         <mkdir dir="${artifact.temp.output.teamspeakbot}"/>
-        <jar destfile="${temp.jar.path.TeamspeakBot.jar}" duplicate="preserve"
-             filesetmanifest="mergewithoutmain">
+        <jar destfile="${temp.jar.path.TeamspeakBot.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
             <zipfileset dir="${teamspeak_bot.output.dir}"/>
             <zipfileset file="${basedir}/META-INF/MANIFEST.MF" prefix="META-INF"/>
             <zipfileset src="${basedir}/Apis/teamspeak3-api-1.2.0-with-dependencies.jar"/>
             <zipfileset dir="${basedir}/assets"/>
         </jar>
-        <copy file="${temp.jar.path.TeamspeakBot.jar}"
-              tofile="${artifact.temp.output.teamspeakbot}/TeamspeakBot.jar"/>
+        <copy file="${temp.jar.path.TeamspeakBot.jar}" tofile="${artifact.temp.output.teamspeakbot}/TeamspeakBot.jar"/>
     </target>
 
-    <target name="build.all.artifacts" depends="artifact.teamspeakbot"
-            description="Build all artifacts">
+    <target name="build.all.artifacts" depends="artifact.teamspeakbot" description="Build all artifacts">
         <mkdir dir="${artifact.output.teamspeakbot}"/>
         <copy todir="${artifact.output.teamspeakbot}">
             <fileset dir="${artifact.temp.output.teamspeakbot}"/>

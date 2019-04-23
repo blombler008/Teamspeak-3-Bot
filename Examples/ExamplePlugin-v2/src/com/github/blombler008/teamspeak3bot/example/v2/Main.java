@@ -29,11 +29,13 @@ import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    @Override public void onDisable() {
+    @Override
+    public void onDisable() {
         getInstance().info("On disable Example");
     }
 
-    @Override public void onEnable() {
+    @Override
+    public void onEnable() {
         getInstance().info("Plugin Enabled: " + getName() + ", " + getVersion());
 
         // Adding a event which executes when the event happens
@@ -44,7 +46,8 @@ public class Main extends JavaPlugin {
         getInstance().getCommandManager().registerNewCommand(exampleTemplate).setExecutor(new ExampleCommand());
     }
 
-    @Override public void onLoad() {
+    @Override
+    public void onLoad() {
         getInstance().info("Plugin description: " + getPluginDescription().getDescription());
     }
 }

@@ -25,6 +25,5 @@ package com.github.blombler008.teamspeak3bot.commands;/*
 
 public abstract class CommandExecutor {
 
-    public abstract void run(final CommandSender source, final Command cmd,
-        final String commandLabel, final String[] args);
+    public abstract void run(final CommandSender source, final Command cmd, final String commandLabel, final String[] args);
 }

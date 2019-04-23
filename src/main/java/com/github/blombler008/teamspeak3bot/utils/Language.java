@@ -44,7 +44,9 @@ public class Language {
     private String languageProperty;
     private Teamspeak3Bot instance;
 
-    private Language() {}
+    private Language() {
+    }
+
     private Language(Teamspeak3Bot instance) {
         this.instance = instance;
     }
@@ -82,7 +84,7 @@ public class Language {
             try {
 
                 this.properties.load(new InputStreamReader(
-                    ClassLoader.getSystemResource("lang/" + fileName).openStream()));
+                        ClassLoader.getSystemResource("lang/" + fileName).openStream()));
                 URL uri = ClassLoader.getSystemResource("lang/" + fileName);
                 Teamspeak3Bot.getInstance().debug(LANGUAGE, "URL of language file: " + uri);
 

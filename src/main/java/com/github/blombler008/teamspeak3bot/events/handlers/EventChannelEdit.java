@@ -34,16 +34,17 @@ import java.util.Map;
 
 public class EventChannelEdit extends Event {
 
-    public EventChannelEdit(Teamspeak3Bot instance, Map<String, String> e, TS3Api api,
-        BaseEvent event) {
+    public EventChannelEdit(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
-    @Override public ChannelEditedEvent getEvent() {
+    @Override
+    public ChannelEditedEvent getEvent() {
         return (ChannelEditedEvent) event;
     }
 
-    @Override public TS3Api getApi() {
+    @Override
+    public TS3Api getApi() {
         return api;
     }
 }

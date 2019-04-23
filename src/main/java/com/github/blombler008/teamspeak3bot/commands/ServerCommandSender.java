@@ -30,7 +30,8 @@ public class ServerCommandSender extends CommandSender {
         super(s);
     }
 
-    @Override public void sendMessage(int channel, int client, String message) {
+    @Override
+    public void sendMessage(int channel, int client, String message) {
         getInstance().getApi().sendServerMessage(message);
     }
 }
