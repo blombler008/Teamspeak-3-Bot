@@ -54,11 +54,11 @@ public class Validator {
         return true;
     }
 
-    public static boolean clientExists(int client) {
-        return Teamspeak3Bot.getClients().containsKey(client);
+    public static boolean clientExists(Teamspeak3Bot instance, int client) {
+        return instance.getClients().containsKey(client);
     }
 
-    public static boolean channelExists(int channel) {
-        return Teamspeak3Bot.getChannels().containsKey(channel);
+    public static boolean channelExists(Teamspeak3Bot instance, int channel) {
+        return instance.getChannels().containsKey(channel);
     }
 }

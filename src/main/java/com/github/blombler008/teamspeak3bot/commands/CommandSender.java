@@ -24,19 +24,30 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.theholywaffle.teamspeak3.api.TextMessageTargetMode;
 
 public abstract class CommandSender {
 
     public static final CommandSender CONSOLE   = new ConsoleCommandSender  (  "CONSOLE");
-    public static final CommandSender CLIENT    = new ClientCommandSender   (  "CLIENT" );
+    public static final CommandSender CLIENT    = new ClientCommandSender   (  "CLIENT");
     public static final CommandSender CHANNEL   = new ChannelCommandSender  (  "CHANNEL");
-    public static final CommandSender SERVER    = new ServerCommandSender   (  "SERVER" );
+    public static final CommandSender SERVER    = new ServerCommandSender   (  "SERVER");
 
     private String lowerString;
+    private static Teamspeak3Bot instance;
+
+
+    public static void setInstance(Teamspeak3Bot instance) {
+        CommandSender.instance = instance;
+    }
 
     public CommandSender(String s) {
         lowerString = s;
+    }
+
+    public Teamspeak3Bot getInstance() {
+        return instance;
     }
 
     public static CommandSender getSender(TextMessageTargetMode targetMode) {

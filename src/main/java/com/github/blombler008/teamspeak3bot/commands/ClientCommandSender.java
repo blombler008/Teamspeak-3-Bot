@@ -24,7 +24,6 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 public class ClientCommandSender extends CommandSender {
@@ -34,8 +33,8 @@ public class ClientCommandSender extends CommandSender {
     }
 
     @Override public void sendMessage(int channel, int client, String message) {
-        if (Validator.clientExists(client)) {
-            Teamspeak3Bot.getApi().sendPrivateMessage(client, message);
+        if (Validator.clientExists(getInstance(), client)) {
+            getInstance().getApi().sendPrivateMessage(client, message);
         }
     }
 }

@@ -24,22 +24,19 @@
 
 package com.github.blombler008.teamspeak3bot.example.v1;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
     @Override public void onDisable() {
-        Teamspeak3Bot.getLogger().info("On disable Example");
+        getInstance().info("On disable Example");
     }
 
     @Override public void onEnable() {
-        Teamspeak3Bot.getLogger().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
+        getInstance().info("Plugin Enabled: " + getName() + ", " + getVersion());
     }
 
     @Override public void onLoad() {
-        Teamspeak3Bot.getLogger()
-            .info("Plugin description: " + getPluginDescription().getDescription());
+        getInstance().info("Plugin description: " + getPluginDescription().getDescription());
     }
 }

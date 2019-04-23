@@ -25,6 +25,8 @@
 package com.github.blombler008.teamspeak3bot;
 
 import com.github.blombler008.teamspeak3bot.commands.CommandManager;
+import com.github.blombler008.teamspeak3bot.commands.CommandSender;
+import com.github.blombler008.teamspeak3bot.commands.CommandTemplate;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandHelp;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandPlugins;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandReload;
@@ -55,39 +57,49 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 public class Teamspeak3Bot {
 
-    private static boolean debuggerEnabled = false;
-    private static char customChar;
-
-    private static Bot bot;
-    private static ClientInfo owner;
-    private static ConsoleManager consoleManager;
-    private static EventManager eventManager;
     private static File workDir;
     private static File logsDir;
     private static File logFile;
-    private static File eventLogFile; // TODO: add implementation : Used Later
     private static File config;
     private static Logger logger;
-    private static Properties properties;
-    private static PluginManager pluginManager;
     private static PrintStreamLogger out;
-    private static ServerQueryInfo botClient;
     private static Teamspeak3Bot instance;
 
-    static Map<Integer, ChannelInfo> channels = new HashMap<>();
-    static Map<Integer, ClientInfo> clients = new HashMap<>();
+    private boolean debuggerEnabled = false;
+    private char customChar;
+
+    private Bot bot;
+    private ClientInfo owner;
+    private ConsoleManager consoleManager;
+    private EventManager eventManager;
+    private Properties properties;
+    private PluginManager pluginManager;
+    private ServerQueryInfo botClient;
+    private Map<Integer, ChannelInfo> channels = new HashMap<>();
+    private Map<Integer, ClientInfo> clients = new HashMap<>();
+    private CommandManager commandManager;
 
     private Teamspeak3Bot(String[] args) {
 
         if (instance == null) {
-            String strWorkDir = getWorkDirectory(args);
-            workDir = new File(strWorkDir);
-            getLogger().info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
-            workDir.mkdirs();
+
+            enableDebugger(args);
+            consoleManager = new ConsoleManager(this);
+
+            debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                debug(Language.MAIN, "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
+            } catch (Exception ignore) {
+                debug(Language.MAIN, "Failed to load MySQL Driver!");
+            }
+            ;
+            info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
+
+
 
             config = new File(workDir, "config.ini");
             try {
@@ -99,7 +111,7 @@ public class Teamspeak3Bot {
                 e.printStackTrace();
 
             }
-            getLogger().info("Config : \"" + config.getAbsolutePath() + "\"");
+            info("Config : \"" + config.getAbsolutePath() + "\"");
 
             try {
                 properties = new Properties();
@@ -111,6 +123,7 @@ public class Teamspeak3Bot {
             }
 
             setInstance(this);
+
         } else {
             config = null;
             properties = null;
@@ -121,58 +134,19 @@ public class Teamspeak3Bot {
         if ((Validator.notNull(properties)))
             throw new AssertionError("Bot Properties is null!");
 
-    }
 
-    public static void main(String[] args) {
-        workDir = new File(getWorkDirectory(args));
-        workDir.mkdirs();
 
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
-
-        logsDir = new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
-        logsDir.mkdirs();
-
-        String nameLogFile = "log.txt.log";
-        String nameEventLogFile = "event.txt.log";
-
-        out = new PrintStreamLogger(System.out);
-        logFile = new File(logsDir, nameLogFile);
-        eventLogFile = new File(logsDir, nameLogFile);
-        try {
-            logFile.createNewFile();
-            out.lg = new PrintStream(logFile);
-            out.out = System.out;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.setOut(out);
-        logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
-        System.out.println("Initialised Console!");
-
-        consoleManager = new ConsoleManager();
-
-        enableDebugger(args);
-
-        debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            debug(Language.MAIN, "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
-        } catch (Exception ignore) {
-            debug(Language.MAIN, "Failed to load MySQL Driver!");
-        }
-
-        Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
-        ts3bot.initializeProperties();
-        if (ts3bot.prepare())
+        initializeProperties();
+        if (prepare()) {
             debug(Language.MAIN, "Bot is prepared to login");
-        else
+        } else {
             return;
-        if (ts3bot.connect())
+        }
+        if (connect()) {
             debug(Language.MAIN, "Bot connected successful");
-        else
+        } else {
             return;
+        }
 
         owner = getApi().getClientByUId(properties.getProperty("owner"));
         botClient = getApi().whoAmI();
@@ -193,29 +167,68 @@ public class Teamspeak3Bot {
         debug(Language.MAIN, "Channels > " + channels.size());
         debug(Language.MAIN, "Online Clients > " + clients.size());
 
-        CommandManager commandManager = new CommandManager(getApi(), customChar);
+        commandManager = new CommandManager(getApi(), customChar, this);
 
-        eventManager = new EventManager(bot, getApi());
+        CommandSender.setInstance(this);
+
+        eventManager = new EventManager(bot, getApi(), this);
         eventManager.registerEvents();
 
         CommandBuilderX x = new CommandBuilderX("gm", 1);
         x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
-        CommandManager.registerNewCommand("Teamspeak3Bot", "help", new String[]{"help", "?"}, new CommandHelp());
-        CommandManager.registerNewCommand("Teamspeak3Bot", "reload",  new String[]{"reload", "rl"}, new CommandReload());
-        CommandManager.registerNewCommand("Teamspeak3Bot", "plugins",  new String[]{"plugins", "p"}, new CommandPlugins());
-        EventManager.addEventToProcessList(new EventCommandFired());
-        pluginManager = new PluginManager(workDir);
+        CommandTemplate helpTemplate = new CommandTemplate(this ,new String[]{"help", "?"}, "Shows the help list", "help", "Teamspeak");
+        CommandTemplate reloadTemplate = new CommandTemplate(this ,new String[]{"reload", "rl"}, "Reload all plugins", "reload", "Teamspeak");
+        CommandTemplate pluginsTemplate = new CommandTemplate(this ,new String[]{"plugins", "pl"}, "Shows a list of enabled plugins", "plugins", "TeamspeakT");
+
+        commandManager.registerNewCommand(helpTemplate).setExecutor(new CommandHelp());
+        commandManager.registerNewCommand(reloadTemplate).setExecutor(new CommandReload());
+        commandManager.registerNewCommand(pluginsTemplate).setExecutor(new CommandPlugins());
+
+        eventManager.addEventToProcessList(new EventCommandFired());
+        pluginManager = new PluginManager(workDir, this);
         pluginManager.prepare(true);
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
         pluginManager.isFinished(consoleManager::setCompleters);
-        // TS3QueryX.doCommandAsync(bot.getQuery(), cmd);
+
     }
 
-    public static void debug(String l, String s) {
-        if (Teamspeak3Bot.debuggerEnabled)
+    public static void main(String[] args) {
+        workDir = new File(getWorkDirectory(args));
+        if (workDir.mkdirs()) {
+            System.out.println("The new work directory has been created!");
+        }
+
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
+
+        logsDir = new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
+        logsDir.mkdirs();
+
+        String nameLogFile = "log.txt.log";
+
+        out = new PrintStreamLogger(System.out);
+        logFile = new File(logsDir, nameLogFile);
+        try {
+            logFile.createNewFile();
+            out.lg = new PrintStream(logFile);
+            out.out = System.out;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.setOut(out);
+        logger = LoggerFactory.getLogger(Teamspeak3Bot.class);
+        System.out.println("Initialised Console!");
+
+        Teamspeak3Bot ts3bot = new Teamspeak3Bot(args);
+
+    }
+
+    public void debug(String l, String s) {
+        if (debuggerEnabled)
             getLogger().debug(l + s);
     }
 
@@ -229,7 +242,7 @@ public class Teamspeak3Bot {
 
 
 
-    public static void uploadErrorLog() {
+    public void uploadErrorLog() {
         try {
             StringBuilder content = new StringBuilder();
             BufferedReader logReader = new BufferedReader(new FileReader(logFile));
@@ -278,7 +291,7 @@ public class Teamspeak3Bot {
             String pageResponse = new String(builder);
 
             if (pageResponse.startsWith("http"))
-                getLogger().info(Language.MAIN + "Pastebin link >> \"" + pageResponse + "\"");
+                info(Language.MAIN + "Pastebin link >> \"" + pageResponse + "\"");
             else
                 getLogger().error(Language.MAIN + "Pastebin upload failed!");
 
@@ -286,39 +299,39 @@ public class Teamspeak3Bot {
         }
     }
 
-    public static ServerQueryInfo getClient() {
+    public ServerQueryInfo getClient() {
         return botClient;
     }
 
-    public static ClientInfo getClient(int client) {
+    public ClientInfo getClient(int client) {
         return getClients().getOrDefault(client, null);
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         consoleManager.getThread().interrupt();
         bot.getApi().logout();
         System.exit(1);
     }
 
-    public static Map<Integer, ClientInfo> getClients() {
+    public Map<Integer, ClientInfo> getClients() {
         return new HashMap<>(clients);
     }
 
-    public static Map<Integer, ChannelInfo> getChannels() {
+    public Map<Integer, ChannelInfo> getChannels() {
         return new HashMap<>(channels);
     }
 
-    public static ClientInfo getOwner() {
+    public ClientInfo getOwner() {
         return owner;
     }
 
-    public static PluginManager getPluginManager() {
+    public PluginManager getPluginManager() {
         return pluginManager;
     }
 
-    private static void enableDebugger(String[] args) {
-        Teamspeak3Bot.debuggerEnabled = StringUtils.hasKey(args, "debug");
-        if (Teamspeak3Bot.debuggerEnabled)
+    private void enableDebugger(String[] args) {
+        debuggerEnabled = StringUtils.hasKey(args, "debug");
+        if (debuggerEnabled)
             getLogger().info(Language.MAIN + "Debugger has been enabled!");
     }
 
@@ -349,15 +362,15 @@ public class Teamspeak3Bot {
         Teamspeak3Bot.instance = instance;
     }
 
-    public static Bot getBot() {
+    public Bot getBot() {
         return bot;
     }
 
-    public static char getCustomChar() {
+    public char getCustomChar() {
         return customChar;
     }
 
-    public static TS3Api getApi() {
+    public TS3Api getApi() {
         return getBot().getApi();
     }
 
@@ -365,23 +378,23 @@ public class Teamspeak3Bot {
         return logFile;
     }
 
-    public static void writeToFile(String line) {
+    public void writeToFile(String line) {
         out.writeSeparate(line + System.lineSeparator(), false);
     }
 
-    public static EventManager getEventManager() {
+    public EventManager getEventManager() {
         return eventManager;
     }
 
-    public static void info(String str) {
+    public void info(String str) {
         getLogger().info(str);
     }
 
     public static boolean getDebugged() {
-        return Teamspeak3Bot.debuggerEnabled;
+        return instance.debuggerEnabled;
     }
 
-    public static ConsoleManager getConsoleManager() {
+    public ConsoleManager getConsoleManager() {
         return consoleManager;
     }
 
@@ -405,20 +418,18 @@ public class Teamspeak3Bot {
             String channel = properties.getProperty("channel");
             // Languages lang = Language.getNew(properties.getProperty("lang"));
             // languages getting added later //
-            Languages lang = Language.getNew("english");
+            Languages lang = Language.getNew("english", this);
             debug(Language.LANGUAGE, lang.getProperties().toString());
 
             customChar = properties.getProperty("prefix").charAt(0);
 
-            bot = new Bot(host, port, username, password, nickname, channel);
+            bot = new Bot(this, host, port, username, password, nickname, channel);
             debug(Language.MAIN, "Properties initialized");
         } catch (IOException ignore) {
         }
     }
 
     public void saveProperties(Properties properties) {
-
-        Set<String> list = properties.stringPropertyNames();
 
         if (!properties.containsKey("host"))
             properties.setProperty("host", "127.0.0.1");
@@ -450,10 +461,12 @@ public class Teamspeak3Bot {
 
         try {
             String comment = "Configuration File for the Teamspeak 3 bot";
-            //noinspection deprecation
-            properties.save(new FileOutputStream(config), comment);
-        } catch (FileNotFoundException ignore) {
+            properties.store(new FileOutputStream(config), comment);
+        } catch (IOException ignore) {
         }
     }
 
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
 }

@@ -27,6 +27,7 @@ package com.github.blombler008.teamspeak3bot.events;
 import com.github.blombler008.teamspeak3bot.Bot;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
+import com.github.blombler008.teamspeak3bot.events.annotation.EventListener;
 import com.github.blombler008.teamspeak3bot.events.handlers.*;
 import com.github.blombler008.teamspeak3bot.utils.Language;
 import com.github.theholywaffle.teamspeak3.TS3Api;
@@ -39,20 +40,22 @@ import java.util.*;
 
 
 public class EventManager {
-    private static Map<EventType, List<EventPoint>> events = new HashMap<>();
+    private Map<EventType, List<EventPoint>> events = new HashMap<>();
     private Bot bot;
     private TS3Api api;
+    private Teamspeak3Bot instance;
 
-    public EventManager(Bot bot, TS3Api api) {
+    public EventManager(Bot bot, TS3Api api, Teamspeak3Bot instance) {
         this.bot = bot;
         this.api = api;
+        this.instance = instance;
     }
 
     @SuppressWarnings(value = {"unchecked", "unused"})
-    public static void addEventToProcessList(final Listener e) {
-        Teamspeak3Bot.debug(Language.EVENT
+    public void addEventToProcessList(final Listener e) {
+        instance.debug(Language.EVENT
             ,"-------------------------------addEventToProcessList--------------------------------");
-        Teamspeak3Bot.debug(Language.EVENT, "Trying adding class: " + e.getClass().getName());
+        instance.debug(Language.EVENT, "Trying adding class: " + e.getClass().getName());
 
         Class<Listener> objClass = (Class<Listener>) e.getClass();
 
@@ -62,17 +65,17 @@ public class EventManager {
             boolean isAccessible = method.isAccessible();
             method.setAccessible(true);
 
-            Teamspeak3Bot.debug(Language.EVENT, "Method: \"" + method.getName() + "\"");
-            Teamspeak3Bot.debug(Language.EVENT, "- Declared Annotations: " + Arrays
+            instance.debug(Language.EVENT, "Method: \"" + method.getName() + "\"");
+            instance.debug(Language.EVENT, "- Declared Annotations: " + Arrays
                 .toString(method.getAnnotations()));
-            Teamspeak3Bot.debug(
+            instance.debug(
                 Language.EVENT, "- Declared Parameters: " + Arrays.toString(method.getParameters()));
 
             if (method.isAnnotationPresent(EventListener.class) && method.getParameterCount() == 1) {
                 EventListener evL = method.getAnnotation(EventListener.class);
                 Parameter parm = method.getParameters()[0];
 
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "- Parameter Class: " + parm.getType().getName());
 
                 if (parm.getType().getGenericSuperclass().getTypeName()
@@ -109,15 +112,15 @@ public class EventManager {
                         eventPoints.add(count, eventPoint);
                     }
                     events.put(eventPoint.eventType, eventPoints);
-                    Teamspeak3Bot.debug(Language.EVENT, "{=} Added to the Event Listener!");
-                    Teamspeak3Bot.debug(Language.EVENT, "{=} Method: " + eventPoint.method);
-                    Teamspeak3Bot.debug(Language.EVENT, "{=} Class: " + eventPoint.methodClass.getSimpleName());
-                    Teamspeak3Bot.debug(Language.EVENT, "{=} Event Type: " + eventPoint.eventType);
+                    instance.debug(Language.EVENT, "{=} Added to the Event Listener!");
+                    instance.debug(Language.EVENT, "{=} Method: " + eventPoint.method);
+                    instance.debug(Language.EVENT, "{=} Class: " + eventPoint.methodClass.getSimpleName());
+                    instance.debug(Language.EVENT, "{=} Event Type: " + eventPoint.eventType);
                 }
             }
             method.setAccessible(isAccessible);
         }
-        Teamspeak3Bot.debug(Language.EVENT,
+        instance.debug(Language.EVENT,
             "------------------------------------------------------------------------------------");
     }
 
@@ -132,78 +135,79 @@ public class EventManager {
                     int invokerId = e.getInvokerId();
                     Map<String, String> map = new HashMap<>(e.getMap());
                     map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
+                    map.put("channelid", instance.getClient(e.getInvokerId()).getChannelId() + "");
                     map.put("command", e.getMessage());
-                    Teamspeak3Bot.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
+                    instance.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
                     fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
                     return;
                 }
-                Teamspeak3Bot.debug(Language.EVENT, "TextMessageEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "TextMessageEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_TEXT_MESSAGE, e.getMap(), e);
             }
 
             @Override public void onClientJoin(ClientJoinEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT, "ClientJoinEvent > " + e.getMap().toString());
-                Teamspeak3Bot.getClients().put(e.getClientId(), api.getClientInfo(e.getClientId()));
+                instance.debug(Language.EVENT, "ClientJoinEvent > " + e.getMap().toString());
+                instance.getClients().put(e.getClientId(), api.getClientInfo(e.getClientId()));
                 fireEvent(EventType.EVENT_CLIENT_JOIN, e.getMap(), e);
             }
 
             @Override public void onClientLeave(ClientLeaveEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT, "ClientLeaveEvent > " + e.getMap().toString());
-                Teamspeak3Bot.getClients().remove(e.getClientId());
+                instance.debug(Language.EVENT, "ClientLeaveEvent > " + e.getMap().toString());
+                instance.getClients().remove(e.getClientId());
                 fireEvent(EventType.EVENT_CLIENT_LEAVE, e.getMap(), e);
             }
 
             @Override public void onServerEdit(ServerEditedEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "ServerEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_SERVER_EDIT, e.getMap(), e);
             }
 
             @Override public void onChannelEdit(ChannelEditedEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "ChannelEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_EDIT, e.getMap(), e);
             }
 
             @Override public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.EVENT, "ChannelDescriptionEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_DESCRIPTION_CHANGED, e.getMap(), e);
             }
 
             @Override public void onClientMoved(ClientMovedEvent e) {
-                Teamspeak3Bot.debug(Language.EVENT, "ClientMovedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ClientMovedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CLIENT_MOVED, e.getMap(), e);
             }
 
             @Override public void onChannelCreate(ChannelCreateEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "ChannelCreateEvent > " + e.getMap().toString());
-                Teamspeak3Bot.getChannels().put(e.getChannelId(), api.getChannelInfo(e.getChannelId()));
+                instance.getChannels().put(e.getChannelId(), api.getChannelInfo(e.getChannelId()));
                 fireEvent(EventType.EVENT_CHANNEL_CREATE, e.getMap(), e);
             }
 
             @Override public void onChannelDeleted(ChannelDeletedEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "ChannelDeletedEvent > " + e.getMap().toString());
-                Teamspeak3Bot.getChannels().remove(e.getChannelId());
+                instance.getChannels().remove(e.getChannelId());
                 fireEvent(EventType.EVENT_CHANNEL_DELETED, e.getMap(), e);
             }
 
             @Override public void onChannelMoved(ChannelMovedEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "ChannelMovedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_MOVED, e.getMap(), e);
             }
 
             @Override public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.EVENT, "ChannelPasswordChangedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_PASSWORD_CHANGED, e.getMap(),e);
             }
 
             @Override public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e) {
-                Teamspeak3Bot
+                instance
                     .debug(Language.EVENT, "PrivilegeKeyUsedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_PRIVILEGE_KEY_USED, e.getMap(),e);
             }
@@ -226,52 +230,52 @@ public class EventManager {
                 Method method = eventPoint.method;
 
                 Class<Listener> ev = eventPoint.methodClass;
-                Teamspeak3Bot.debug(Language.EVENT, "Methods: " + method);
-                Teamspeak3Bot.debug(Language.EVENT, "Class: " + ev.getSimpleName());
-                Teamspeak3Bot.debug(Language.EVENT, "Event Type: " + type);
-                Teamspeak3Bot.debug(Language.EVENT, "Event Map: " + map);
-                Teamspeak3Bot.debug(Language.EVENT, "Event Priority: " + method.getAnnotation(EventListener.class).priority());
-                Teamspeak3Bot.debug(Language.EVENT, "executing...");
+                instance.debug(Language.EVENT, "Methods: " + method);
+                instance.debug(Language.EVENT, "Class: " + ev.getSimpleName());
+                instance.debug(Language.EVENT, "Event Type: " + type);
+                instance.debug(Language.EVENT, "Event Map: " + map);
+                instance.debug(Language.EVENT, "Event Priority: " + method.getAnnotation(EventListener.class).priority());
+                instance.debug(Language.EVENT, "executing...");
 
                 switch (type) {
                     case EVENT_CHANNEL_CREATE:
-                        method.invoke(ev.newInstance(), new EventChannelCreate(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelCreate(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_DELETED:
-                        method.invoke(ev.newInstance(), new EventChannelDeleted(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelDeleted(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_DESCRIPTION_CHANGED:
-                        method.invoke(ev.newInstance(), new EventChannelDescriptionChanged(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelDescriptionChanged(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_EDIT:
-                        method.invoke(ev.newInstance(), new EventChannelEdit(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelEdit(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_MOVED:
-                        method.invoke(ev.newInstance(), new EventChannelMoved(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelMoved(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_PASSWORD_CHANGED:
-                        method.invoke(ev.newInstance(), new EventChannelPasswordChanged(map, api, event));
+                        method.invoke(ev.newInstance(), new EventChannelPasswordChanged(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_JOIN:
-                        method.invoke(ev.newInstance(), new EventClientJoin(map, api, event));
+                        method.invoke(ev.newInstance(), new EventClientJoin(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_LEAVE:
-                        method.invoke(ev.newInstance(), new EventClientLeave(map, api, event));
+                        method.invoke(ev.newInstance(), new EventClientLeave(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_MOVED:
-                        method.invoke(ev.newInstance(), new EventClientMoved(map, api, event));
+                        method.invoke(ev.newInstance(), new EventClientMoved(instance, map, api, event));
                         break;
                     case EVENT_PRIVILEGE_KEY_USED:
-                        method.invoke(ev.newInstance(), new EventPrivilegeKeyUsed(map, api, event));
+                        method.invoke(ev.newInstance(), new EventPrivilegeKeyUsed(instance, map, api, event));
                         break;
                     case EVENT_SERVER_EDIT:
-                        method.invoke(ev.newInstance(), new EventServerEdit(map, api, event));
+                        method.invoke(ev.newInstance(), new EventServerEdit(instance, map, api, event));
                         break;
                     case EVENT_TEXT_MESSAGE:
-                        method.invoke(ev.newInstance(), new EventTextMessage(map, api, event));
+                        method.invoke(ev.newInstance(), new EventTextMessage(instance, map, api, event));
                         break;
                     case EVENT_COMMAND_PRE_PROCESS:
-                        method.invoke(ev.newInstance(), new EventCommandPreProcess(map, api, event));
+                        method.invoke(ev.newInstance(), new EventCommandPreProcess(instance, map, api, event));
                         break;
                 }
             }

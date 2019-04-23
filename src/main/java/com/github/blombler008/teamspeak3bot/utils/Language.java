@@ -42,14 +42,17 @@ public class Language {
     public static final String BOT = "[ == Bot] > ";
     private static Languages currentLanguage;
     private String languageProperty;
+    private Teamspeak3Bot instance;
 
-    private Language() {
+    private Language() {}
+    private Language(Teamspeak3Bot instance) {
+        this.instance = instance;
     }
 
-    public static Languages getNew(String lang) {
+    public static Languages getNew(String lang, Teamspeak3Bot instance) {
         if (Validator.notNull(currentLanguage)) {
 
-            Language language = new Language();
+            Language language = new Language(instance);
             language.languageProperty = lang;
             Languages l = Languages.fromName(lang);
             currentLanguage = l != null ? l : Languages.ENGLISH;
@@ -81,9 +84,9 @@ public class Language {
                 this.properties.load(new InputStreamReader(
                     ClassLoader.getSystemResource("lang/" + fileName).openStream()));
                 URL uri = ClassLoader.getSystemResource("lang/" + fileName);
-                Teamspeak3Bot.debug(LANGUAGE, "URL of language file: " + uri);
+                Teamspeak3Bot.getInstance().debug(LANGUAGE, "URL of language file: " + uri);
 
-                Teamspeak3Bot.getLogger().info(LANGUAGE + "loaded properties: " + propertyName);
+                Teamspeak3Bot.getInstance().info(LANGUAGE + "loaded properties: " + propertyName);
 
             } catch (IOException e) {
                 e.printStackTrace();

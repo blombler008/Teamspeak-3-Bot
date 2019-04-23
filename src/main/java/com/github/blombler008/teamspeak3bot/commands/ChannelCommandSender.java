@@ -24,18 +24,26 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 public class ChannelCommandSender extends CommandSender {
+    private int channelId;
+    
+    public int getChannel(){
+        return channelId;
+    }
 
     public ChannelCommandSender(String s) {
         super(s);
     }
 
     @Override public void sendMessage(int channel, int client, String message) {
-        if (Validator.channelExists(channel)) {
-            Teamspeak3Bot.getApi().sendChannelMessage(channel, message);
+        if (Validator.channelExists(getInstance(), channel)) {
+            getInstance().getApi().sendChannelMessage(channel, message);
         }
+    }
+
+    public void setChannelId(int channel) {
+        channelId = channel;
     }
 }

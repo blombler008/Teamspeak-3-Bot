@@ -1,4 +1,5 @@
-/*
+package com.github.blombler008.teamspeak3bot.commands;/*
+ *
  * MIT License
  *
  * Copyright (c) 2019 blombler008
@@ -22,37 +23,48 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events;
-
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.event.TS3Listener;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
-public abstract class Event extends BaseEvent {
+public class CommandTemplate {
+    private final String[] aliases;
+    private final String description;
+    private final String command;
+    private final String plugin;
+    private Teamspeak3Bot instance;
 
-    protected BaseEvent event;
-    protected TS3Api api;
-    protected Teamspeak3Bot instance;
-
-    public Event(Teamspeak3Bot instance ,Map<String, String> map, TS3Api api, BaseEvent event) {
-        super(map);
-        this.api = api;
-        this.event = event;
+    public CommandTemplate(Teamspeak3Bot instance,String [] aliases, String description, String command, String plugin) {
+        this.command = command;
+        this.aliases = aliases;
+        this.description = description;
+        this.plugin = plugin;
         this.instance = instance;
     }
 
-    @Override public void fire(TS3Listener listener) {
-
+    public String getCommand() {
+        return command;
     }
 
-    public abstract BaseEvent getEvent();
+    public String getDescription() {
+        return description;
+    }
 
-    public abstract TS3Api getApi();
+    public String getPlugin() {
+        return plugin;
+    }
+
+    public List<String> getAliases() {
+        return Arrays.asList(aliases);
+    }
+
+    public CommandTemplate setExecutor(CommandExecutor executor) {
+        return instance.getCommandManager().getCommand(plugin, command, executor);
+    }
 
     public Teamspeak3Bot getInstance() {
         return instance;
     }
 }
+

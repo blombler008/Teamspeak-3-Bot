@@ -24,14 +24,9 @@
 
 package com.github.blombler008.teamspeak3bot.example.v2;
 
-import com.github.blombler008.teamspeak3bot.commands.ChannelCommandSender;
-import com.github.blombler008.teamspeak3bot.commands.ClientCommandSender;
-import com.github.blombler008.teamspeak3bot.commands.ConsoleCommandSender;
-import com.github.blombler008.teamspeak3bot.commands.ServerCommandSender;
-import com.github.blombler008.teamspeak3bot.commands.Command;
-import com.github.blombler008.teamspeak3bot.commands.CommandSender;
+import com.github.blombler008.teamspeak3bot.commands.*;
 
-public class ExampleCommand extends Command {
+public class ExampleCommand extends CommandExecutor {
 
     /*!
      * NOTE: You cannot change the name of the method ...
@@ -48,17 +43,19 @@ public class ExampleCommand extends Command {
      *              - commandLabel = "example"
      *              - args = {"hi", "there"}
      */
-    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
+    @Override public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+        int clid = cmd.getInvokerId();
+        int chid = cmd.getChannelId();
         if (source instanceof ConsoleCommandSender)
-            source.sendMessage(0, id,
+            source.sendMessage(chid, clid,
                 "This happens when a Console messages the bot with the command!");
         if (source instanceof ClientCommandSender)
-            source.sendMessage(0, id, "This happens when a client entered a command the bot!");
+            source.sendMessage(chid, clid, "This happens when a client entered a command the bot!");
         if (source instanceof ServerCommandSender)
-            source.sendMessage(0, id,
+            source.sendMessage(chid, clid,
                 "This happens when a client entered a command in the public server chat!");
         if (source instanceof ChannelCommandSender)
-            source.sendMessage(0, id,
+            source.sendMessage(chid, clid,
                 "This happens when a client entered a command in the channel chat!");
     }
 }

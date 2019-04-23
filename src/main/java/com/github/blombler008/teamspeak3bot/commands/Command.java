@@ -24,9 +24,68 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
-public abstract class Command {
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 
-    public abstract void run(final CommandSender source, final int id, final String commandLabel,
-        final String[] args);
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class Command {
+
+    private final String[] aliases;
+    private final String description;
+    private final String plugin;
+    private final String command;
+    private final Map<String, String> map;
+    private final Teamspeak3Bot instance;
+
+    public Command(CommandTemplate cmdTemp, Map<String, String> map) {
+        this.aliases = cmdTemp.getAliases().toArray(new String[0]);
+        this.description = cmdTemp.getDescription();
+        this.command = cmdTemp.getCommand();
+        this.plugin = cmdTemp.getPlugin();
+        this.map = map;
+        this.instance = cmdTemp.getInstance();
+    }
+
+    public int getInvokerId() {
+        return Integer.parseInt(map.get("invokerid"));
+    }
+
+    public int getChannelId() {
+        return Integer.parseInt(map.get("channelid"));
+    }
+
+    public String getName() {
+        return command;
+    }
+
+    public JavaPlugin getPlugin() {
+        List<JavaPlugin> javaPlugins = instance.getPluginManager().getPlugins();
+        for(JavaPlugin javaPlugin: javaPlugins) {
+            if(javaPlugin.getName().equals(plugin)) {
+                return javaPlugin;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAliases() {
+        return Collections.unmodifiableList(Arrays.asList(aliases));
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Map<String, String> getMap() {
+        return Collections.unmodifiableMap(map);
+    }
+
+    public String getPluginName() {
+        return plugin;
+    }
 
 }

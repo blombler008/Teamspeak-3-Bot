@@ -24,32 +24,33 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
-import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
-import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 import com.github.blombler008.teamspeak3bot.utils.Language;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
+import com.github.theholywaffle.teamspeak3.TS3Api;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CommandManager {
 
-    private static Map<String, Command> commands = new HashMap<>();
-    private static Map<String, String[]> commandAliases = new HashMap<>();
-    private static Map<String, String> commandPlugin = new HashMap<>();
-    private static String customChar;
-    private static TS3Api api;
-    private static List<Thread> commandThreads = new ArrayList<>();
-    private static Thread listenerThread;
-    private static List<String> registeredCommands = new ArrayList<>();
+    private Map<String, CommandTemplate> commands = new HashMap<>();
+    private Map<String, List<CommandExecutor>> commandExecutors = new HashMap<>();
+    private String customChar;
+    private TS3Api api;
+    private List<Thread> commandThreads = new ArrayList<>();
+    private Thread listenerThread;
+    private List<String> registeredCommands = new ArrayList<>();
+    private Teamspeak3Bot instance;
 
-    public CommandManager(TS3Api api, char customChar) {
+    public CommandManager(TS3Api api, char customChar, Teamspeak3Bot instance) {
         registeredCommands.add("quit");
         registeredCommands.add("exit");
         registeredCommands.add("uploadErrorLog");
-        CommandManager.customChar = String.valueOf(customChar);
-        CommandManager.api = api;
+        this.customChar = String.valueOf(customChar);
+        this.api = api;
+        this.instance = instance;
         AtomicBoolean breakOut = new AtomicBoolean(false);
         listenerThread = new Thread(new Runnable() {
             @Override public void run() {
@@ -57,14 +58,14 @@ public class CommandManager {
                     Thread.sleep(60000);
                     int x = commandThreads.size();
                     if(x==0) {
-                        Teamspeak3Bot.debug(Language.COMMAND, "Nothing found to remove.");
+                        instance.debug(Language.COMMAND, "Nothing found to remove.");
                         run();
                     }
                     for(int i=x-1;i>=0;i--) {
                         Thread thr = commandThreads.get(i);
                         if(thr.isInterrupted() || !thr.isAlive()) {
                             commandThreads.remove(thr);
-                            Teamspeak3Bot.debug(Language.COMMAND, "Thread " + thr.getName() + " removed from list.");
+                            instance.debug(Language.COMMAND, "Thread " + thr.getName() + " removed from list.");
                         }
                     }
                 } catch (Exception x) {
@@ -79,130 +80,149 @@ public class CommandManager {
         listenerThread.start();
     }
 
-    public static void registerNewCommand(JavaPlugin plugin, String str, String[] aliases, Command cmd) {
-        registerNewCommand(plugin.getName(), str, aliases, cmd);
+
+    public CommandTemplate registerNewCommand(CommandTemplate cmdTemp) {
+        commands.put(cmdTemp.getCommand(), cmdTemp);
+        return cmdTemp;
     }
 
-    public static void registerNewCommand(String pluginName, String str, String[] aliases, Command cmd) {
-        commands.put(str, cmd);
-        commandPlugin.put(str, pluginName);
-        String[] x = new String[]{};
-        List<String> aliasList = Arrays.asList(aliases);
+    public CommandTemplate getCommand(JavaPlugin plugin, String str, CommandExecutor cmdEx) {
+        return getCommand(plugin.getName(), str, cmdEx);
+    }
+
+    public CommandTemplate getCommand(String pluginName, String str, CommandExecutor cmdEx) {
+        CommandTemplate cmd = commands.get(str);
+        List<CommandExecutor> executors = commandExecutors.getOrDefault(str, new ArrayList<>());
+        executors.add(cmdEx);
+        commandExecutors.put(str, executors);
+        List<String> aliasList = cmd.getAliases();
         if(!aliasList.contains(str)) {
             aliasList.add(str);
         }
-        commandAliases.put(str, aliasList.toArray(x));
 
-        for(String s: aliasList) {
+       // Command cmd = new Command(aliasList.toArray(new String[]{}), description, str, pluginName);
+        commands.put(str, cmd);
+        for(String s: cmd.getAliases()) {
             registeredCommands.add(pluginName + ":" + s);
             registeredCommands.add(s);
         }
+        return cmd;
     }
 
-    public static boolean executeCommand(String cmd, String[] args, CommandSender source, int clientId, boolean run) {
+    public boolean executeCommand(String cmd, String[] args, CommandSender source, int clientId, int channelId, boolean run) {
         List<String> aList = Arrays.asList(args);
         if(!(aList.size() == 1))
             aList.remove(0);
 
+
         String cmdString = getCommandStringFromAlias(resolveCommand(cmd));
 
         if (!Validator.notNull(api)) {
+
             if (commands.containsKey(cmdString)) {
-                if (run)
-                    parseRun(cmdString, args, source, clientId);
-                return true;
-            } else {
-                if (source == CommandSender.CONSOLE) {
-                    Teamspeak3Bot.getLogger()
-                        .info(Language.COMMAND + "Unknown Command: " + cmdString);
-                    Teamspeak3Bot.getLogger()
-                        .info(Language.COMMAND + "Please use help or ? for help");
-                } else {
-                    api.sendPrivateMessage(clientId, "Unknown Command: " + customChar + cmdString);
-                    api.sendPrivateMessage(clientId,
-                        "Please use " + customChar + "help or " + customChar + "? for help");
+                if (run) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("invokerid", clientId + "");
+                    map.put("channelid", channelId + "");
+                    parseRun(cmd, args, source, map);
                 }
+                return true;
             }
         } else
             Teamspeak3Bot.getLogger().error(Language.COMMAND + "API is null !!!!");
         return false;
     }
 
-    private static void parseRun(String cmdString, String[] args, CommandSender source, int id) {
-        List<String> aList = Arrays.asList(args);
+    private void parseRun(String cmd, String[] args, CommandSender source, Map<String, String> map) {
+        List<CommandExecutor> executors = commandExecutors.getOrDefault(getCommandStringFromAlias(resolveCommand(cmd)), new ArrayList<>());
+        CommandTemplate cmdTemp = commands.get(getCommandStringFromAlias(resolveCommand(cmd)));
 
-        Command cmd = commands.get(cmdString);
+        for(CommandExecutor executor: executors) {
+            //To prevent a constant loop in the command
+            Thread thread = new Thread(() -> executor.run(source, new Command(cmdTemp, map), cmd, args),cmdTemp.getCommand() + "-" + commandThreads.size());
+            commandThreads.add(thread);
+            instance.debug(Language.COMMAND, thread.getName());
 
-        String[] arguments = {};
-        //To prevent a constant loop in the command
-        Thread thread = new Thread(() -> cmd.run(source, id, cmdString, aList.toArray(arguments)),cmdString + "-" + commandThreads.size());
-        commandThreads.add(thread);
-        Teamspeak3Bot.debug(Language.COMMAND, thread.getName());
-        thread.start();
+            thread.start();
+        }
     }
 
-    public static boolean checkCommand(String cmdString, CommandSender source) {
-        return checkCommand(new String[] {cmdString}, source);
+    public boolean checkCommand(String cmdString, int clientId,  CommandSender source) {
+        return checkCommand(new String[] {cmdString}, clientId,  source);
     }
 
-    public static boolean checkCommand(String[] cmd, CommandSender source) {
+    public boolean checkCommand(String[] cmd, int clientId, CommandSender source) {
         List<String> aList = new ArrayList<>();
         Collections.addAll(aList, cmd);
 
-        String[] arguments = {};
         String consoleMessage = "Command From %source%: " + aList.get(0);
 
         aList.set(0, aList.get(0).replaceFirst(customChar, ""));
         consoleMessage = consoleMessage.replaceAll("%source%", source.toString().toLowerCase());
 
-        Teamspeak3Bot.debug(Language.COMMAND, consoleMessage);
-        Teamspeak3Bot.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
+        instance.debug(Language.COMMAND, consoleMessage);
+        instance.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
 
         String str = getCommandStringFromAlias(resolveCommand(aList.get(0)));
         if(str == null) {
+            source.sendMessage(0, clientId, "Unknown Command: " + cmd[0]);
+            source.sendMessage(0, clientId, "Please use help or ? for help");
             return false;
         }
-        String cPlugin = commandPlugin.get(str);
-        String[] cAliases = commandAliases.get(str);
-        Command cCommand = commands.get(str);
-        Teamspeak3Bot.debug(Language.COMMAND, cPlugin + ":" + str + ", " + Arrays.toString(cAliases));
+
+        CommandTemplate cCommand = commands.get(str);
+        String cPlugin = cCommand.getPlugin();
+        List<String> cAliases = cCommand.getAliases();
+
+        instance.debug(Language.COMMAND, cPlugin + ":" + str + ", " + Arrays.toString(cAliases.toArray()));
         if (source instanceof ConsoleCommandSender || cmd[0].startsWith(customChar)) {
             return commands.containsKey(str);
-        //executeCommand(aList.get(0), aList.toArray(arguments), source, invokerId, false);
         }
+
         return false;
     }
 
-    public static String getCommandStringFromAlias(String alias) {
-        for(String key: commandAliases.keySet()) {
+    public String getCommandStringFromAlias(String alias) {
+
+        for(String key: commands.keySet()) {
             if(alias.equalsIgnoreCase(key)) {
                 return key;
             }
-            String[] values = commandAliases.get(key);
-            for(String vStr: values) {
-                if(alias.equalsIgnoreCase(vStr)) {
+            List<String> values = commands.get(key).getAliases();
+            for(String value: values) {
+                if(alias.equalsIgnoreCase(value)) {
                     return key;
                 }
             }
         }
+
         return null;
     }
 
-    public static String resolveCommand(String arg) {
+    public String resolveCommand(String arg) {
         String[] str = arg.split(":+");
+        String command = "";
         if(str.length == 1) {
-            return str[0];
+            command = str[0];
         } else if(str.length > 1) {
-            return str[1];
+            if(commands.containsKey(getCommandStringFromAlias(str[1]))) {
+                if (commands.get(getCommandStringFromAlias(str[1])).getPlugin().equalsIgnoreCase(str[0])) {
+                    command = str[1];
+                }
+            }
         }
-        return "";
+        return command;
     }
 
-    public static String getCommandFromArray(String[] cmdArray) {
+    public String getCommandFromArray(String[] cmdArray) {
         return cmdArray[0].replaceFirst(String.valueOf(customChar), "");
     }
 
-    public static List<String> getCommandList() {
+    public List<String> getCommandList() {
         return registeredCommands;
+    }
+
+    public Map<String, CommandTemplate> getCommands() {
+        return commands;
     }
 }

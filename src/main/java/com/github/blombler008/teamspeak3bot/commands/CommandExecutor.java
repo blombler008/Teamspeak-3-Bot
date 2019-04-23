@@ -1,4 +1,5 @@
-/*
+package com.github.blombler008.teamspeak3bot.commands;/*
+ *
  * MIT License
  *
  * Copyright (c) 2019 blombler008
@@ -22,29 +23,8 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.example.v2;
+public abstract class CommandExecutor {
 
-import com.github.blombler008.teamspeak3bot.commands.CommandTemplate;
-import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
-
-public class Main extends JavaPlugin {
-
-    @Override public void onDisable() {
-        getInstance().info("On disable Example");
-    }
-
-    @Override public void onEnable() {
-        getInstance().info("Plugin Enabled: " + getName() + ", " + getVersion());
-
-        // Adding a event which executes when the event happens
-        getInstance().getEventManager().addEventToProcessList(new ExampleEvent());
-
-        // Adding a Command for the bot ...
-        CommandTemplate exampleTemplate = new CommandTemplate(getInstance(), new String[]{"example"}, "An example of an command", "example", this.getName());
-        getInstance().getCommandManager().registerNewCommand(exampleTemplate).setExecutor(new ExampleCommand());
-    }
-
-    @Override public void onLoad() {
-        getInstance().info("Plugin description: " + getPluginDescription().getDescription());
-    }
+    public abstract void run(final CommandSender source, final Command cmd, final String commandLabel,
+        final String[] args);
 }

@@ -24,16 +24,17 @@
 
 package com.github.blombler008.teamspeak3bot;
 
+import com.github.blombler008.teamspeak3bot.utils.Language;
+import com.github.blombler008.teamspeak3bot.utils.Validator;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
-import com.github.blombler008.teamspeak3bot.utils.Language;
-import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 public class Bot {
 
+    private Teamspeak3Bot instance;
     private String host;
     private String username;
     private String password;
@@ -45,11 +46,11 @@ public class Bot {
     private TS3Config config;
     private TS3Query query;
 
-    public Bot(String host, String port, String username, String password, String nickname, String channel) {
+    public Bot(Teamspeak3Bot instance,String host, String port, String username, String password, String nickname, String channel) {
 
         if (!testForPort(port))
             return;
-
+        this.instance = instance;
         this.nickname = nickname;
         this.host = host;
         this.username = username;
@@ -62,7 +63,7 @@ public class Bot {
         if (Validator.notNull(config) || Validator.notNull(query) || Validator.notNull(api)) {
             try {
 
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.BOT, "Trying to connect to server: \'ts3serverquery://" + host + ":"
                         + port + "\'");
 
@@ -77,14 +78,14 @@ public class Bot {
 
                 api = query.getApi();
 
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.BOT, "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
 
                 return true;
 
             } catch (TS3ConnectionFailedException e) {
 
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.BOT, "ERROR > Couldn't connect to server: \'ts3serverquery://" + host
                         + ":" + port + "\'");
 
@@ -97,24 +98,24 @@ public class Bot {
     public synchronized boolean createConnection() {
         if (!Validator.notNull(api)) {
             try {
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.BOT, "Trying login as: \'" + nickname + "\', with username: \'"
                         + username + "\', and password: \'" + password + "\'");
 
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
                 api.moveClient(api.whoAmI().getId(), channel);
-                Teamspeak3Bot.debug(Language.BOT, "Logged as: \'" + nickname + "\'");
+                instance.debug(Language.BOT, "Logged as: \'" + nickname + "\'");
 
                 return true;
             } catch (Exception e) {
                 api.logout();
                 query.exit();
 
-                Teamspeak3Bot.debug(
+                instance.debug(
                     Language.BOT, "Couldn't login as: \'" + nickname + "\', with username: \'"
                         + username + "\', and password: \'" + password + "\'");
-                Teamspeak3Bot.shutdown();
+                instance.shutdown();
 
                 return false;
             }
@@ -139,7 +140,7 @@ public class Bot {
     }
 
     public ServerQueryInfo getClient() {
-        return Teamspeak3Bot.getClient();
+        return instance.getClient();
     }
 
     public String getExactClientName() {

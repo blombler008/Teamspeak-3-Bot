@@ -24,14 +24,37 @@
 
 package com.github.blombler008.teamspeak3bot.commands.listeners;
 
-import com.github.blombler008.teamspeak3bot.commands.ClientCommandSender;
-import com.github.blombler008.teamspeak3bot.commands.Command;
-import com.github.blombler008.teamspeak3bot.commands.CommandSender;
+import com.github.blombler008.teamspeak3bot.commands.*;
 
-public class CommandHelp extends Command {
-    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
-        if (source instanceof ClientCommandSender) {
-            source.sendMessage(0, id, "Help Command ^^");
+public class CommandHelp extends CommandExecutor {
+    @Override public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+        int clId = cmd.getInvokerId();
+        int chId = cmd.getChannelId();
+        source.sendMessage(chId, clId, "---------------------------- Help ----------------------------");
+        for(String command: source.getInstance().getCommandManager().getCommands().keySet()) {
+            resolveCommand(chId, clId, source, command);
         }
+        source.sendMessage(chId, clId, "--------------------------------------------------------------");
+    }
+
+    private void resolveCommand(int chId, int clId, CommandSender source, String command) {
+        StringBuilder stringBuilder = new StringBuilder(" - ");
+        if(!(source instanceof ConsoleCommandSender)) {
+            stringBuilder.append(source.getInstance().getCustomChar());
+        }
+        CommandTemplate cmdTemp = source.getInstance().getCommandManager().getCommands().get(command);
+        stringBuilder.append(cmdTemp.getCommand());
+        source.sendMessage(chId, clId, stringBuilder.toString());
+
+        stringBuilder = new StringBuilder("    * ");
+        stringBuilder.append("Description: ");
+        StringBuilder desc = new StringBuilder(cmdTemp.getDescription());
+        if(desc.length() > 200) {
+            desc.substring(0, 200);
+            desc.delete(200, desc.length()-1);
+            desc.append("...");
+        }
+        stringBuilder.append(desc);
+        source.sendMessage(chId, clId, stringBuilder.toString());
     }
 }

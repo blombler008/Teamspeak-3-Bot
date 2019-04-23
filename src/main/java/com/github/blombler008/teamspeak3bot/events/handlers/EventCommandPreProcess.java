@@ -24,20 +24,27 @@
 
 package com.github.blombler008.teamspeak3bot.events.handlers;
 
-import com.github.theholywaffle.teamspeak3.TS3Api;
-import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.commands.ChannelCommandSender;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 import com.github.blombler008.teamspeak3bot.events.Event;
+import com.github.theholywaffle.teamspeak3.TS3Api;
+import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 
 import java.util.Map;
 
 public class EventCommandPreProcess extends Event {
+
     protected CommandSender source;
+    private Map<String, String> map;
 
-
-    public EventCommandPreProcess(Map<String, String> map, TS3Api api, BaseEvent event) {
-        super(map, api, event);
+    public EventCommandPreProcess(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
+        super(instance, e, api, event);
+        this.map = e;
         this.source = CommandSender.getSender(map.get("source").toUpperCase());
+        if(source instanceof ChannelCommandSender) {
+            ((ChannelCommandSender) source).setChannelId(Integer.parseInt(map.get("channelid")));
+        }
     }
 
     @Override public EventCommandPreProcess getEvent() {
@@ -50,5 +57,9 @@ public class EventCommandPreProcess extends Event {
 
     public CommandSender getCommandSource() {
         return source;
+    }
+
+    public int getChannelId() {
+        return Integer.parseInt(map.getOrDefault("channelid", "0"));
     }
 }

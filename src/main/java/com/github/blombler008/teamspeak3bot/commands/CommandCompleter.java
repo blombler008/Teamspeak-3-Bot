@@ -23,13 +23,14 @@ package com.github.blombler008.teamspeak3bot.commands;/*
  * SOFTWARE.
  */
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
 
 public class CommandCompleter {
 
-    public static Completer getCompleter() {
-        return new StringsCompleter(CommandManager.getCommandList());
+    public static Completer getCompleter(Teamspeak3Bot instance) {
+        return new StringsCompleter(instance.getCommandManager().getCommandList());
     }
 
 }

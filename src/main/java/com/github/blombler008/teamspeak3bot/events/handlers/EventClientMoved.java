@@ -24,17 +24,18 @@
 
 package com.github.blombler008.teamspeak3bot.events.handlers;
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.events.Event;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
 import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
-import com.github.blombler008.teamspeak3bot.events.Event;
 
 import java.util.Map;
 
 public class EventClientMoved extends Event {
 
-    public EventClientMoved(Map<String, String> map, TS3Api api, BaseEvent event) {
-        super(map, api, event);
+    public EventClientMoved(Teamspeak3Bot instance,Map<String, String> e, TS3Api api, BaseEvent event) {
+        super(instance, e, api, event);
     }
 
     @Override public ClientMovedEvent getEvent() {

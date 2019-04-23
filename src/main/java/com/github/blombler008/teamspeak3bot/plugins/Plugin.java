@@ -24,11 +24,14 @@
 
 package com.github.blombler008.teamspeak3bot.plugins;
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+
 import java.io.File;
 import java.util.Properties;
 
 public class Plugin {
 
+    Teamspeak3Bot instance;
     boolean enabled = false;
     File dataFolder;
     PluginDescription pluginDescription;
@@ -44,6 +47,10 @@ public class Plugin {
 
     public PluginDescription getPluginDescription() {
         return pluginDescription;
+    }
+
+    public Teamspeak3Bot getInstance() {
+        return instance;
     }
 
     public Properties getProperties() {

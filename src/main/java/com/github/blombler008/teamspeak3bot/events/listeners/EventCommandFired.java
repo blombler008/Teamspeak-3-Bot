@@ -25,8 +25,8 @@
 package com.github.blombler008.teamspeak3bot.events.listeners;
 
 import com.github.blombler008.teamspeak3bot.commands.CommandManager;
-import com.github.blombler008.teamspeak3bot.events.EventListener;
 import com.github.blombler008.teamspeak3bot.events.Listener;
+import com.github.blombler008.teamspeak3bot.events.annotation.EventListener;
 import com.github.blombler008.teamspeak3bot.events.handlers.EventCommandPreProcess;
 
 import java.util.Arrays;
@@ -36,9 +36,13 @@ public class EventCommandFired implements Listener {
 
     @EventListener(priority = EventListener.Priority.MEDIUM)
     public void onCommandFire(EventCommandPreProcess e) {
+        CommandManager commandManager = e.getInstance().getCommandManager();
         int id = e.getInvokerId();
+        int chId = e.getChannelId();
         List<String> args = Arrays.asList(e.get("command").replaceFirst("!", "").split(" "));
-        if(CommandManager.checkCommand((String[]) args.toArray(), e.getCommandSource()) )
-            CommandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id, true);
+        if(commandManager.checkCommand((String[]) args.toArray(), id, e.getCommandSource()) ) {
+            commandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id,
+                    chId, true);
+        }
     }
 }

@@ -24,17 +24,11 @@
 
 package com.github.blombler008.teamspeak3bot.plugins;
 
-import java.util.Properties;
-
 public abstract class JavaPlugin extends Plugin {
 
     public JavaPlugin() {
-
     }
 
-    public JavaPlugin(PluginDescription pluginDescription, Properties properties){
-
-    }
 
     @Override public void onEnable() {
     }

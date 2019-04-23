@@ -44,91 +44,104 @@ public class PluginManager {
     private File pluginsDir;
     private File[] pluginFiles;
     private List<JavaPlugin> plugins = new ArrayList<>();
-    private boolean fished = false;
-    private Map<JavaPlugin, Boolean> pluginstates = new HashMap<>();
+    private boolean finished = false;
+    private Map<JavaPlugin, Boolean> pluginStates = new HashMap<>();
+    private Map<JavaPlugin, File> pluginFileMap = new HashMap<>();
+    private Teamspeak3Bot instance;
 
-    public PluginManager(File workDir) {
+    public PluginManager(File workDir, Teamspeak3Bot instance) {
         this.workDir = workDir;
+        this.instance = instance;
         this.pluginsDir = new File(workDir, "plugins");
         //noinspection ResultOfMethodCallIgnored
         pluginsDir.mkdirs();
-        this.pluginFiles = pluginsDir.listFiles((dir, name) -> name.endsWith(".jar"));
+    }
+
+    public boolean prepare(File file, boolean debug) {
+        try {
+            JarFile jFile = new JarFile(file);
+            ZipEntry zEntry = jFile.getEntry("plugin.ini");
+            if (Validator.notNull(zEntry)) {
+                Teamspeak3Bot.getLogger()
+                    .error(Language.PLUGIN + "File: plugin.ini not found!");
+                return false;
+            }
+            Properties properties = new Properties();
+            properties.load(new InputStreamReader(jFile.getInputStream(zEntry)));
+
+            String name =
+                (properties.containsKey("name") ? properties.getProperty("name") : null);
+            String version = (properties.containsKey("version") ?
+                properties.getProperty("version") :
+                null);
+            String description = (properties.containsKey("description") ?
+                properties.getProperty("description") :
+                null);
+            String mainClass =
+                (properties.containsKey("main") ? properties.getProperty("main") : null);
+            properties.remove("main");
+
+            instance.debug(Language.PLUGIN, "Properties of plugin \'" + name + "\' > "
+                        + properties.toString());
+
+
+            if (!Validator.notNull(name) && !Validator.notNull(version) && !Validator
+                .notNull(description) && !Validator.notNull(mainClass)) {
+
+                PluginDescription pluginDescription =
+                    new PluginDescription(version, description, name);
+
+                URL[] urls = {new URL("jar:file:" + file.getAbsolutePath() + "!/")};
+
+                instance.debug(Language.PLUGIN, urls[0].getFile());
+
+                URLClassLoader cl = URLClassLoader.newInstance(urls);
+                //noinspection SingleStatementInBlock, unchecked
+                Class<JavaPlugin> pluginClass = (Class<JavaPlugin>) cl.loadClass(mainClass);
+
+                //Constructor<JavaPlugin> constructor =
+                //    (Constructor<JavaPlugin>) pluginClass.getSuperclass()
+                //        .getConstructor(PluginDescription.class, Properties.class);
+                // getConstructor(Properties.class, PluginDescription.class);
+
+                JavaPlugin plugin = pluginClass.newInstance();
+                plugin.pluginDescription = pluginDescription;
+                plugin.properties = properties;
+                plugin.instance = instance;
+                plugins.add(plugin);
+
+                if (debug)
+                    instance.debug(
+                        Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin
+                            .toString());
+                pluginFileMap.put(plugin, file);
+            }
+
+        } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
+            instance.getLogger().error(
+                Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean prepare(boolean debug) {
+        pluginFileMap.clear();
+        plugins.clear();
+        pluginStates.clear();
+        pluginFiles = pluginsDir.listFiles((dir, name) -> name.endsWith(".jar"));
+        finished = false;
         if (pluginFiles.length != 0) {
             for (File file : pluginFiles) {
-                try {
-                    JarFile jFile = new JarFile(file);
-                    ZipEntry zEntry = jFile.getEntry("plugin.ini");
-                    if (Validator.notNull(zEntry)) {
-                        Teamspeak3Bot.getLogger()
-                            .error(Language.PLUGIN + "File: plugin.ini not found!");
-                        return false;
-                    }
-                    Properties properties = new Properties();
-                    properties.load(new InputStreamReader(jFile.getInputStream(zEntry)));
-
-                    String name =
-                        (properties.containsKey("name") ? properties.getProperty("name") : null);
-                    String version = (properties.containsKey("version") ?
-                        properties.getProperty("version") :
-                        null);
-                    String description = (properties.containsKey("description") ?
-                        properties.getProperty("description") :
-                        null);
-                    String mainClass =
-                        (properties.containsKey("main") ? properties.getProperty("main") : null);
-                    properties.remove("main");
-
-                    if (debug)
-                        Teamspeak3Bot.debug(
-                            Language.PLUGIN, "Properties of plugin \'" + name + "\' > "
-                                + properties.toString());
-
-
-                    if (!Validator.notNull(name) && !Validator.notNull(version) && !Validator
-                        .notNull(description) && !Validator.notNull(mainClass)) {
-
-                        PluginDescription pluginDescription =
-                            new PluginDescription(version, description, name);
-
-                        URL[] urls = {new URL("jar:file:" + file.getAbsolutePath() + "!/")};
-
-                        Teamspeak3Bot.debug(Language.PLUGIN, urls[0].getFile());
-
-                        URLClassLoader cl = URLClassLoader.newInstance(urls);
-                        //noinspection SingleStatementInBlock, unchecked
-                        Class<JavaPlugin> pluginClass = (Class<JavaPlugin>) cl.loadClass(mainClass);
-
-                        //Constructor<JavaPlugin> constructor =
-                        //    (Constructor<JavaPlugin>) pluginClass.getSuperclass()
-                        //        .getConstructor(PluginDescription.class, Properties.class);
-                        // getConstructor(Properties.class, PluginDescription.class);
-
-                        JavaPlugin plugin = pluginClass.newInstance();
-                        plugin.pluginDescription = pluginDescription;
-                        plugin.properties = properties;
-                        plugins.add(plugin);
-                        if (debug)
-                            Teamspeak3Bot.debug(
-                                Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin
-                                    .toString());
-                    }
-
-                } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
-                    Teamspeak3Bot.getLogger().error(
-                        Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
-                    e.printStackTrace();
-                    return false;
-                }
+                prepare(file, debug);
             }
+            finished = true;
         }
 
         return true;
     }
 
-    // TODO: make it reload the complete jar not just the already loaded files and code!
     public void reloadPlugins() {
         reloadPlugins(false);
     }
@@ -147,28 +160,29 @@ public class PluginManager {
 
     public void reloadPlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
-            reloadPlugin(p, debug);
+            disablePlugin(p);
         }
+        prepare(debug);
     }
 
     public void loadPlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             loadPlugin(p, debug);
-            pluginstates.remove(p);
+            pluginStates.remove(p);
         }
     }
 
     public void enablePlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             enablePlugin(p, debug);
-            pluginstates.put(p, true);
+            pluginStates.put(p, true);
         }
     }
 
     public void disablePlugins(boolean debug) {
         for (JavaPlugin p : plugins) {
             disablePlugin(p, debug);
-            pluginstates.put(p, false);
+            pluginStates.put(p, false);
         }
     }
 
@@ -190,15 +204,16 @@ public class PluginManager {
         Teamspeak3Bot.getLogger()
             .info("--------------------------------------------------------------------");
         if (debug)
-            Teamspeak3Bot.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
+            instance.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
         Teamspeak3Bot.getLogger()
             .info("Reloading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             disablePlugin(p);
+            prepare(pluginFileMap.get(p), debug);
             loadPlugin(p);
             enablePlugin(p);
             if (debug)
-                Teamspeak3Bot.debug(Language.PLUGIN, "Plugin reloaded  > " + p.getName());
+                instance.debug(Language.PLUGIN, "Plugin reloaded  > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
@@ -210,7 +225,7 @@ public class PluginManager {
 
     public boolean loadPlugin(JavaPlugin p, boolean debug) {
         if (debug)
-            Teamspeak3Bot.debug(Language.PLUGIN, "Loading plugin > " + p.getName());
+            instance.debug(Language.PLUGIN, "Loading plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
             .info("Loading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
@@ -219,7 +234,7 @@ public class PluginManager {
             dataF.mkdir();
             ConfigManager.add(dataF, p);
             if (debug)
-                Teamspeak3Bot.debug(Language.PLUGIN, "Plugin loaded > " + p.getName());
+                instance.debug(Language.PLUGIN, "Plugin loaded > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
@@ -231,13 +246,13 @@ public class PluginManager {
 
     public boolean enablePlugin(JavaPlugin p, boolean debug) {
         if (debug)
-            Teamspeak3Bot.debug(Language.PLUGIN, "Enabling plugin > " + p.getName());
+            instance.debug(Language.PLUGIN, "Enabling plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
             .info("Enabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.setEnabled();
             if (debug)
-                Teamspeak3Bot.debug(Language.PLUGIN, "Plugin enabled > " + p.getName());
+                instance.debug(Language.PLUGIN, "Plugin enabled > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
@@ -249,13 +264,13 @@ public class PluginManager {
 
     public boolean disablePlugin(JavaPlugin p, boolean debug) {
         if (debug)
-            Teamspeak3Bot.debug(Language.PLUGIN, "Disabling plugin > " + p.getName());
+            instance.debug(Language.PLUGIN, "Disabling plugin > " + p.getName());
         Teamspeak3Bot.getLogger()
             .info("Disabling plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.setDisabled();
             if (debug)
-                Teamspeak3Bot.debug(Language.PLUGIN, "Plugin disabled > " + p.getName());
+                instance.debug(Language.PLUGIN, "Plugin disabled > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger()
@@ -280,8 +295,8 @@ public class PluginManager {
     public void isFinished(Callback c) {
         new Thread(() -> {
             while (true) {
-                if(plugins.size() == pluginstates.size() && Teamspeak3Bot.getConsoleManager().getReader() != null) {
-                    Teamspeak3Bot.info("Done! For help use \"help\" or \"?\".");
+                if(plugins.size() == pluginStates.size() && instance.getConsoleManager().getReader() != null && finished) {
+                    instance.info("Done! For help use \"help\" or \"?\".");
                     c.call();
                     break;
                 }

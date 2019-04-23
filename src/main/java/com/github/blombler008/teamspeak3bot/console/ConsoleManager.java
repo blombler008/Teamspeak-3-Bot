@@ -37,22 +37,22 @@ import java.util.Map;
 
 public class ConsoleManager {
 
-    private static ConsoleManager instance;
+    private Teamspeak3Bot instance;
     private Thread thread;
     private boolean breakOut;
     private String line;
     private ConsoleReader reader;
 
-    public ConsoleManager() {
+    public ConsoleManager(Teamspeak3Bot instance) {
+        this.instance = instance;
+
         if(System.getenv().containsKey("intellij")) {
-            Teamspeak3Bot.info(Language.CONSOLE + "Intellij added on");
+            instance.info(Language.CONSOLE + "Intellij added on");
             jline.TerminalFactory.registerFlavor( jline.TerminalFactory.Flavor.WINDOWS, jline.UnsupportedTerminal.class);
         }
 
         breakOut = false;
         line = "";
-        if (instance == null)
-            instance = this;
 
         thread = new Thread(() -> { // A new thread is used to run the listener aside the main code
 
@@ -62,20 +62,20 @@ public class ConsoleManager {
                 while (!breakOut) {
                     line = reader.readLine();
                     if(line != null) {
-                        Teamspeak3Bot.writeToFile(line);
-                        Teamspeak3Bot.getLogger().info(Language.CONSOLE + "ADMIN INPUT > " + line);
+                        instance.writeToFile(line);
+                        instance.info("ADMIN INPUT > " + line);
 
                         if (line.split(" ")[0].equalsIgnoreCase("exit")) {
-                            Teamspeak3Bot.shutdown();
+                            instance.shutdown();
                             return;
                         }
                         if (line.split(" ")[0].equalsIgnoreCase("quit")) {
-                            Teamspeak3Bot.shutdown();
+                            instance.shutdown();
                             return;
                         }
 
                         if (line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {
-                            Teamspeak3Bot.uploadErrorLog();
+                            instance.uploadErrorLog();
                             continue;
                         }
                         Map<String, String> map = new HashMap<>();
@@ -86,7 +86,7 @@ public class ConsoleManager {
                         map.put("invokeruid", "superadmin");
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
-                        Teamspeak3Bot.getEventManager()
+                        instance.getEventManager()
                             .fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, null);
                     }
                 }
@@ -98,10 +98,6 @@ public class ConsoleManager {
         thread.start();
     }
 
-    public static ConsoleManager getInstance() {
-        return instance;
-    }
-
     public ConsoleReader getReader() {
         return reader;
     }
@@ -111,7 +107,7 @@ public class ConsoleManager {
     }
 
     public void setCompleters() {
-        reader.addCompleter(CommandCompleter.getCompleter());
+        reader.addCompleter(CommandCompleter.getCompleter(instance));
         //Readline.load(ReadlineLibrary.GnuReadline);
         //Readline.setCompleter(new CommandCompleter());
     }

@@ -24,23 +24,24 @@
 
 package com.github.blombler008.teamspeak3bot.commands.listeners;
 
-import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
-import com.github.blombler008.teamspeak3bot.commands.ConsoleCommandSender;
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.commands.Command;
+import com.github.blombler008.teamspeak3bot.commands.CommandExecutor;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
+import com.github.blombler008.teamspeak3bot.commands.ConsoleCommandSender;
 import com.github.blombler008.teamspeak3bot.utils.Language;
+import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
-public class CommandReload extends Command {
-    @Override public void run(CommandSender source, int id, String commandLabel, String[] args) {
-        ClientInfo sender = Teamspeak3Bot.getClient(id);
+public class CommandReload extends CommandExecutor {
+    @Override public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+        int id = cmd.getInvokerId();
+        ClientInfo sender = source.getInstance().getClient(id);
 
         if (source instanceof ConsoleCommandSender) {
-            Teamspeak3Bot.getPluginManager().reloadPlugins();
+            source.getInstance().getPluginManager().reloadPlugins();
 
         } else {
-            if (sender.getUniqueIdentifier().equals(Teamspeak3Bot.getOwner().getUniqueIdentifier())) {
-                Teamspeak3Bot.getPluginManager().reloadPlugins();
+            if (sender.getUniqueIdentifier().equals(source.getInstance().getOwner().getUniqueIdentifier())) {
+                source.getInstance().getPluginManager().reloadPlugins();
             } else {
                 source.sendMessage(0, id, Language.get("nopermissions"));
             }

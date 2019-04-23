@@ -24,8 +24,6 @@
 
 package com.github.blombler008.teamspeak3bot.commands;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-
 public class ServerCommandSender extends CommandSender {
 
     public ServerCommandSender(String s) {
@@ -33,6 +31,6 @@ public class ServerCommandSender extends CommandSender {
     }
 
     @Override public void sendMessage(int channel, int client, String message) {
-        Teamspeak3Bot.getApi().sendServerMessage(message);
+        getInstance().getApi().sendServerMessage(message);
     }
 }

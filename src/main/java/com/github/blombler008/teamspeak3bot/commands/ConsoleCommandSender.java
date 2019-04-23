@@ -25,7 +25,6 @@
 package com.github.blombler008.teamspeak3bot.commands;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
-import com.github.blombler008.teamspeak3bot.utils.Language;
 
 public class ConsoleCommandSender extends CommandSender {
     public ConsoleCommandSender(String s) {
@@ -33,6 +32,6 @@ public class ConsoleCommandSender extends CommandSender {
     }
 
     @Override public void sendMessage(int channel, int client, String message) {
-        Teamspeak3Bot.getLogger().info(Language.CONSOLE + message);
+        Teamspeak3Bot.getLogger().info(message);
     }
 }
