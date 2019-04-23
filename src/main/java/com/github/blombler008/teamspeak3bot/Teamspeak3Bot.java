@@ -30,6 +30,7 @@ import com.github.blombler008.teamspeak3bot.commands.CommandTemplate;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandHelp;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandPlugins;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandReload;
+import com.github.blombler008.teamspeak3bot.commands.listeners.CommandSay;
 import com.github.blombler008.teamspeak3bot.console.ConsoleManager;
 import com.github.blombler008.teamspeak3bot.console.PrintStreamLogger;
 import com.github.blombler008.teamspeak3bot.events.EventManager;
@@ -41,9 +42,6 @@ import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.wrapper.*;
-import com.github.theholywaffle.teamspeak3.commands.Command;
-import com.github.theholywaffle.teamspeak3.commands.CommandBuilderX;
-import com.github.theholywaffle.teamspeak3.commands.parameter.KeyValueParam;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,18 +171,15 @@ public class Teamspeak3Bot {
         eventManager = new EventManager(bot, getApi(), this);
         eventManager.registerEvents();
 
-        CommandBuilderX x = new CommandBuilderX("gm", 1);
-        x.add(new KeyValueParam("msg",
-                Language.MAIN + "I just joined the server but got not fully implemented!!"));
-        Command cmd = x.build();
-
         CommandTemplate helpTemplate = new CommandTemplate(this, new String[]{"help", "?"}, "Shows a list of commands", "help", "Teamspeak", "[command]");
         CommandTemplate reloadTemplate = new CommandTemplate(this, new String[]{"reload", "rl"}, "Reload all plugins", "reload", "Teamspeak", "[plugin]");
         CommandTemplate pluginsTemplate = new CommandTemplate(this, new String[]{"plugins", "pl"}, "Shows a list of plugins", "plugins", "Teamspeak", "");
+        CommandTemplate sayTemplate = new CommandTemplate(this, new String[]{"say", "gm"}, "Send a server message to all clients", "say", "Teamspeak", "<message>");
 
         commandManager.registerNewCommand(helpTemplate).setExecutor(new CommandHelp());
         commandManager.registerNewCommand(reloadTemplate).setExecutor(new CommandReload());
         commandManager.registerNewCommand(pluginsTemplate).setExecutor(new CommandPlugins());
+        commandManager.registerNewCommand(sayTemplate).setExecutor(new CommandSay());
 
         eventManager.addEventToProcessList(new EventCommandFired());
         pluginManager = new PluginManager(workDir, this);
