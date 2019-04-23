@@ -172,21 +172,21 @@ public class CommandManager {
         instance.debug(Language.COMMAND, "Custom Prefix Key: " + customChar);
 
         String str = getCommandStringFromAlias(resolveCommand(aList.get(0)));
-        if (str == null) {
-            source.sendMessage(0, clientId, "Unknown Command: " + cmd[0]);
-            source.sendMessage(0, clientId, "Please use help or ? for help");
+
+        if(!(source instanceof ConsoleCommandSender) && !(cmd[0].startsWith(customChar))) {
             return false;
         }
 
-        CommandTemplate cCommand = commands.get(str);
-        String cPlugin = cCommand.getPlugin();
-        List<String> cAliases = cCommand.getAliases();
-
-        instance.debug(Language.COMMAND, cPlugin + ":" + str + ", " + Arrays.toString(cAliases.toArray()));
-        if (source instanceof ConsoleCommandSender || cmd[0].startsWith(customChar)) {
-            return commands.containsKey(str);
+        if (str != null) {
+            CommandTemplate cCommand = commands.get(str);
+            String cPlugin = cCommand.getPlugin();
+            List<String> cAliases = cCommand.getAliases();
+            instance.debug(Language.COMMAND, cPlugin + ":" + str + ", " + Arrays.toString(cAliases.toArray()));
+            return true;
         }
 
+        source.sendMessage(0, clientId, "Unknown Command: " + cmd[0]);
+        source.sendMessage(0, clientId, "Please use help or ? for help");
         return false;
     }
 

@@ -43,9 +43,10 @@ public class EventCommandFired implements Listener {
         int id = e.getInvokerId();
         int chId = e.getChannelId();
 
-        List<String> args = new ArrayList<>(Arrays.asList(e.get("command").replaceFirst("!", "").split(" ")));
+        List<String> args = new ArrayList<>(Arrays.asList(e.get("command").split(" ")));
 
         if (commandManager.checkCommand(args.toArray(new String[0]), id, e.getCommandSource())) {
+            args = new ArrayList<>(Arrays.asList(e.get("command").replaceFirst("!", "").split(" ")));
             String command = args.remove(0);
             commandManager.executeCommand(command, args.toArray(new String[0]), e.getCommandSource(), id, chId, true);
         }

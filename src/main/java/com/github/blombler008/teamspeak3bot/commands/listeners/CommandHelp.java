@@ -39,28 +39,33 @@ public class CommandHelp extends CommandExecutor {
             String commandString = cmdManager.getCommandStringFromAlias(cmdManager.resolveCommand(args[0]));
             CommandTemplate cmdTemp = source.getInstance().getCommandManager().getCommands().get(commandString);
 
+            if (commandString == null) {
+                for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
+                    resolveCommand(chId, clId, source, command);
+                }
+            } else {
+                StringBuilder stringBuilder = new StringBuilder(" - ");
+                stringBuilder.append(cmdTemp.getCommand());
+                stringBuilder.append(" ");
+                stringBuilder.append(cmdTemp.getUsage());
+                source.sendMessage(chId, clId, stringBuilder.toString());
 
-            StringBuilder stringBuilder = new StringBuilder(" - ");
-            stringBuilder.append(cmdTemp.getCommand());
-            stringBuilder.append(" ");
-            stringBuilder.append(cmdTemp.getUsage());
-            source.sendMessage(chId, clId, stringBuilder.toString());
+                stringBuilder = new StringBuilder("    * ");
+                stringBuilder.append("Description: ");
+                stringBuilder.append(cmdTemp.getDescription());
+                source.sendMessage(chId, clId, stringBuilder.toString());
 
-            stringBuilder = new StringBuilder("    * ");
-            stringBuilder.append("Description: ");
-            stringBuilder.append(cmdTemp.getDescription());
-            source.sendMessage(chId, clId, stringBuilder.toString());
+                stringBuilder = new StringBuilder("    * ");
+                stringBuilder.append("Aliases: ");
+                stringBuilder.append(Arrays.toString(cmdTemp.getAliases().toArray()));
+                source.sendMessage(chId, clId, stringBuilder.toString());
 
-            stringBuilder = new StringBuilder("    * ");
-            stringBuilder.append("Aliases: ");
-            stringBuilder.append(Arrays.toString(cmdTemp.getAliases().toArray()));
-            source.sendMessage(chId, clId, stringBuilder.toString());
-
-            stringBuilder = new StringBuilder("    * ");
-            stringBuilder.append("Plugin: ");
-            stringBuilder.append(cmdTemp.getPlugin());
-            source.sendMessage(chId, clId, stringBuilder.toString());
-
+                stringBuilder = new StringBuilder("    * ");
+                stringBuilder.append("Plugin: ");
+                stringBuilder.append(cmdTemp.getPlugin());
+                source.sendMessage(chId, clId, stringBuilder.toString());
+            }
+            
         } else {
             for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
                 resolveCommand(chId, clId, source, command);

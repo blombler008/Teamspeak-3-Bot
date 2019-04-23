@@ -133,13 +133,15 @@ public class EventManager {
                 if (e.getInvokerId() != bot.getClient().getId()) {
                     String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
-                    Map<String, String> map = new HashMap<>(e.getMap());
-                    map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
-                    map.put("channelid", instance.getClient(e.getInvokerId()).getChannelId() + "");
-                    map.put("command", e.getMessage());
-                    instance.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
-                    fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
-                    return;
+                    if(instance.getCommandManager().getCommands().containsKey(cmdArray[0].replaceFirst("!", ""))) {
+                        Map<String, String> map = new HashMap<>(e.getMap());
+                        map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
+                        map.put("channelid", instance.getClient(e.getInvokerId()).getChannelId() + "");
+                        map.put("command", e.getMessage());
+                        instance.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
+                        fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
+                        return;
+                    }
                 }
                 instance.debug(Language.EVENT, "TextMessageEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_TEXT_MESSAGE, e.getMap(), e);
