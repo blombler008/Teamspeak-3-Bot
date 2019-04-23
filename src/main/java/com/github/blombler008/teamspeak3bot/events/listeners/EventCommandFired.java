@@ -29,6 +29,7 @@ import com.github.blombler008.teamspeak3bot.events.Listener;
 import com.github.blombler008.teamspeak3bot.events.annotation.EventListener;
 import com.github.blombler008.teamspeak3bot.events.handlers.EventCommandPreProcess;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,10 +43,11 @@ public class EventCommandFired implements Listener {
         int id = e.getInvokerId();
         int chId = e.getChannelId();
 
-        List<String> args = Arrays.asList(e.get("command").replaceFirst("!", "").split(" "));
+        List<String> args = new ArrayList<>(Arrays.asList(e.get("command").replaceFirst("!", "").split(" ")));
 
-        if (commandManager.checkCommand((String[]) args.toArray(), id, e.getCommandSource())) {
-            commandManager.executeCommand(args.get(0), (String[]) args.toArray(), e.getCommandSource(), id, chId, true);
+        if (commandManager.checkCommand(args.toArray(new String[0]), id, e.getCommandSource())) {
+            String command = args.remove(0);
+            commandManager.executeCommand(command, args.toArray(new String[0]), e.getCommandSource(), id, chId, true);
         }
     }
 }

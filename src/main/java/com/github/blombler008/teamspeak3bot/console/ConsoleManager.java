@@ -73,6 +73,10 @@ public class ConsoleManager {
                             instance.shutdown();
                             return;
                         }
+                        if (line.split(" ")[0].equalsIgnoreCase("stop")) {
+                            instance.shutdown();
+                            return;
+                        }
 
                         if (line.split(" ")[0].equalsIgnoreCase("uploadErrorLog")) {
                             instance.uploadErrorLog();

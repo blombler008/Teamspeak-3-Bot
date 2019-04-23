@@ -48,6 +48,7 @@ public class CommandManager {
 
         registeredCommands.add("quit");
         registeredCommands.add("exit");
+        registeredCommands.add("stop");
         registeredCommands.add("uploadErrorLog");
 
         this.customChar = String.valueOf(customChar);
@@ -120,10 +121,6 @@ public class CommandManager {
     }
 
     public boolean executeCommand(String cmd, String[] args, CommandSender source, int clientId, int channelId, boolean run) {
-        List<String> aList = Arrays.asList(args);
-        if (!(aList.size() == 1))
-            aList.remove(0);
-
 
         String cmdString = getCommandStringFromAlias(resolveCommand(cmd));
 

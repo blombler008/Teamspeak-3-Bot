@@ -38,6 +38,7 @@ public class Command {
     private final String description;
     private final String plugin;
     private final String command;
+    private final String usage;
     private final Map<String, String> map;
     private final Teamspeak3Bot instance;
 
@@ -48,6 +49,7 @@ public class Command {
         this.plugin = cmdTemp.getPlugin();
         this.map = map;
         this.instance = cmdTemp.getInstance();
+        this.usage = cmdTemp.getUsage();
     }
 
     public int getInvokerId() {
@@ -88,4 +90,7 @@ public class Command {
         return plugin;
     }
 
+    public String getUsage() {
+        return usage;
+    }
 }

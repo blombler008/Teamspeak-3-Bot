@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
         getInstance().getEventManager().addEventToProcessList(new ExampleEvent());
 
         // Adding a Command for the bot ...
-        CommandTemplate exampleTemplate = new CommandTemplate(getInstance(), new String[]{"example"}, "An example of an command", "example", this.getName());
+        CommandTemplate exampleTemplate = new CommandTemplate(getInstance(), new String[]{"example"}, "An example of an command", "example", this.getName(), "");
         getInstance().getCommandManager().registerNewCommand(exampleTemplate).setExecutor(new ExampleCommand());
     }
 

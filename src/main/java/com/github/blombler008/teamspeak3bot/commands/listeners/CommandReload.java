@@ -28,23 +28,40 @@ import com.github.blombler008.teamspeak3bot.commands.Command;
 import com.github.blombler008.teamspeak3bot.commands.CommandExecutor;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 import com.github.blombler008.teamspeak3bot.commands.ConsoleCommandSender;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
+import com.github.blombler008.teamspeak3bot.plugins.PluginManager;
 import com.github.blombler008.teamspeak3bot.utils.Language;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 public class CommandReload extends CommandExecutor {
     @Override
     public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
-        int id = cmd.getInvokerId();
-        ClientInfo sender = source.getInstance().getClient(id);
+        int chId = cmd.getInvokerId();
+        int clId = cmd.getChannelId();
+        PluginManager pluginManager = source.getInstance().getPluginManager();
 
-        if (source instanceof ConsoleCommandSender) {
-            source.getInstance().getPluginManager().reloadPlugins();
+        ClientInfo sender = source.getInstance().getClient(chId);
 
+        if(args.length == 1) {
+            if (source instanceof ConsoleCommandSender) {
+                JavaPlugin plugin = pluginManager.find(args[0]);
+                if(plugin != null) {
+                    pluginManager.reloadPlugin(plugin);
+                } else {
+                    source.sendMessage(chId, clId, "Usage: reload " + cmd.getUsage());
+                }
+
+            }
         } else {
-            if (sender.getUniqueIdentifier().equals(source.getInstance().getOwner().getUniqueIdentifier())) {
-                source.getInstance().getPluginManager().reloadPlugins();
+            if (source instanceof ConsoleCommandSender) {
+                pluginManager.reloadPlugins();
+
             } else {
-                source.sendMessage(0, id, Language.get("nopermissions"));
+                if (sender.getUniqueIdentifier().equals(source.getInstance().getOwner().getUniqueIdentifier())) {
+                    pluginManager.reloadPlugins();
+                } else {
+                    source.sendMessage(0, chId, Language.get("nopermissions"));
+                }
             }
         }
     }

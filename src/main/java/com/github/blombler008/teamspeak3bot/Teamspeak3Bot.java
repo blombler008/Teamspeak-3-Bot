@@ -178,15 +178,9 @@ public class Teamspeak3Bot {
                 Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
-        CommandTemplate helpTemplate =
-                new CommandTemplate(this, new String[]{"help", "?"}, "Shows a list of commands",
-                        "help", "Teamspeak");
-        CommandTemplate reloadTemplate =
-                new CommandTemplate(this, new String[]{"reload", "rl"}, "Reload all plugins", "reload",
-                        "Teamspeak");
-        CommandTemplate pluginsTemplate =
-                new CommandTemplate(this, new String[]{"plugins", "pl"}, "Shows a list of plugins",
-                        "plugins", "TeamspeakT");
+        CommandTemplate helpTemplate = new CommandTemplate(this, new String[]{"help", "?"}, "Shows a list of commands", "help", "Teamspeak", "[command]");
+        CommandTemplate reloadTemplate = new CommandTemplate(this, new String[]{"reload", "rl"}, "Reload all plugins", "reload", "Teamspeak", "[plugin]");
+        CommandTemplate pluginsTemplate = new CommandTemplate(this, new String[]{"plugins", "pl"}, "Shows a list of plugins", "plugins", "Teamspeak", "");
 
         commandManager.registerNewCommand(helpTemplate).setExecutor(new CommandHelp());
         commandManager.registerNewCommand(reloadTemplate).setExecutor(new CommandReload());

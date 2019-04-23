@@ -26,19 +26,48 @@ package com.github.blombler008.teamspeak3bot.commands.listeners;
 
 import com.github.blombler008.teamspeak3bot.commands.*;
 
+import java.util.Arrays;
+
 public class CommandHelp extends CommandExecutor {
     @Override
     public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+        CommandManager cmdManager = source.getInstance().getCommandManager();
         int clId = cmd.getInvokerId();
         int chId = cmd.getChannelId();
-
         source.sendMessage(chId, clId, "-------------------------------- Help --------------------------------");
+        if(args.length == 1) {
+            String commandString = cmdManager.getCommandStringFromAlias(cmdManager.resolveCommand(args[0]));
+            CommandTemplate cmdTemp = source.getInstance().getCommandManager().getCommands().get(commandString);
 
-        for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
-            resolveCommand(chId, clId, source, command);
+
+            StringBuilder stringBuilder = new StringBuilder(" - ");
+            stringBuilder.append(cmdTemp.getCommand());
+            stringBuilder.append(" ");
+            stringBuilder.append(cmdTemp.getUsage());
+            source.sendMessage(chId, clId, stringBuilder.toString());
+
+            stringBuilder = new StringBuilder("    * ");
+            stringBuilder.append("Description: ");
+            stringBuilder.append(cmdTemp.getDescription());
+            source.sendMessage(chId, clId, stringBuilder.toString());
+
+            stringBuilder = new StringBuilder("    * ");
+            stringBuilder.append("Aliases: ");
+            stringBuilder.append(Arrays.toString(cmdTemp.getAliases().toArray()));
+            source.sendMessage(chId, clId, stringBuilder.toString());
+
+            stringBuilder = new StringBuilder("    * ");
+            stringBuilder.append("Plugin: ");
+            stringBuilder.append(cmdTemp.getPlugin());
+            source.sendMessage(chId, clId, stringBuilder.toString());
+
+        } else {
+            for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
+                resolveCommand(chId, clId, source, command);
+            }
         }
-
         source.sendMessage(chId, clId, "----------------------------------------------------------------------");
+
     }
 
     private void resolveCommand(int chId, int clId, CommandSender source, String command) {

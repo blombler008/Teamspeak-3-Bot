@@ -156,10 +156,10 @@ public class PluginManager {
     }
 
     public void reloadPlugins(boolean debug) {
-        for (JavaPlugin p : plugins) {
-            disablePlugin(p);
+        List<JavaPlugin> cpi = new ArrayList<>(plugins);
+        for (JavaPlugin p : cpi) {
+            reloadPlugin(p, debug);
         }
-        prepare(debug);
     }
 
     public void loadPlugins(boolean debug) {
@@ -201,13 +201,15 @@ public class PluginManager {
 
     public boolean reloadPlugin(JavaPlugin p, boolean debug) {
         Teamspeak3Bot.getLogger()
-                .info("--------------------------------------------------------------------");
+                .info("----------------------------------------------------------------------");
         if (debug)
             instance.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
         Teamspeak3Bot.getLogger()
                 .info("Reloading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             disablePlugin(p);
+            plugins.remove(p);
+            pluginStates.remove(p);
             prepare(pluginFileMap.get(p), debug);
             loadPlugin(p);
             enablePlugin(p);
@@ -303,6 +305,15 @@ public class PluginManager {
                 }
             }
         }, "Waiter").start();
+    }
+
+    public JavaPlugin find(String arg) {
+        for(JavaPlugin pl: plugins) {
+            if(pl.getName().equals(arg)) {
+                return pl;
+            }
+        }
+        return null;
     }
 
     public interface Callback {

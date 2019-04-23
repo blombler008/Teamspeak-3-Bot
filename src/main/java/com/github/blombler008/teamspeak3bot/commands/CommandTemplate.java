@@ -33,14 +33,16 @@ public class CommandTemplate {
     private final String description;
     private final String command;
     private final String plugin;
+    private final String usage;
     private Teamspeak3Bot instance;
 
-    public CommandTemplate(Teamspeak3Bot instance, String[] aliases, String description, String command, String plugin) {
+    public CommandTemplate(Teamspeak3Bot instance, String[] aliases, String description, String command, String plugin, String usage) {
         this.command = command;
         this.aliases = aliases;
         this.description = description;
         this.plugin = plugin;
         this.instance = instance;
+        this.usage = usage;
     }
 
     public String getCommand() {
@@ -53,6 +55,10 @@ public class CommandTemplate {
 
     public String getPlugin() {
         return plugin;
+    }
+
+    public String getUsage() {
+        return usage;
     }
 
     public List<String> getAliases() {
