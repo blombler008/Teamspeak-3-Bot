@@ -75,6 +75,7 @@ public class CommandBuilderX {
     public CommandBuilder addProperties(Map<? extends Property, String> properties) {
         return x.addProperties(properties);
     }
+
     public Command build() {
         return x.build();
     }

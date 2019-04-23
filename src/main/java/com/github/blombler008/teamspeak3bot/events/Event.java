@@ -37,7 +37,7 @@ public abstract class Event extends BaseEvent {
     protected TS3Api api;
     protected Teamspeak3Bot instance;
 
-    public Event(Teamspeak3Bot instance ,Map<String, String> map, TS3Api api, BaseEvent event) {
+    public Event(Teamspeak3Bot instance, Map<String, String> map, TS3Api api, BaseEvent event) {
         super(map);
         this.api = api;
         this.event = event;

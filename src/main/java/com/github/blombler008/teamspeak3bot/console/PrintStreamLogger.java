@@ -89,7 +89,7 @@ public class PrintStreamLogger extends PrintStream {
 
     public void writeSeparate(String str, boolean console) {
 
-        if(console) {
+        if (console) {
             print(str);
         } else {
             lg.print(str);

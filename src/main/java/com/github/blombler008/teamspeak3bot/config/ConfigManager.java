@@ -63,7 +63,8 @@ public class ConfigManager {
     }
 
     public static void add(File dataFolder, Plugin plugin) {
-        if(dataFolders.containsValue(plugin) || dataFolders.containsKey(dataFolder)) return;
+        if (dataFolders.containsValue(plugin) || dataFolders.containsKey(dataFolder))
+            return;
         dataFolders.put(dataFolder, plugin);
     }
 

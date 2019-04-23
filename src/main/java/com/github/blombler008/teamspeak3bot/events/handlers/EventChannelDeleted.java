@@ -34,7 +34,8 @@ import java.util.Map;
 
 public class EventChannelDeleted extends Event {
 
-    public EventChannelDeleted(Teamspeak3Bot instance,Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventChannelDeleted(Teamspeak3Bot instance, Map<String, String> e, TS3Api api,
+        BaseEvent event) {
         super(instance, e, api, event);
     }
 

@@ -24,7 +24,6 @@
 
 package com.github.blombler008.teamspeak3bot.example.v2;
 
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.events.Listener;
 import com.github.blombler008.teamspeak3bot.events.annotation.EventListener;
 import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;

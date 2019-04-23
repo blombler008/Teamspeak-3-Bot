@@ -89,14 +89,15 @@ public class Teamspeak3Bot {
             enableDebugger(args);
             consoleManager = new ConsoleManager(this);
 
-            debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject.escape(File.separator));
+            debug(Language.MAIN, "File.separator == " + File.separator + "; In code: " + JSONObject
+                .escape(File.separator));
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                debug(Language.MAIN, "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
+                debug(Language.MAIN,
+                    "MySQL Driver \"com.mysql.cj.jdbc.Driver\" has been loaded in!");
             } catch (Exception ignore) {
                 debug(Language.MAIN, "Failed to load MySQL Driver!");
             }
-            ;
             info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
 
 
@@ -175,12 +176,19 @@ public class Teamspeak3Bot {
         eventManager.registerEvents();
 
         CommandBuilderX x = new CommandBuilderX("gm", 1);
-        x.add(new KeyValueParam("msg", Language.MAIN + "I just joined the server but got not fully implemented!!"));
+        x.add(new KeyValueParam("msg",
+            Language.MAIN + "I just joined the server but got not fully implemented!!"));
         Command cmd = x.build();
 
-        CommandTemplate helpTemplate = new CommandTemplate(this ,new String[]{"help", "?"}, "Shows the help list", "help", "Teamspeak");
-        CommandTemplate reloadTemplate = new CommandTemplate(this ,new String[]{"reload", "rl"}, "Reload all plugins", "reload", "Teamspeak");
-        CommandTemplate pluginsTemplate = new CommandTemplate(this ,new String[]{"plugins", "pl"}, "Shows a list of enabled plugins", "plugins", "TeamspeakT");
+        CommandTemplate helpTemplate =
+            new CommandTemplate(this, new String[] {"help", "?"}, "Shows a list of commands",
+                "help", "Teamspeak");
+        CommandTemplate reloadTemplate =
+            new CommandTemplate(this, new String[] {"reload", "rl"}, "Reload all plugins", "reload",
+                "Teamspeak");
+        CommandTemplate pluginsTemplate =
+            new CommandTemplate(this, new String[] {"plugins", "pl"}, "Shows a list of plugins",
+                "plugins", "TeamspeakT");
 
         commandManager.registerNewCommand(helpTemplate).setExecutor(new CommandHelp());
         commandManager.registerNewCommand(reloadTemplate).setExecutor(new CommandReload());
@@ -204,7 +212,8 @@ public class Teamspeak3Bot {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_dd_MM---HH_mm_ss_SSS");
 
-        logsDir = new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
+        logsDir =
+            new File(getWorkDirectory(), "logs" + File.separator + "log-" + date.format(formatter));
         logsDir.mkdirs();
 
         String nameLogFile = "log.txt.log";
@@ -227,11 +236,6 @@ public class Teamspeak3Bot {
 
     }
 
-    public void debug(String l, String s) {
-        if (debuggerEnabled)
-            getLogger().debug(l + s);
-    }
-
     public static File getWorkDir() {
         return workDir;
     }
@@ -240,7 +244,45 @@ public class Teamspeak3Bot {
         return logsDir;
     }
 
+    private static File getWorkDirectory() {
+        return workDir;
+    }
 
+    private static String getWorkDirectory(String[] args) {
+        String ret = "Teamspeak3Bot";
+        if (StringUtils.hasKey(args, "workDir")) {
+            ret = StringUtils.getValueOf(args, "workDir");
+
+            if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
+                ret = "Teamspeak3Bot";
+        }
+        return ret + File.separator;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static Teamspeak3Bot getInstance() {
+        return instance;
+    }
+
+    private static void setInstance(Teamspeak3Bot instance) {
+        Teamspeak3Bot.instance = instance;
+    }
+
+    public static File getLogFile() {
+        return logFile;
+    }
+
+    public static boolean getDebugged() {
+        return instance.debuggerEnabled;
+    }
+
+    public void debug(String l, String s) {
+        if (debuggerEnabled)
+            getLogger().debug(l + s);
+    }
 
     public void uploadErrorLog() {
         try {
@@ -335,33 +377,6 @@ public class Teamspeak3Bot {
             getLogger().info(Language.MAIN + "Debugger has been enabled!");
     }
 
-    private static File getWorkDirectory() {
-        return workDir;
-    }
-
-    private static String getWorkDirectory(String[] args) {
-        String ret = "Teamspeak3Bot";
-        if (StringUtils.hasKey(args, "workDir")) {
-            ret = StringUtils.getValueOf(args, "workDir");
-
-            if (!Validator.isValidPath(ret) || !Validator.isDirectory(ret))
-                ret = "Teamspeak3Bot";
-        }
-        return ret + File.separator;
-    }
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public static Teamspeak3Bot getInstance() {
-        return instance;
-    }
-
-    private static void setInstance(Teamspeak3Bot instance) {
-        Teamspeak3Bot.instance = instance;
-    }
-
     public Bot getBot() {
         return bot;
     }
@@ -374,10 +389,6 @@ public class Teamspeak3Bot {
         return getBot().getApi();
     }
 
-    public static File getLogFile() {
-        return logFile;
-    }
-
     public void writeToFile(String line) {
         out.writeSeparate(line + System.lineSeparator(), false);
     }
@@ -388,10 +399,6 @@ public class Teamspeak3Bot {
 
     public void info(String str) {
         getLogger().info(str);
-    }
-
-    public static boolean getDebugged() {
-        return instance.debuggerEnabled;
     }
 
     public ConsoleManager getConsoleManager() {

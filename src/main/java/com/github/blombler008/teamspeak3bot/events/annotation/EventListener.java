@@ -36,13 +36,15 @@ import java.lang.annotation.Target;
     enum Priority {
         LOWEST(5), LOW(4), MEDIUM(3), HIGH(2), HIGHEST(1);
         int priority;
+
         Priority(int i) {
             priority = i;
         }
+
         public int compareTo(EventListener evL) {
-            if(evL.priority().getLevel() < priority) {
+            if (evL.priority().getLevel() < priority) {
                 return 1;
-            } else if(evL.priority().getLevel() > priority) {
+            } else if (evL.priority().getLevel() > priority) {
                 return -1;
             } else {
                 return 0;

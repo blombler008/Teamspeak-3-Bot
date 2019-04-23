@@ -62,18 +62,15 @@ public class PluginManager {
             JarFile jFile = new JarFile(file);
             ZipEntry zEntry = jFile.getEntry("plugin.ini");
             if (Validator.notNull(zEntry)) {
-                Teamspeak3Bot.getLogger()
-                    .error(Language.PLUGIN + "File: plugin.ini not found!");
+                Teamspeak3Bot.getLogger().error(Language.PLUGIN + "File: plugin.ini not found!");
                 return false;
             }
             Properties properties = new Properties();
             properties.load(new InputStreamReader(jFile.getInputStream(zEntry)));
 
-            String name =
-                (properties.containsKey("name") ? properties.getProperty("name") : null);
-            String version = (properties.containsKey("version") ?
-                properties.getProperty("version") :
-                null);
+            String name = (properties.containsKey("name") ? properties.getProperty("name") : null);
+            String version =
+                (properties.containsKey("version") ? properties.getProperty("version") : null);
             String description = (properties.containsKey("description") ?
                 properties.getProperty("description") :
                 null);
@@ -81,8 +78,8 @@ public class PluginManager {
                 (properties.containsKey("main") ? properties.getProperty("main") : null);
             properties.remove("main");
 
-            instance.debug(Language.PLUGIN, "Properties of plugin \'" + name + "\' > "
-                        + properties.toString());
+            instance.debug(Language.PLUGIN,
+                "Properties of plugin \'" + name + "\' > " + properties.toString());
 
 
             if (!Validator.notNull(name) && !Validator.notNull(version) && !Validator
@@ -96,8 +93,9 @@ public class PluginManager {
                 instance.debug(Language.PLUGIN, urls[0].getFile());
 
                 URLClassLoader cl = URLClassLoader.newInstance(urls);
-                //noinspection SingleStatementInBlock, unchecked
-                Class<JavaPlugin> pluginClass = (Class<JavaPlugin>) cl.loadClass(mainClass);
+
+                @SuppressWarnings("unchecked") Class<JavaPlugin> pluginClass =
+                    (Class<JavaPlugin>) cl.loadClass(mainClass);
 
                 //Constructor<JavaPlugin> constructor =
                 //    (Constructor<JavaPlugin>) pluginClass.getSuperclass()
@@ -111,15 +109,14 @@ public class PluginManager {
                 plugins.add(plugin);
 
                 if (debug)
-                    instance.debug(
-                        Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin
-                            .toString());
+                    instance.debug(Language.PLUGIN,
+                        "Plugin \'" + name + "\' added > " + plugin.toString());
                 pluginFileMap.put(plugin, file);
             }
 
         } catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException e) {
-            instance.getLogger().error(
-                Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
+            Teamspeak3Bot.getLogger()
+                .error(Language.PLUGIN + "plugin.ini in " + file.getName() + " is not valid!");
             e.printStackTrace();
             return false;
         }
@@ -186,7 +183,9 @@ public class PluginManager {
         }
     }
 
-    public boolean reloadPlugin(JavaPlugin p) {return reloadPlugin(p, false);}
+    public boolean reloadPlugin(JavaPlugin p) {
+        return reloadPlugin(p, false);
+    }
 
     public boolean loadPlugin(JavaPlugin p) {
         return loadPlugin(p, false);
@@ -295,7 +294,8 @@ public class PluginManager {
     public void isFinished(Callback c) {
         new Thread(() -> {
             while (true) {
-                if(plugins.size() == pluginStates.size() && instance.getConsoleManager().getReader() != null && finished) {
+                if (plugins.size() == pluginStates.size()
+                    && instance.getConsoleManager().getReader() != null && finished) {
                     instance.info("Done! For help use \"help\" or \"?\".");
                     c.call();
                     break;

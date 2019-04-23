@@ -28,13 +28,13 @@ import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 public class ChannelCommandSender extends CommandSender {
     private int channelId;
-    
-    public int getChannel(){
-        return channelId;
-    }
 
     public ChannelCommandSender(String s) {
         super(s);
+    }
+
+    public int getChannel() {
+        return channelId;
     }
 
     @Override public void sendMessage(int channel, int client, String message) {

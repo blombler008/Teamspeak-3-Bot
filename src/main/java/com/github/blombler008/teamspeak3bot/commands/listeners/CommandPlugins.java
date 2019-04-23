@@ -35,23 +35,24 @@ import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 
 import java.util.List;
 
-;
-
 public class CommandPlugins extends CommandExecutor {
 
-    @Override public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
+    @Override
+    public void run(CommandSender source, Command cmd, String commandLabel, String[] args) {
         int id = cmd.getInvokerId();
         ClientInfo sender = source.getInstance().getClient(id);
-        if ( source instanceof ConsoleCommandSender || sender.getUniqueIdentifier().equals(source.getInstance().getOwner().getUniqueIdentifier())) {
+        if (source instanceof ConsoleCommandSender || sender.getUniqueIdentifier()
+            .equals(source.getInstance().getOwner().getUniqueIdentifier())) {
             sendPlugins(source, cmd.getChannelId(), id);
         } else {
             source.sendMessage(0, id, Language.get("nopermissions"));
         }
     }
 
-    private void sendPlugins(CommandSender source, int ch, int cl ) {
+    private void sendPlugins(CommandSender source, int ch, int cl) {
         source.sendMessage(ch, cl, "List of Plugins:");
-        getPlugins(source.getInstance()).forEach(o -> source.sendMessage(ch, cl," - " + o.getName()));
+        getPlugins(source.getInstance())
+            .forEach(o -> source.sendMessage(ch, cl, " - " + o.getName()));
         source.sendMessage(ch, cl, "End of List");
     }
 

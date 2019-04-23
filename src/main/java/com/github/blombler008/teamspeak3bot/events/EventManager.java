@@ -53,8 +53,8 @@ public class EventManager {
 
     @SuppressWarnings(value = {"unchecked", "unused"})
     public void addEventToProcessList(final Listener e) {
-        instance.debug(Language.EVENT
-            ,"-------------------------------addEventToProcessList--------------------------------");
+        instance.debug(Language.EVENT,
+            "-------------------------------addEventToProcessList--------------------------------");
         instance.debug(Language.EVENT, "Trying adding class: " + e.getClass().getName());
 
         Class<Listener> objClass = (Class<Listener>) e.getClass();
@@ -66,23 +66,23 @@ public class EventManager {
             method.setAccessible(true);
 
             instance.debug(Language.EVENT, "Method: \"" + method.getName() + "\"");
-            instance.debug(Language.EVENT, "- Declared Annotations: " + Arrays
-                .toString(method.getAnnotations()));
-            instance.debug(
-                Language.EVENT, "- Declared Parameters: " + Arrays.toString(method.getParameters()));
+            instance.debug(Language.EVENT,
+                "- Declared Annotations: " + Arrays.toString(method.getAnnotations()));
+            instance.debug(Language.EVENT,
+                "- Declared Parameters: " + Arrays.toString(method.getParameters()));
 
-            if (method.isAnnotationPresent(EventListener.class) && method.getParameterCount() == 1) {
+            if (method.isAnnotationPresent(EventListener.class)
+                && method.getParameterCount() == 1) {
                 EventListener evL = method.getAnnotation(EventListener.class);
-                Parameter parm = method.getParameters()[0];
+                Parameter param = method.getParameters()[0];
 
-                instance
-                    .debug(Language.EVENT, "- Parameter Class: " + parm.getType().getName());
+                instance.debug(Language.EVENT, "- Parameter Class: " + param.getType().getName());
 
-                if (parm.getType().getGenericSuperclass().getTypeName()
+                if (param.getType().getGenericSuperclass().getTypeName()
                     .equals(Event.class.getTypeName())) {
 
                     Class<? extends Event> evType =
-                        EventType.getFromEventType((Class<? extends Event>) parm.getType());
+                        EventType.getFromEventType((Class<? extends Event>) param.getType());
 
                     EventPoint eventPoint = new EventPoint();
                     eventPoint.method = method;
@@ -90,12 +90,13 @@ public class EventManager {
                     eventPoint.eventType = EventType.getForEventType(evType);
                     eventPoint.eventListener = evL;
 
-                    List<EventPoint> eventPoints = events.getOrDefault(eventPoint.eventType, new ArrayList<>());
-                    if(eventPoints.size()==0) {
+                    List<EventPoint> eventPoints =
+                        events.getOrDefault(eventPoint.eventType, new ArrayList<>());
+                    if (eventPoints.size() == 0) {
                         eventPoints.add(eventPoint);
                     } else {
-                        int count = eventPoints.size()-1;
-                        for(int i=0; i<eventPoints.size(); i++) {
+                        int count = eventPoints.size() - 1;
+                        for (int i = 0; i < eventPoints.size(); i++) {
                             EventPoint p = eventPoints.get(i);
                             switch (p.getEventAnnotation().priority().compareTo(evL)) {
                                 case -1:
@@ -108,13 +109,15 @@ public class EventManager {
                                     break;
                             }
                         }
-                        if(count < 0) count = 0;
+                        if (count < 0)
+                            count = 0;
                         eventPoints.add(count, eventPoint);
                     }
                     events.put(eventPoint.eventType, eventPoints);
                     instance.debug(Language.EVENT, "{=} Added to the Event Listener!");
                     instance.debug(Language.EVENT, "{=} Method: " + eventPoint.method);
-                    instance.debug(Language.EVENT, "{=} Class: " + eventPoint.methodClass.getSimpleName());
+                    instance.debug(Language.EVENT,
+                        "{=} Class: " + eventPoint.methodClass.getSimpleName());
                     instance.debug(Language.EVENT, "{=} Event Type: " + eventPoint.eventType);
                 }
             }
@@ -129,8 +132,9 @@ public class EventManager {
         api.addTS3Listeners(new TS3Listener() {
 
             @Override public void onTextMessage(TextMessageEvent e) {
-                if((e.getInvokerId() == 0)) return;
-                if (e.getInvokerId() != bot.getClient().getId() ) {
+                if ((e.getInvokerId() == 0))
+                    return;
+                if (e.getInvokerId() != bot.getClient().getId()) {
                     String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
                     Map<String, String> map = new HashMap<>(e.getMap());
@@ -158,20 +162,18 @@ public class EventManager {
             }
 
             @Override public void onServerEdit(ServerEditedEvent e) {
-                instance
-                    .debug(Language.EVENT, "ServerEditedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ServerEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_SERVER_EDIT, e.getMap(), e);
             }
 
             @Override public void onChannelEdit(ChannelEditedEvent e) {
-                instance
-                    .debug(Language.EVENT, "ChannelEditedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ChannelEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_EDIT, e.getMap(), e);
             }
 
             @Override public void onChannelDescriptionChanged(ChannelDescriptionEditedEvent e) {
-                instance.debug(
-                    Language.EVENT, "ChannelDescriptionEditedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT,
+                    "ChannelDescriptionEditedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_DESCRIPTION_CHANGED, e.getMap(), e);
             }
 
@@ -181,35 +183,31 @@ public class EventManager {
             }
 
             @Override public void onChannelCreate(ChannelCreateEvent e) {
-                instance
-                    .debug(Language.EVENT, "ChannelCreateEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ChannelCreateEvent > " + e.getMap().toString());
                 instance.getChannels().put(e.getChannelId(), api.getChannelInfo(e.getChannelId()));
                 fireEvent(EventType.EVENT_CHANNEL_CREATE, e.getMap(), e);
             }
 
             @Override public void onChannelDeleted(ChannelDeletedEvent e) {
-                instance
-                    .debug(Language.EVENT, "ChannelDeletedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ChannelDeletedEvent > " + e.getMap().toString());
                 instance.getChannels().remove(e.getChannelId());
                 fireEvent(EventType.EVENT_CHANNEL_DELETED, e.getMap(), e);
             }
 
             @Override public void onChannelMoved(ChannelMovedEvent e) {
-                instance
-                    .debug(Language.EVENT, "ChannelMovedEvent > " + e.getMap().toString());
+                instance.debug(Language.EVENT, "ChannelMovedEvent > " + e.getMap().toString());
                 fireEvent(EventType.EVENT_CHANNEL_MOVED, e.getMap(), e);
             }
 
             @Override public void onChannelPasswordChanged(ChannelPasswordChangedEvent e) {
-                instance.debug(
-                    Language.EVENT, "ChannelPasswordChangedEvent > " + e.getMap().toString());
-                fireEvent(EventType.EVENT_CHANNEL_PASSWORD_CHANGED, e.getMap(),e);
+                instance.debug(Language.EVENT,
+                    "ChannelPasswordChangedEvent > " + e.getMap().toString());
+                fireEvent(EventType.EVENT_CHANNEL_PASSWORD_CHANGED, e.getMap(), e);
             }
 
             @Override public void onPrivilegeKeyUsed(PrivilegeKeyUsedEvent e) {
-                instance
-                    .debug(Language.EVENT, "PrivilegeKeyUsedEvent > " + e.getMap().toString());
-                fireEvent(EventType.EVENT_PRIVILEGE_KEY_USED, e.getMap(),e);
+                instance.debug(Language.EVENT, "PrivilegeKeyUsedEvent > " + e.getMap().toString());
+                fireEvent(EventType.EVENT_PRIVILEGE_KEY_USED, e.getMap(), e);
             }
         });
     }
@@ -226,7 +224,7 @@ public class EventManager {
 
             List<EventPoint> eventPoints = events.get(type);
 
-            for(EventPoint eventPoint: eventPoints) {
+            for (EventPoint eventPoint : eventPoints) {
                 Method method = eventPoint.method;
 
                 Class<Listener> ev = eventPoint.methodClass;
@@ -234,48 +232,62 @@ public class EventManager {
                 instance.debug(Language.EVENT, "Class: " + ev.getSimpleName());
                 instance.debug(Language.EVENT, "Event Type: " + type);
                 instance.debug(Language.EVENT, "Event Map: " + map);
-                instance.debug(Language.EVENT, "Event Priority: " + method.getAnnotation(EventListener.class).priority());
+                instance.debug(Language.EVENT,
+                    "Event Priority: " + method.getAnnotation(EventListener.class).priority());
                 instance.debug(Language.EVENT, "executing...");
 
                 switch (type) {
                     case EVENT_CHANNEL_CREATE:
-                        method.invoke(ev.newInstance(), new EventChannelCreate(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelCreate(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_DELETED:
-                        method.invoke(ev.newInstance(), new EventChannelDeleted(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelDeleted(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_DESCRIPTION_CHANGED:
-                        method.invoke(ev.newInstance(), new EventChannelDescriptionChanged(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelDescriptionChanged(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_EDIT:
-                        method.invoke(ev.newInstance(), new EventChannelEdit(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelEdit(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_MOVED:
-                        method.invoke(ev.newInstance(), new EventChannelMoved(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelMoved(instance, map, api, event));
                         break;
                     case EVENT_CHANNEL_PASSWORD_CHANGED:
-                        method.invoke(ev.newInstance(), new EventChannelPasswordChanged(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventChannelPasswordChanged(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_JOIN:
-                        method.invoke(ev.newInstance(), new EventClientJoin(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventClientJoin(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_LEAVE:
-                        method.invoke(ev.newInstance(), new EventClientLeave(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventClientLeave(instance, map, api, event));
                         break;
                     case EVENT_CLIENT_MOVED:
-                        method.invoke(ev.newInstance(), new EventClientMoved(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventClientMoved(instance, map, api, event));
                         break;
                     case EVENT_PRIVILEGE_KEY_USED:
-                        method.invoke(ev.newInstance(), new EventPrivilegeKeyUsed(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventPrivilegeKeyUsed(instance, map, api, event));
                         break;
                     case EVENT_SERVER_EDIT:
-                        method.invoke(ev.newInstance(), new EventServerEdit(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventServerEdit(instance, map, api, event));
                         break;
                     case EVENT_TEXT_MESSAGE:
-                        method.invoke(ev.newInstance(), new EventTextMessage(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventTextMessage(instance, map, api, event));
                         break;
                     case EVENT_COMMAND_PRE_PROCESS:
-                        method.invoke(ev.newInstance(), new EventCommandPreProcess(instance, map, api, event));
+                        method.invoke(ev.newInstance(),
+                            new EventCommandPreProcess(instance, map, api, event));
                         break;
                 }
             }
