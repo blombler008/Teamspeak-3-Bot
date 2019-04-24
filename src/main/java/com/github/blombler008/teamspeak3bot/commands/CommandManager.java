@@ -95,12 +95,16 @@ public class CommandManager {
         return cmdTemp;
     }
 
-    public CommandTemplate getCommand(JavaPlugin plugin, String str, CommandExecutor cmdEx) {
-        return getCommand(plugin.getName(), str, cmdEx);
+    public CommandTemplate getCommand(JavaPlugin plugin, String str, CommandExecutor cmdEx, CommandTemplate cmdTemp) {
+        return getCommand(plugin.getName(), str, cmdEx, cmdTemp);
     }
 
-    public CommandTemplate getCommand(String pluginName, String str, CommandExecutor cmdEx) {
+    public CommandTemplate getCommand(String pluginName, String str, CommandExecutor cmdEx, CommandTemplate cmdTemp) {
         CommandTemplate cmd = commands.get(str);
+
+        if(cmd == null) {
+            cmd = registerNewCommand(cmdTemp);
+        }
 
         List<CommandExecutor> executors = commandExecutors.getOrDefault(str, new ArrayList<>());
         executors.add(cmdEx);

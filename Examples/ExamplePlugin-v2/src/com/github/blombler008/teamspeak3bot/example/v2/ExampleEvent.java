@@ -30,10 +30,7 @@ import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
 
 public class ExampleEvent implements Listener {
 
-
     @EventListener
-    // If a client Messages the bot this Event is executed ...
-    // NOTE: the name of the event doesn't matter at all
     public void onTextMessage(EventTextMessage e) {
         e.getInstance().info("Example Event Stun > " + e.getEvent().getMessage());
     }

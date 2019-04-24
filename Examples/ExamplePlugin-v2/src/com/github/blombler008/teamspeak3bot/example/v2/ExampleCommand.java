@@ -28,7 +28,7 @@ import com.github.blombler008.teamspeak3bot.commands.*;
 
 public class ExampleCommand extends CommandExecutor {
 
-    /*!
+    /**
      * NOTE: You cannot change the name of the method ...
      *
      * If the command (in this case "example") is send to the bot you this method runs
