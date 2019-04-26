@@ -66,7 +66,7 @@ public class CommandTemplate {
     }
 
     public CommandTemplate setExecutor(CommandExecutor executor) {
-        return instance.getCommandManager().getCommand(plugin, command, executor);
+        return instance.getCommandManager().getCommand(plugin, command, executor, this);
     }
 
     public Teamspeak3Bot getInstance() {
