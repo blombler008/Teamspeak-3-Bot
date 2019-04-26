@@ -6,4 +6,4 @@ notifications:
     on_success: never
     on_failure: always
 sudo: false
-script: ant all
+script: mvn install
