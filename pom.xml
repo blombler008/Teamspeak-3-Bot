@@ -49,6 +49,8 @@
         <developer>
             <email>blombler008@gmail.com</email>
             <name>blombler008</name>
+            <organization>com.github.blombler008</organization>
+            <organizationUrl>https://github.com/blombler008/Teamspeak-3-Bot</organizationUrl>
             <url>https://github.com/blombler008</url>
             <timezone>+1</timezone>
         </developer>
@@ -60,6 +62,11 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git://github.com/blombler008/Teamspeak-3-Bot.git</connection>
+        <developerConnection>scm:git:ssh://github.com:blombler008/Teamspeak-3-Bot.git</developerConnection>
+        <url>http://github.com/blombler008/Teamspeak-3-Bot</url>
+    </scm>
 
     <properties>
         <encoding>UTF-8</encoding>
@@ -78,6 +85,7 @@
     </repositories>
 
     <dependencies>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -164,12 +172,47 @@
                         <id>attach-sources</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
-    </build>
 
+    </build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
