@@ -43,7 +43,7 @@ public class EventManager {
     private Map<EventType, List<EventPoint>> events = new HashMap<>();
     private Bot bot;
     private TS3Api api;
-    private Teamspeak3Bot instance;
+    private final Teamspeak3Bot instance;
 
     public EventManager(Bot bot, TS3Api api, Teamspeak3Bot instance) {
         this.bot = bot;
@@ -133,14 +133,16 @@ public class EventManager {
                 if (e.getInvokerId() != bot.getClient().getId()) {
                     String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
-                    if(instance.getCommandManager().getCommands().containsKey(cmdArray[0].replaceFirst("!", ""))) {
-                        Map<String, String> map = new HashMap<>(e.getMap());
-                        map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
-                        map.put("channelid", instance.getClient(e.getInvokerId()).getChannelId() + "");
-                        map.put("command", e.getMessage());
-                        instance.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
-                        fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
-                        return;
+                    if(!(cmdArray.length == 0)) {
+                        if(instance.getCommandManager().getCommands().containsKey(cmdArray[0].replaceFirst("!", ""))) {
+                            Map<String, String> map = new HashMap<>(e.getMap());
+                            map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
+                            map.put("channelid", instance.getClient(invokerId).getChannelId() + "");
+                            map.put("command", e.getMessage());
+                            instance.debug(Language.EVENT, "CommandPreProcessEvent > " + map);
+                            fireEvent(EventType.EVENT_COMMAND_PRE_PROCESS, map, e);
+                            return;
+                        }
                     }
                 }
                 instance.debug(Language.EVENT, "TextMessageEvent > " + e.getMap().toString());
@@ -150,14 +152,14 @@ public class EventManager {
             @Override
             public void onClientJoin(ClientJoinEvent e) {
                 instance.debug(Language.EVENT, "ClientJoinEvent > " + e.getMap().toString());
-                instance.getClients().put(e.getClientId(), api.getClientInfo(e.getClientId()));
+                instance.clientJoined(e.getClientId(), api.getClientInfo(e.getClientId()));
                 fireEvent(EventType.EVENT_CLIENT_JOIN, e.getMap(), e);
             }
 
             @Override
             public void onClientLeave(ClientLeaveEvent e) {
                 instance.debug(Language.EVENT, "ClientLeaveEvent > " + e.getMap().toString());
-                instance.getClients().remove(e.getClientId());
+                instance.clientLeft(e.getClientId());
                 fireEvent(EventType.EVENT_CLIENT_LEAVE, e.getMap(), e);
             }
 

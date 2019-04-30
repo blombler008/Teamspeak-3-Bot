@@ -346,6 +346,13 @@ public class Teamspeak3Bot {
         return new HashMap<>(clients);
     }
 
+    public void clientJoined(int id, ClientInfo info) {
+        clients.put(id, info);
+    }
+    public void clientLeft(int id) {
+        clients.remove(id);
+    }
+
     public Map<Integer, ChannelInfo> getChannels() {
         return new HashMap<>(channels);
     }

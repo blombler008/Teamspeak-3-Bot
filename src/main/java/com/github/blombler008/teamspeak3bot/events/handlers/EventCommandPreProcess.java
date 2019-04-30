@@ -43,7 +43,7 @@ public class EventCommandPreProcess extends Event {
         this.map = e;
         this.source = CommandSender.getSender(map.get("source").toUpperCase());
         if (source instanceof ChannelCommandSender) {
-            ((ChannelCommandSender) source).setChannelId(Integer.parseInt(map.get("channelid")));
+            ((ChannelCommandSender) source).setChannelId(instance.getClient().getChannelId());
         }
     }
 
@@ -62,6 +62,6 @@ public class EventCommandPreProcess extends Event {
     }
 
     public int getChannelId() {
-        return Integer.parseInt(map.getOrDefault("channelid", "0"));
+        return Integer.parseInt(map.getOrDefault("channelid", "1"));
     }
 }
