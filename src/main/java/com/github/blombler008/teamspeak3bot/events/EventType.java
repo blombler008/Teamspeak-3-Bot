@@ -25,6 +25,10 @@
 package com.github.blombler008.teamspeak3bot.events;
 
 import com.github.blombler008.teamspeak3bot.events.handlers.*;
+import com.github.blombler008.teamspeak3bot.events.handlers.channel.*;
+import com.github.blombler008.teamspeak3bot.events.handlers.client.EventClientJoin;
+import com.github.blombler008.teamspeak3bot.events.handlers.client.EventClientLeave;
+import com.github.blombler008.teamspeak3bot.events.handlers.client.EventClientMoved;
 
 public enum EventType {
     EVENT_CHANNEL_CREATE(EventChannelCreate.class), EVENT_CHANNEL_DELETED(

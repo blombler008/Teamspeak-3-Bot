@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events.handlers;
+package com.github.blombler008.teamspeak3bot.events.handlers.channel;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.events.Event;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ClientLeaveEvent;
+import com.github.theholywaffle.teamspeak3.api.event.ChannelDescriptionEditedEvent;
 
 import java.util.Map;
 
-public class EventClientLeave extends Event {
+public class EventChannelDescriptionChanged extends Event {
 
-    public EventClientLeave(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventChannelDescriptionChanged(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
     @Override
-    public ClientLeaveEvent getEvent() {
-        return (ClientLeaveEvent) event;
+    public ChannelDescriptionEditedEvent getEvent() {
+        return (ChannelDescriptionEditedEvent) event;
     }
 
     @Override

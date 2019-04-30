@@ -22,25 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events.handlers;
+package com.github.blombler008.teamspeak3bot.events.handlers.channel;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.events.Event;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelDeletedEvent;
+import com.github.theholywaffle.teamspeak3.api.event.ChannelMovedEvent;
 
 import java.util.Map;
 
-public class EventChannelDeleted extends Event {
+public class EventChannelMoved extends Event {
 
-    public EventChannelDeleted(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventChannelMoved(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
     @Override
-    public ChannelDeletedEvent getEvent() {
-        return (ChannelDeletedEvent) event;
+    public ChannelMovedEvent getEvent() {
+        return (ChannelMovedEvent) event;
     }
 
     @Override

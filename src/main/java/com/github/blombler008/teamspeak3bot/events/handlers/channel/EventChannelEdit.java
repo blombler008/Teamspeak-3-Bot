@@ -22,30 +22,29 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events.handlers;
+package com.github.blombler008.teamspeak3bot.events.handlers.channel;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.events.Event;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.api.event.BaseEvent;
-import com.github.theholywaffle.teamspeak3.api.event.ChannelPasswordChangedEvent;
+import com.github.theholywaffle.teamspeak3.api.event.ChannelEditedEvent;
 
 import java.util.Map;
 
-public class EventChannelPasswordChanged extends Event {
+public class EventChannelEdit extends Event {
 
-    public EventChannelPasswordChanged(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
+    public EventChannelEdit(Teamspeak3Bot instance, Map<String, String> e, TS3Api api, BaseEvent event) {
         super(instance, e, api, event);
     }
 
     @Override
-    public ChannelPasswordChangedEvent getEvent() {
-        return (ChannelPasswordChangedEvent) event;
+    public ChannelEditedEvent getEvent() {
+        return (ChannelEditedEvent) event;
     }
 
     @Override
     public TS3Api getApi() {
         return api;
     }
-
 }

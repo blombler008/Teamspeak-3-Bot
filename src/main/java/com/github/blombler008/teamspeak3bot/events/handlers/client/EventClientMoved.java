@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.blombler008.teamspeak3bot.events.handlers;
+package com.github.blombler008.teamspeak3bot.events.handlers.client;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.events.Event;
