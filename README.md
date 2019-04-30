@@ -11,6 +11,12 @@
 ### Usage
 > To use the bot you can simply create a folder (eg. ```mkdir /home/example/bot```) and download put the ```Teamspeak-sq-bot.jar``` in that folder. As soon as you execute the jar, a folder called ```Teamspeak3Bot``` is created in that same directory where the bot jar lays.
 > You can specify the work dir by using the start parameter *```workDir```*. The Default work directory is ```./Teamspeak3Bot```.
+>
+> **Maven (Coming soon)**
+> > 
+>
+> **Standalone(jar)**
+> > If you are not able to use maven you can download the standalone jar with dependencies and implement that into your project.
 
 ### Parameters
 > Parameters are used like the following (```--Key=Value```). A start parameter always starts with two dashes.
