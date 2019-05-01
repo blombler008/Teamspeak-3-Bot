@@ -75,6 +75,7 @@
         <json-simple.version>1.1.1</json-simple.version>
         <mysql.version>8.0.15</mysql.version>
         <jline.version>2.14.6</jline.version>
+        <yaml.version>1.13</yaml.version>
     </properties>
 
     <repositories>
@@ -114,6 +115,13 @@
             <groupId>jline</groupId>
             <artifactId>jline</artifactId>
             <version>${jline.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware.yamlbeans</groupId>
+            <artifactId>yamlbeans</artifactId>
+            <version>${yaml.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

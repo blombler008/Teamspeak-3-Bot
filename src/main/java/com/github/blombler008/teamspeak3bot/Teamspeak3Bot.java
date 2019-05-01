@@ -31,6 +31,8 @@ import com.github.blombler008.teamspeak3bot.commands.listeners.CommandHelp;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandPlugins;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandReload;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandSay;
+import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
+import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 import com.github.blombler008.teamspeak3bot.console.ConsoleManager;
 import com.github.blombler008.teamspeak3bot.console.PrintStreamLogger;
 import com.github.blombler008.teamspeak3bot.events.EventManager;
@@ -73,7 +75,7 @@ public class Teamspeak3Bot {
     private ClientInfo owner;
     private ConsoleManager consoleManager;
     private EventManager eventManager;
-    private Properties properties;
+    private YamlConfiguration configuration;
     private PluginManager pluginManager;
     private ServerQueryInfo botClient;
     private Map<Integer, ChannelInfo> channels = new HashMap<>();
@@ -98,42 +100,69 @@ public class Teamspeak3Bot {
             }
             info("Set Working Directory: \"" + workDir.getAbsolutePath() + "\"");
 
-
             config = new File(workDir, "config.ini");
-            try {
-                if (!config.exists()) {
-                    //noinspection ResultOfMethodCallIgnored
-                    config.createNewFile();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
 
-            }
+            configuration = new YamlConfiguration(new FileConfiguration(config));
+            saveProperties(configuration);
+            configuration.reload();
+
             info("Config : \"" + config.getAbsolutePath() + "\"");
-
-            try {
-                properties = new Properties();
-                properties.load(new FileReader(config));
-                saveProperties(properties);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            //saveProperties(configuration);
+            while(!configuration.isReloaded()) {
+                boolean somethingFailed = false;
+                if(configuration.getString("owner") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("lang") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("username") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("password") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("nickname") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("prefix") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getString("host") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getInteger("port") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getInteger("channel") == null) {
+                    somethingFailed = true;
+                }
+                if(configuration.getBoolean("connect") == null) {
+                    somethingFailed = true;
+                }
+                if(somethingFailed) {
+                    throw new NullPointerException("Config file is not valid :)");
+                }
             }
 
             setInstance(this);
 
         } else {
             config = null;
-            properties = null;
+            configuration = null;
         }
 
         if ((Validator.notNull(config)))
-            throw new AssertionError("Config is null!");
-        if ((Validator.notNull(properties)))
-            throw new AssertionError("Bot Properties is null!");
+            throw new NullPointerException("Config is null!");
+        if ((Validator.notNull(configuration)))
+            throw new NullPointerException("Bot Configuration is null!");
 
+        if(!configuration.getBoolean("connect")) {
+            System.exit(0);
+            return;
+        }
 
-        initializeProperties();
+        initializeProperties(configuration);
         if (prepare()) {
             debug(Language.MAIN, "Bot is prepared to login");
         } else {
@@ -145,7 +174,7 @@ public class Teamspeak3Bot {
             return;
         }
 
-        owner = getApi().getClientByUId(properties.getProperty("owner"));
+        owner = getApi().getClientByUId(configuration.getString("owner"));
         botClient = getApi().whoAmI();
         int id;
 
@@ -407,64 +436,27 @@ public class Teamspeak3Bot {
         return bot.prepareConnection();
     }
 
-    public synchronized void initializeProperties() {
-        try {
-            Properties properties = new Properties();
-            properties.load(new FileReader(config));
-            String host = properties.getProperty("host");
-            String port = properties.getProperty("port");
-            String username = properties.getProperty("username");
-            String password = properties.getProperty("password");
-            String nickname = properties.getProperty("nickname");
-            String channel = properties.getProperty("channel");
-            // Languages lang = Language.getNew(properties.getProperty("lang"));
-            // languages getting added later //
-            Languages lang = Language.getNew("english", this);
-            debug(Language.LANGUAGE, lang.getProperties().toString());
+    public synchronized void initializeProperties(YamlConfiguration configuration) {
+        String host = configuration.getString("host");
+        String port = configuration.getInteger("port") + "";
+        String username = configuration.getString("username");
+        String password = configuration.getString("password");
+        String nickname = configuration.getString("nickname");
+        String channel = configuration.getInteger("channel") + "";
+        // Languages lang = Language.getNew(configuration.getString("lang"));
+        // languages getting added later //
+        Languages lang = Language.getNew("english", this);
+        debug(Language.LANGUAGE, lang.getProperties().toString());
+        debug(Language.MAIN, configuration.toString());
+        customChar = configuration.getString("prefix").charAt(0);
 
-            customChar = properties.getProperty("prefix").charAt(0);
-
-            bot = new Bot(this, host, port, username, password, nickname, channel);
-            debug(Language.MAIN, "Properties initialized");
-        } catch (IOException ignore) {
-        }
+        bot = new Bot(this, host, port, username, password, nickname, channel);
+        debug(Language.MAIN, "Properties initialized");
     }
 
-    public void saveProperties(Properties properties) {
-
-        if (!properties.containsKey("host"))
-            properties.setProperty("host", "127.0.0.1");
-
-        if (!properties.containsKey("port"))
-            properties.setProperty("port", "10011");
-
-        if (!properties.containsKey("username"))
-            properties.setProperty("username", "username");
-
-        if (!properties.containsKey("password"))
-            properties.setProperty("password", "password");
-
-        if (!properties.containsKey("nickname"))
-            properties.setProperty("nickname", "serverquerybot");
-
-        if (!properties.containsKey("prefix"))
-            properties.setProperty("prefix", "!");
-
-        if (!properties.containsKey("lang"))
-            properties.setProperty("lang", "english");
-
-        if (!properties.containsKey("owner"))
-            properties.setProperty("owner", "1234567890abdef");
-
-        if (!properties.containsKey("channel"))
-            properties.setProperty("channel", "0");
-
-
-        try {
-            String comment = "Configuration File for the Teamspeak 3 bot";
-            properties.store(new FileOutputStream(config), comment);
-        } catch (IOException ignore) {
-        }
+    public void saveProperties(YamlConfiguration configuration) {
+        configuration.copy();
+        configuration.getFileConfiguration().lock();
     }
 
     public CommandManager getCommandManager() {
