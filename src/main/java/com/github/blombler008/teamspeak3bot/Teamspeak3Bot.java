@@ -56,7 +56,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public class Teamspeak3Bot {
 
@@ -108,39 +107,39 @@ public class Teamspeak3Bot {
 
             info("Config : \"" + config.getAbsolutePath() + "\"");
             //saveProperties(configuration);
-            while(!configuration.isReloaded()) {
+            while (!configuration.isReloaded()) {
                 boolean somethingFailed = false;
-                if(configuration.getString("owner") == null) {
+                if (configuration.getString("owner") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("lang") == null) {
+                if (configuration.getString("lang") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("username") == null) {
+                if (configuration.getString("username") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("password") == null) {
+                if (configuration.getString("password") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("nickname") == null) {
+                if (configuration.getString("nickname") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("prefix") == null) {
+                if (configuration.getString("prefix") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getString("host") == null) {
+                if (configuration.getString("host") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getInteger("port") == null) {
+                if (configuration.getInteger("port") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getInteger("channel") == null) {
+                if (configuration.getInteger("channel") == null) {
                     somethingFailed = true;
                 }
-                if(configuration.getBoolean("connect") == null) {
+                if (configuration.getBoolean("connect") == null) {
                     somethingFailed = true;
                 }
-                if(somethingFailed) {
+                if (somethingFailed) {
                     throw new NullPointerException("Config file is not valid :)");
                 }
             }
@@ -157,7 +156,7 @@ public class Teamspeak3Bot {
         if ((Validator.notNull(configuration)))
             throw new NullPointerException("Bot Configuration is null!");
 
-        if(!configuration.getBoolean("connect")) {
+        if (!configuration.getBoolean("connect")) {
             System.exit(0);
             return;
         }
@@ -378,6 +377,7 @@ public class Teamspeak3Bot {
     public void clientJoined(int id, ClientInfo info) {
         clients.put(id, info);
     }
+
     public void clientLeft(int id) {
         clients.remove(id);
     }

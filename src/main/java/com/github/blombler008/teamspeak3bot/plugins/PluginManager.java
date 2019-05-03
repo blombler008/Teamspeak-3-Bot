@@ -25,6 +25,7 @@
 package com.github.blombler008.teamspeak3bot.plugins;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.commands.CommandTemplate;
 import com.github.blombler008.teamspeak3bot.config.ConfigManager;
 import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
@@ -33,10 +34,12 @@ import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -76,6 +79,15 @@ public class PluginManager {
             String description = configuration.getString("description");
             String clazz = configuration.getString("main");
 
+            for (String command : configuration.getCommandList()) {
+                List<String> aliases = configuration.getList("aliases");
+                if (!aliases.contains(command)) {
+                    aliases.add(command);
+                }
+                CommandTemplate cmdTemp = new CommandTemplate(instance, aliases.toArray(new String[]{}), configuration.getString("description"), command, name, configuration.getString("usage"));
+                instance.getCommandManager().registerNewCommand(cmdTemp);
+            }
+
             instance.debug(Language.PLUGIN, "Properties of plugin \'" + name + "\' > " + configuration.get("*"));
 
             if (!Validator.notNull(name) && !Validator.notNull(version) && !Validator.notNull(description) && !Validator.notNull(clazz)) {
@@ -94,7 +106,8 @@ public class PluginManager {
                 plugin.instance = instance;
                 plugins.add(plugin);
 
-                if (debug) instance.debug(Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin.toString());
+                if (debug)
+                    instance.debug(Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin.toString());
                 pluginFileMap.put(plugin, file);
             }
 
@@ -184,7 +197,8 @@ public class PluginManager {
 
     public boolean reloadPlugin(JavaPlugin p, boolean debug) {
         Teamspeak3Bot.getLogger().info("----------------------------------------------------------------------");
-        if (debug) instance.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
+        if (debug)
+            instance.debug(Language.PLUGIN, "Reloading plugin  > " + p.getName());
         Teamspeak3Bot.getLogger().info("Reloading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             disablePlugin(p);
@@ -193,7 +207,8 @@ public class PluginManager {
             prepare(pluginFileMap.get(p), debug);
             loadPlugin(p);
             enablePlugin(p);
-            if (debug) instance.debug(Language.PLUGIN, "Plugin reloaded  > " + p.getName());
+            if (debug)
+                instance.debug(Language.PLUGIN, "Plugin reloaded  > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger().error("Error occurred while reloading > " + p.getClass().getSimpleName());
@@ -203,14 +218,16 @@ public class PluginManager {
     }
 
     public boolean loadPlugin(JavaPlugin p, boolean debug) {
-        if (debug) instance.debug(Language.PLUGIN, "Loading plugin > " + p.getName());
+        if (debug)
+            instance.debug(Language.PLUGIN, "Loading plugin > " + p.getName());
         Teamspeak3Bot.getLogger().info("Loading plugin > [v" + p.getVersion() + ", " + p.getName() + "]");
         try {
             p.onLoad();
             File dataF = (p.dataFolder = new File(pluginsDir, p.getName()));
             dataF.mkdir();
             ConfigManager.add(dataF, p);
-            if (debug) instance.debug(Language.PLUGIN, "Plugin loaded > " + p.getName());
+            if (debug)
+                instance.debug(Language.PLUGIN, "Plugin loaded > " + p.getName());
             return true;
         } catch (Exception e) {
             Teamspeak3Bot.getLogger().error("Error occurred while loading > " + p.getClass().getSimpleName());
@@ -282,8 +299,8 @@ public class PluginManager {
     }
 
     public JavaPlugin find(String arg) {
-        for(JavaPlugin pl: plugins) {
-            if(pl.getName().equals(arg)) {
+        for (JavaPlugin pl : plugins) {
+            if (pl.getName().equals(arg)) {
                 return pl;
             }
         }

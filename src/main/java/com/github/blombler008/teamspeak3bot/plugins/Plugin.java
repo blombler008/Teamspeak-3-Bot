@@ -28,7 +28,6 @@ import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 
 import java.io.File;
-import java.util.Properties;
 
 public class Plugin {
 

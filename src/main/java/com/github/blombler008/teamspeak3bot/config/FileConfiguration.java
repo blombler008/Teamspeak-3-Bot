@@ -24,8 +24,7 @@
 
 package com.github.blombler008.teamspeak3bot.config;
 
-import com.esotericsoftware.yamlbeans.YamlReader;
-import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 
 import java.io.*;
 import java.util.Scanner;
@@ -41,18 +40,19 @@ public class FileConfiguration {
     public FileConfiguration(File file) {
         this.file = file;
         try {
-            if(!file.isDirectory()) {
-                if(!file.exists()) {
+            if (!file.isDirectory()) {
+                if (!file.exists()) {
                     file.mkdirs();
-                    if(file.isDirectory()) {
+                    if (file.isDirectory()) {
                         file.delete();
                     }
                     file.createNewFile();
                 }
                 return;
             }
-            throw new FileNotFoundException("Failed to read file: " + file.getAbsolutePath());
-        } catch (Throwable ignore) {}
+            throw new FileNotFoundException(StringUtils.replaceStringWith("Failed to read file: %file%", "file", file.getAbsolutePath()));
+        } catch (Throwable ignore) {
+        }
     }
 
     public FileConfiguration(InputStream inputStream) {
@@ -72,15 +72,15 @@ public class FileConfiguration {
     }
 
     public Reader getReader() throws FileNotFoundException {
-        if(file == null) {
+        if (file == null) {
             return new InputStreamReader(inputStream);
         }
         return new FileReader(file);
     }
 
     public Writer getWriter() throws IOException {
-        if(!locked) {
-            if(file == null) {
+        if (!locked) {
+            if (file == null) {
                 return null;
             }
             return new FileWriter(file);
@@ -89,14 +89,14 @@ public class FileConfiguration {
     }
 
     public void copy() {
-        if(!locked) {
+        if (!locked) {
             finishedcopy = false;
             try {
                 BufferedWriter bf = new BufferedWriter(new FileWriter(file));
                 InputStream stream = ClassLoader.getSystemResource(file.getName()).openStream();
                 Scanner scanner = new Scanner(stream);
 
-                while(scanner.hasNextLine()) {
+                while (scanner.hasNextLine()) {
                     bf.write(scanner.nextLine());
                     bf.newLine();
                     bf.flush();

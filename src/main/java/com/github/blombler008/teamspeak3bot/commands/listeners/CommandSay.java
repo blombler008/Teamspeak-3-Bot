@@ -37,13 +37,13 @@ public class CommandSay extends CommandExecutor {
         int chId = cmd.getChannelId();
         int clId = cmd.getInvokerId();
 
-        if(!(args.length > 0)) {
+        if (!(args.length > 0)) {
             source.sendMessage(chId, clId, "Usage: say " + cmd.getUsage());
         } else {
             StringBuilder str = new StringBuilder();
-            for(int i=0;i<args.length; i++)  {
+            for (int i = 0; i < args.length; i++) {
                 str.append(args[i]);
-                if(i != args.length-1) {
+                if (i != args.length - 1) {
                     str.append(" ");
                 }
             }

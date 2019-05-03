@@ -35,7 +35,7 @@ public class CommandHelp extends CommandExecutor {
         int clId = cmd.getInvokerId();
         int chId = cmd.getChannelId();
         source.sendMessage(chId, clId, "-------------------------------- Help --------------------------------");
-        if(args.length == 1) {
+        if (args.length == 1) {
             String commandString = cmdManager.getCommandStringFromAlias(cmdManager.resolveCommand(args[0]));
             CommandTemplate cmdTemp = source.getInstance().getCommandManager().getCommands().get(commandString);
 
@@ -65,7 +65,7 @@ public class CommandHelp extends CommandExecutor {
                 stringBuilder.append(cmdTemp.getPlugin());
                 source.sendMessage(chId, clId, stringBuilder.toString());
             }
-            
+
         } else {
             for (String command : source.getInstance().getCommandManager().getCommands().keySet()) {
                 resolveCommand(chId, clId, source, command);

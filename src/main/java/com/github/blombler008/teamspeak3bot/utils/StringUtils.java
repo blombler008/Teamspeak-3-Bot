@@ -24,7 +24,7 @@
 
 package com.github.blombler008.teamspeak3bot.utils;
 
-import java.util.Properties;
+import java.util.Map;
 
 public class StringUtils {
     public static String getValue(String entry) {
@@ -78,11 +78,30 @@ public class StringUtils {
         return false;
     }
 
-    public static Properties getProperties(String[] args) {
-        Properties pro = new Properties();
-        for (String arg : args) {
-            pro.put(getKey(arg), getValue(arg));
+    public static String replaceStringWith(String string, String key, String value) {
+        return string.replaceAll("%" + key + "%", value);
+    }
+
+    public static String replaceStringWith(String string, String[] keys, String[] values) {
+
+        if (keys != null && values != null && string != null) {
+            if (keys.length == values.length) {
+                String key;
+                String value;
+                for (int i = 0; i < keys.length; i++) {
+                    key = keys[i];
+                    value = values[i];
+                    string = replaceStringWith(string, key, value);
+                }
+            }
         }
-        return pro;
+
+        return string;
+    }
+
+    public static String replaceStringWith(String string, Map<String, String> map) {
+        String[] keys = map.keySet().toArray(new String[]{});
+        String[] values = map.values().toArray(new String[]{});
+        return replaceStringWith(string, keys, values);
     }
 }

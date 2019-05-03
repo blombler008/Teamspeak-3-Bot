@@ -25,6 +25,7 @@
 package com.github.blombler008.teamspeak3bot.config;
 
 import com.github.blombler008.teamspeak3bot.plugins.Plugin;
+import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 
 import java.io.File;
@@ -54,8 +55,7 @@ public class ConfigManager {
                 return;
             }
         }
-        throw new NullPointerException(
-                "DataFolder \"" + dataFolder.getName() + "\" is not available!");
+        throw new NullPointerException(StringUtils.replaceStringWith("DataFolder \"%folder%\" is not available!","folder", dataFolder.getName()));
     }
 
     public static Map<File, Plugin> getDataFolders() {
@@ -69,7 +69,7 @@ public class ConfigManager {
     }
 
     public ConfigFile newConfig(File dir, String name) {
-        ConfigFile config = ConfigFile.newConfigFile(dir, name);
+        ConfigFile config = ConfigFile.newConfigFile(dir, name); //TODO: upgrade to Yaml
         configFileMap.put(dir, config);
         return config;
     }

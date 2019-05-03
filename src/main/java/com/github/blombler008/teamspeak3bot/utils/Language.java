@@ -83,12 +83,11 @@ public class Language {
             this.properties = new Properties();
             try {
 
-                this.properties.load(new InputStreamReader(
-                        ClassLoader.getSystemResource("lang/" + fileName).openStream()));
-                URL uri = ClassLoader.getSystemResource("lang/" + fileName);
-                Teamspeak3Bot.getInstance().debug(LANGUAGE, "URL of language file: " + uri);
+                this.properties.load(new InputStreamReader(ClassLoader.getSystemResource("lang/" + fileName).openStream()));
+                URL url = ClassLoader.getSystemResource("lang/" + fileName);
+                Teamspeak3Bot.getInstance().debug(LANGUAGE, StringUtils.replaceStringWith("URL of language file: %url%", "url", url.toString()));
 
-                Teamspeak3Bot.getInstance().info(LANGUAGE + "loaded properties: " + propertyName);
+                Teamspeak3Bot.getInstance().info(StringUtils.replaceStringWith("loaded properties: %property%", "property", propertyName));
 
             } catch (IOException e) {
                 e.printStackTrace();

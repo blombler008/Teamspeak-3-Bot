@@ -86,7 +86,7 @@ public class ConsoleManager {
                         map.put("source", CommandSender.CONSOLE.toString());
                         map.put("command", line);
                         map.put("invokerid", "-1");
-                        map.put("invokername", "");
+                        map.put("invokername", "superadmin");
                         map.put("invokeruid", "superadmin");
                         map.put("reasonid", "0");
                         map.put("reasonmsg", "");
