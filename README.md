@@ -92,12 +92,16 @@
 
 
 **Adding an command**  
-> To add a command you need to create a ```CommandTemplate```. To register the command we have to call the internal ```setExecutor(CommandExecutor cmdExec)``` method, we simply parse in a new instance of a class which extends ```CommandExecutor``` like shown. Method parameter order: 
-> ```java
-> public class CommandTemplate {
->     public CommandTemplate(Teamspeak3Bot instance, String[] aliases, String description, String commandString, String pluginName, String usage){}
-> }
+> To create a command we have to put in our ```plugin.ini``` the command. 
+> ```yaml
+> # Main, Version, Plugin Descruption, Plugin Name ....
+> commands:
+>   example:
+>      description: A example command
+>      usage: [optional] <required>
+>      aliases: [example,ex]
 > ```
+> Now we have to get the command template from the list of commands and add an executor to the command.
 > ```java
 > public class Example extends JavaPlugin {
 >     public void onEnable() {
