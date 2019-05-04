@@ -25,6 +25,8 @@
 package com.github.blombler008.teamspeak3bot.utils;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
+import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -64,7 +66,7 @@ public class Language {
     }
 
     public static String get(String property) {
-        return currentLanguage.getProperties().getProperty(property);
+        return currentLanguage.getConfiguration().getString(property);
     }
 
     public String getLanguageProperty() {
@@ -75,15 +77,14 @@ public class Language {
     public enum Languages {
         ENGLISH("english", "english.ini");
 
-        private Properties properties;
+        private YamlConfiguration configuration;
         private String propertyName;
 
         Languages(String propertyName, String fileName) {
             this.propertyName = propertyName;
-            this.properties = new Properties();
             try {
 
-                this.properties.load(new InputStreamReader(ClassLoader.getSystemResource("lang/" + fileName).openStream()));
+                this.configuration = new YamlConfiguration(new FileConfiguration(ClassLoader.getSystemResource("lang/" + fileName).openStream()));
                 URL url = ClassLoader.getSystemResource("lang/" + fileName);
                 Teamspeak3Bot.getInstance().debug(LANGUAGE, StringUtils.replaceStringWith("URL of language file: %url%", "url", url.toString()));
 
@@ -103,12 +104,12 @@ public class Language {
             return null;
         }
 
-        public String getPropertyName() {
+        public String getConfigurationName() {
             return propertyName;
         }
 
-        public Properties getProperties() {
-            return properties;
+        public YamlConfiguration getConfiguration() {
+            return configuration;
         }
     }
 

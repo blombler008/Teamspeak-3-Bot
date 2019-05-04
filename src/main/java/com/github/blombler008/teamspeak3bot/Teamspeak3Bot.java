@@ -71,7 +71,7 @@ public class Teamspeak3Bot {
     private char customChar;
 
     private Bot bot;
-    private ClientInfo owner;
+    private DatabaseClientInfo owner;
     private ConsoleManager consoleManager;
     private EventManager eventManager;
     private YamlConfiguration configuration;
@@ -173,7 +173,7 @@ public class Teamspeak3Bot {
             return;
         }
 
-        owner = getApi().getClientByUId(configuration.getString("owner"));
+        owner = getApi().getDatabaseClientByUId(configuration.getString("owner"));
         botClient = getApi().whoAmI();
         int id;
 
@@ -386,7 +386,7 @@ public class Teamspeak3Bot {
         return new HashMap<>(channels);
     }
 
-    public ClientInfo getOwner() {
+    public DatabaseClientInfo getOwner() {
         return owner;
     }
 
@@ -446,7 +446,7 @@ public class Teamspeak3Bot {
         // Languages lang = Language.getNew(configuration.getString("lang"));
         // languages getting added later //
         Languages lang = Language.getNew("english", this);
-        debug(Language.LANGUAGE, lang.getProperties().toString());
+        debug(Language.LANGUAGE, lang.getConfiguration().toString());
         debug(Language.MAIN, configuration.toString());
         customChar = configuration.getString("prefix").charAt(0);
 

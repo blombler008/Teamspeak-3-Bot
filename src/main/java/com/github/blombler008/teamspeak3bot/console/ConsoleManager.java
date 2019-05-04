@@ -95,6 +95,7 @@ public class ConsoleManager {
                 }
             } catch (NullPointerException | IOException e) {
                 Teamspeak3Bot.getLogger().error("Error Occurred in Console Listener");
+                e.printStackTrace();
                 breakOut = true;
             }
         }, "Console-Listener");
