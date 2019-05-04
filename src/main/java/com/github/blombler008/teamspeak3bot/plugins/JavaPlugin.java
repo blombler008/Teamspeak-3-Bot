@@ -29,9 +29,9 @@ public abstract class JavaPlugin extends Plugin {
     public JavaPlugin() {
     }
 
-
     @Override
     public void onEnable() {
+
     }
 
     @Override

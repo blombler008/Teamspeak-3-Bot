@@ -42,10 +42,10 @@ public class CommandReload extends CommandExecutor {
 
         ClientInfo sender = source.getInstance().getClient(chId);
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             if (source instanceof ConsoleCommandSender) {
                 JavaPlugin plugin = pluginManager.find(args[0]);
-                if(plugin != null) {
+                if (plugin != null) {
                     pluginManager.reloadPlugin(plugin);
                 } else {
                     source.sendMessage(chId, clId, "Usage: reload " + cmd.getUsage());

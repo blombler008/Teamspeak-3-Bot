@@ -25,9 +25,9 @@
 package com.github.blombler008.teamspeak3bot.plugins;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 
 import java.io.File;
-import java.util.Properties;
 
 public class Plugin {
 
@@ -35,14 +35,14 @@ public class Plugin {
     boolean enabled = false;
     File dataFolder;
     PluginDescription pluginDescription;
-    Properties properties;
+    YamlConfiguration configuration;
 
     public Plugin() {
     }
 
-    public Plugin(PluginDescription pluginDescription, Properties properties) {
+    public Plugin(PluginDescription pluginDescription, YamlConfiguration configuration) {
         this.pluginDescription = pluginDescription;
-        this.properties = properties;
+        this.configuration = configuration;
     }
 
     public PluginDescription getPluginDescription() {
@@ -53,8 +53,8 @@ public class Plugin {
         return instance;
     }
 
-    public Properties getProperties() {
-        return properties;
+    public YamlConfiguration getYamlConfiguration() {
+        return configuration;
     }
 
     public String getVersion() {
@@ -92,24 +92,12 @@ public class Plugin {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("\'");
-        sb.append(this.getClass().getTypeName());
-        sb.append("\': {");
-        int size = properties.size();
-        for (int i = 0; i < size; i++) {
-            String key = (String) properties.keySet().iterator().next();
-            sb.append("\'");
-            sb.append(key);
-            sb.append("\': \'");
-            sb.append(properties.getProperty(key));
-            sb.append("\'");
-            if (i + 1 != size)
-                sb.append(", ");
-            properties.keySet().remove(key);
-        }
-        sb.append("}}");
-        return sb.toString();
+        return "Plugin{" +
+                "instance=" + instance +
+                ", enabled=" + enabled +
+                ", dataFolder=" + dataFolder +
+                ", pluginDescription=" + pluginDescription +
+                ", configuration=" + configuration +
+                '}';
     }
 }

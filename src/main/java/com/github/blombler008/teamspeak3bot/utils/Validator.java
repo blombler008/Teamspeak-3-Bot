@@ -40,7 +40,7 @@ public class Validator {
         try {
             Paths.get(path);
         } catch (InvalidPathException | NullPointerException ex) {
-            Teamspeak3Bot.getLogger().error("Invalid Path: " + path);
+            Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("Invalid Path: %path%","path", path));
             return false;
         }
         return true;
@@ -48,7 +48,7 @@ public class Validator {
 
     public static boolean isDirectory(String path) {
         if (!Files.isDirectory(Paths.get(path))) {
-            Teamspeak3Bot.getLogger().error("Path is not a Directory: " + path);
+            Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("Path is not a Directory: %path%","path", path));
             return false;
         }
         return true;

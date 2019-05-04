@@ -95,6 +95,10 @@ public class CommandManager {
         return cmdTemp;
     }
 
+    public CommandTemplate getCommand(String name) {
+        return commands.getOrDefault(name, null);
+    }
+
     public CommandTemplate getCommand(JavaPlugin plugin, String str, CommandExecutor cmdEx, CommandTemplate cmdTemp) {
         return getCommand(plugin.getName(), str, cmdEx, cmdTemp);
     }
@@ -102,7 +106,7 @@ public class CommandManager {
     public CommandTemplate getCommand(String pluginName, String str, CommandExecutor cmdEx, CommandTemplate cmdTemp) {
         CommandTemplate cmd = commands.get(str);
 
-        if(cmd == null) {
+        if (cmd == null) {
             cmd = registerNewCommand(cmdTemp);
         }
 
@@ -177,7 +181,7 @@ public class CommandManager {
 
         String str = getCommandStringFromAlias(resolveCommand(aList.get(0)));
 
-        if(!(source instanceof ConsoleCommandSender) && !(cmd[0].startsWith(customChar))) {
+        if (!(source instanceof ConsoleCommandSender) && !(cmd[0].startsWith(customChar))) {
             return false;
         }
 

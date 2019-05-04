@@ -25,6 +25,7 @@
 package com.github.blombler008.teamspeak3bot.config;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,7 +57,7 @@ public class ConfigFile {
             properties.load(new FileReader(configFile));
             return true;
         } catch (IOException e) {
-            Teamspeak3Bot.getLogger().error("Error occurred while reading properties from File: " + configFile.getName());
+            Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("Error occurred while reading properties from File: %file%", "file", configFile.getName()));
             e.printStackTrace();
             return false;
         }

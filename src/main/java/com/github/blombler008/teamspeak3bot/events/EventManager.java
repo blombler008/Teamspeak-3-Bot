@@ -28,7 +28,10 @@ import com.github.blombler008.teamspeak3bot.Bot;
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
 import com.github.blombler008.teamspeak3bot.commands.CommandSender;
 import com.github.blombler008.teamspeak3bot.events.annotation.EventListener;
-import com.github.blombler008.teamspeak3bot.events.handlers.*;
+import com.github.blombler008.teamspeak3bot.events.handlers.EventCommandPreProcess;
+import com.github.blombler008.teamspeak3bot.events.handlers.EventPrivilegeKeyUsed;
+import com.github.blombler008.teamspeak3bot.events.handlers.EventServerEdit;
+import com.github.blombler008.teamspeak3bot.events.handlers.EventTextMessage;
 import com.github.blombler008.teamspeak3bot.events.handlers.channel.*;
 import com.github.blombler008.teamspeak3bot.events.handlers.client.EventClientJoin;
 import com.github.blombler008.teamspeak3bot.events.handlers.client.EventClientLeave;
@@ -44,10 +47,10 @@ import java.util.*;
 
 
 public class EventManager {
+    private final Teamspeak3Bot instance;
     private Map<EventType, List<EventPoint>> events = new HashMap<>();
     private Bot bot;
     private TS3Api api;
-    private final Teamspeak3Bot instance;
 
     public EventManager(Bot bot, TS3Api api, Teamspeak3Bot instance) {
         this.bot = bot;
@@ -137,8 +140,8 @@ public class EventManager {
                 if (e.getInvokerId() != bot.getClient().getId()) {
                     String[] cmdArray = e.getMessage().split("\\s+");
                     int invokerId = e.getInvokerId();
-                    if(!(cmdArray.length == 0)) {
-                        if(instance.getCommandManager().getCommands().containsKey(cmdArray[0].replaceFirst("!", ""))) {
+                    if (!(cmdArray.length == 0)) {
+                        if (instance.getCommandManager().getCommands().containsKey(cmdArray[0].replaceFirst("!", ""))) {
                             Map<String, String> map = new HashMap<>(e.getMap());
                             map.put("source", String.valueOf(CommandSender.getSender(e.getTargetMode())));
                             map.put("channelid", instance.getClient(invokerId).getChannelId() + "");

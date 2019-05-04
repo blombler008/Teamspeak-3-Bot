@@ -25,6 +25,7 @@
 package com.github.blombler008.teamspeak3bot;
 
 import com.github.blombler008.teamspeak3bot.utils.Language;
+import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
@@ -32,7 +33,12 @@ import com.github.theholywaffle.teamspeak3.TS3Query;
 import com.github.theholywaffle.teamspeak3.api.exception.TS3ConnectionFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ServerQueryInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Bot {
+
+    private Map<String, String> map = new HashMap<>();
 
     private Teamspeak3Bot instance;
     private String host;
@@ -46,26 +52,35 @@ public class Bot {
     private TS3Config config;
     private TS3Query query;
 
-    public Bot(Teamspeak3Bot instance, String host, String port, String username, String password,
-               String nickname, String channel) {
+    public Bot(Teamspeak3Bot instance, String host, String port, String username, String password, String nickname, String channel) {
 
-        if (!testForPort(port))
+        if (!testForIntiger(port) || !testForIntiger(channel)) {
             return;
+        }
+
         this.instance = instance;
+
         this.nickname = nickname;
         this.host = host;
         this.username = username;
         this.password = password;
         this.port = Integer.parseInt(port);
         this.channel = Integer.parseInt(channel);
+
+        map.put("host", host);
+        map.put("port", port);
+        map.put("nickname", nickname);
+        map.put("username", username);
+        map.put("password", password);
+        map.put("channel", channel);
     }
 
     public synchronized boolean prepareConnection() {
         if (Validator.notNull(config) || Validator.notNull(query) || Validator.notNull(api)) {
+            String text;
             try {
-
-                instance.debug(Language.BOT,
-                        "Trying to connect to server: \'ts3serverquery://" + host + ":" + port + "\'");
+                text = "Trying to connect to server: \'ts3serverquery://%host%:%port%\'";
+                instance.debug(Language.BOT, StringUtils.replaceStringWith(text, map));
 
                 config = new TS3Config();
                 config.setFloodRate(TS3Query.FloodRate.UNLIMITED);
@@ -78,16 +93,14 @@ public class Bot {
 
                 api = query.getApi();
 
-                instance.debug(Language.BOT,
-                        "Connected to: \'ts3serverquery://" + host + ":" + port + "\'");
+                text = "Connected to: \'ts3serverquery://%host%:%port%\'";
+                instance.debug(Language.BOT, StringUtils.replaceStringWith(text, map));
 
                 return true;
 
             } catch (TS3ConnectionFailedException e) {
-
-                instance.debug(Language.BOT,
-                        "ERROR > Couldn't connect to server: \'ts3serverquery://" + host + ":" + port
-                                + "\'");
+                text = "ERROR > Couldn't connect to server: \'ts3serverquery://%host%:%port%\'";
+                instance.debug(Language.BOT, StringUtils.replaceStringWith(text, map));
 
                 return false;
             }
@@ -96,11 +109,12 @@ public class Bot {
     }
 
     public synchronized boolean createConnection() {
+
         if (!Validator.notNull(api)) {
+            String text;
             try {
-                instance.debug(Language.BOT,
-                        "Trying login as: \'" + nickname + "\', with username: \'" + username
-                                + "\', and password: \'" + password + "\'");
+                text = "Trying login as: \'%nickname%\', with username: \'%username%\', and password: \'%password%\'";
+                instance.debug(Language.BOT, StringUtils.replaceStringWith(text, map));
 
                 api.login(username, password);
                 api.selectVirtualServerById(1, nickname);
@@ -111,10 +125,8 @@ public class Bot {
             } catch (Exception e) {
                 api.logout();
                 query.exit();
-
-                instance.debug(Language.BOT,
-                        "Couldn't login as: \'" + nickname + "\', with username: \'" + username
-                                + "\', and password: \'" + password + "\'");
+                text = "Couldn't login as: \'%nickname%\', with username: \'%username%\', and password: \'%password%\'";
+                instance.debug(Language.BOT, StringUtils.replaceStringWith(text, map));
                 instance.shutdown();
 
                 return false;
@@ -124,12 +136,12 @@ public class Bot {
             return false;
     }
 
-    private boolean testForPort(String port) {
+    private boolean testForIntiger(String number) {
         try {
-            Integer.parseInt(port);
+            Integer.parseInt(number);
             return true;
         } catch (NumberFormatException e) {
-            Teamspeak3Bot.getLogger().error("Port not valid!");
+            Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("Invalid number %number%!", "number", number));
             return false;
         }
     }
