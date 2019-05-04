@@ -101,12 +101,7 @@
 > ```java
 > public class Example extends JavaPlugin {
 >     public void onEnable() {
->         String [] aliases = {"example", "ex"};
->         String description = "An example of an command";
->         String command = "example";
->         String usage = "<required> [optional]";
->         CommandTemplate exampleTemplate = new CommandTemplate(getInstance(), aliases, description, command, this.getName(), usage);
->         exampleTemplate.setExecutor(new ExampleCommand());
+>         getInstance().getCommandManager().getCommand("example").setExecutor(new ExampleCommand());
 >     }
 > }
 > ```
