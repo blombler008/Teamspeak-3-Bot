@@ -31,6 +31,7 @@ import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 import com.github.blombler008.teamspeak3bot.utils.Language;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
+import sun.security.krb5.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,8 +107,7 @@ public class PluginManager {
                 plugin.instance = instance;
                 plugins.add(plugin);
 
-                if (debug)
-                    instance.debug(Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin.toString());
+                if (debug) instance.debug(Language.PLUGIN, "Plugin \'" + name + "\' added > " + plugin.toString());
                 pluginFileMap.put(plugin, file);
             }
 
@@ -225,7 +225,7 @@ public class PluginManager {
             p.onLoad();
             File dataF = (p.dataFolder = new File(pluginsDir, p.getName()));
             dataF.mkdir();
-            ConfigManager.add(dataF, p);
+            p.configmanager = new ConfigManager(ConfigManager.add(dataF, p),p);
             if (debug)
                 instance.debug(Language.PLUGIN, "Plugin loaded > " + p.getName());
             return true;

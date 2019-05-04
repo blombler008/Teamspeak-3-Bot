@@ -25,6 +25,7 @@
 package com.github.blombler008.teamspeak3bot.plugins;
 
 import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.config.ConfigManager;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 
 import java.io.File;
@@ -36,6 +37,7 @@ public class Plugin {
     File dataFolder;
     PluginDescription pluginDescription;
     YamlConfiguration configuration;
+    ConfigManager configmanager;
 
     public Plugin() {
     }
@@ -88,6 +90,10 @@ public class Plugin {
     }
 
     public void onLoad() {
+    }
+
+    public ConfigManager getConfigManager() {
+        return configmanager;
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.github.blombler008.teamspeak3bot.commands.listeners.CommandHelp;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandPlugins;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandReload;
 import com.github.blombler008.teamspeak3bot.commands.listeners.CommandSay;
+import com.github.blombler008.teamspeak3bot.config.ConfigManager;
 import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 import com.github.blombler008.teamspeak3bot.console.ConsoleManager;
@@ -107,40 +108,44 @@ public class Teamspeak3Bot {
 
             info("Config : \"" + config.getAbsolutePath() + "\"");
             //saveProperties(configuration);
-            while (!configuration.isReloaded()) {
+            while (true) {
                 boolean somethingFailed = false;
-                if (configuration.getString("owner") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("lang") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("username") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("password") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("nickname") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("prefix") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getString("host") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getInteger("port") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getInteger("channel") == null) {
-                    somethingFailed = true;
-                }
-                if (configuration.getBoolean("connect") == null) {
-                    somethingFailed = true;
-                }
-                if (somethingFailed) {
-                    throw new NullPointerException("Config file is not valid :)");
+                if(!configuration.isReloaded()) {
+                    if (configuration.getString("owner") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("lang") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("username") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("password") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("nickname") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("prefix") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getString("host") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getInteger("port") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getInteger("channel") == null) {
+                        somethingFailed = true;
+                    }
+                    if (configuration.getBoolean("connect") == null) {
+                        somethingFailed = true;
+                    }
+                    if (somethingFailed) {
+                        throw new NullPointerException("Config file is not valid :)");
+                    }
+                } else {
+                    break;
                 }
             }
 
@@ -155,8 +160,8 @@ public class Teamspeak3Bot {
             throw new NullPointerException("Config is null!");
         if ((Validator.notNull(configuration)))
             throw new NullPointerException("Bot Configuration is null!");
-
-        if (!configuration.getBoolean("connect")) {
+        Boolean abc = configuration.getBoolean("connect");
+        if (abc == null) {
             System.exit(0);
             return;
         }
@@ -215,6 +220,9 @@ public class Teamspeak3Bot {
         pluginManager.loadPlugins(true);
         pluginManager.enablePlugins(true);
         pluginManager.isFinished(consoleManager::setCompleters);
+
+        ConfigManager.setInstance(this);
+
 
     }
 
@@ -462,4 +470,5 @@ public class Teamspeak3Bot {
     public CommandManager getCommandManager() {
         return commandManager;
     }
+
 }

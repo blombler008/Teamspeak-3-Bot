@@ -24,9 +24,13 @@
 
 package com.github.blombler008.teamspeak3bot.config;
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Scanner;
 
 public class FileConfiguration {
@@ -34,7 +38,7 @@ public class FileConfiguration {
     private InputStream inputStream;
     private File file;
     private boolean locked = false;
-    private boolean finishedcopy = true;
+    private boolean finishedCopy = true;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public FileConfiguration(File file) {
@@ -53,6 +57,13 @@ public class FileConfiguration {
             throw new FileNotFoundException(StringUtils.replaceStringWith("Failed to read file: %file%", "file", file.getAbsolutePath()));
         } catch (Throwable ignore) {
         }
+    }
+
+    public FileConfiguration(FileConfiguration config) {
+        this.file = config.file;
+        this.inputStream = config.inputStream;
+        this.locked = config.locked;
+        this.finishedCopy = config.finishedCopy;
     }
 
     public FileConfiguration(InputStream inputStream) {
@@ -88,12 +99,20 @@ public class FileConfiguration {
         return null;
     }
 
-    public void copy() {
+    public boolean copy() {
         if (!locked) {
-            finishedcopy = false;
+            finishedCopy = false;
             try {
                 BufferedWriter bf = new BufferedWriter(new FileWriter(file));
-                InputStream stream = ClassLoader.getSystemResource(file.getName()).openStream();
+                JavaPlugin plugin = ConfigManager.find(this);
+                InputStream stream;
+                if(plugin != null) {
+                    ClassLoader x = plugin.getClass().getClassLoader();
+                    stream = x.getResourceAsStream(file.getName());
+                } else {
+                    stream = ClassLoader.getSystemResourceAsStream(file.getName());
+                }
+
                 Scanner scanner = new Scanner(stream);
 
                 while (scanner.hasNextLine()) {
@@ -101,11 +120,20 @@ public class FileConfiguration {
                     bf.newLine();
                     bf.flush();
                 }
-                finishedcopy = true;
+
+                finishedCopy = true;
+                return true;
             } catch (IOException e) {
+                Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("File not found: %file%", "file", file.getName()));
                 e.printStackTrace();
+                return false;
             }
         }
+        return false;
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public void lock() {
@@ -113,6 +141,10 @@ public class FileConfiguration {
     }
 
     public boolean finishedCopy() {
-        return finishedcopy;
+        return finishedCopy;
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 }

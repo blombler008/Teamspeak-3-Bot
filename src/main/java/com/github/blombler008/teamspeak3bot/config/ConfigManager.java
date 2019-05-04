@@ -24,6 +24,8 @@
 
 package com.github.blombler008.teamspeak3bot.config;
 
+import com.github.blombler008.teamspeak3bot.Teamspeak3Bot;
+import com.github.blombler008.teamspeak3bot.plugins.JavaPlugin;
 import com.github.blombler008.teamspeak3bot.plugins.Plugin;
 import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
@@ -34,21 +36,26 @@ import java.util.Map;
 
 public class ConfigManager {
 
-    private static Map<File, Plugin> dataFolders = new HashMap<>();
-    private Map<File, ConfigFile> configFileMap = new HashMap<>();
+    private static Map<File, JavaPlugin> dataFolders = new HashMap<>();
+    private static Teamspeak3Bot instance;
+    private Map<FileConfiguration, ConfigFile> configFileMap = new HashMap<>();
 
-    private Plugin plugin;
+    private JavaPlugin plugin;
     private File dataFolder;
 
     private ConfigManager() {
     }
 
-    public ConfigManager(File dataFolder) {
+    public static void setInstance(Teamspeak3Bot instance) {
+        if(instance == null) ConfigManager.instance = instance;
+    }
+
+    public ConfigManager(File dataFolder, JavaPlugin plugin) {
         if (Validator.notNull(dataFolder))
             throw new NullPointerException("dataFolder is NULL!");
         File dataF = plugin.getDataFolder();
         if (dataFolders.containsKey(dataFolder)) {
-            Plugin p = dataFolders.get(dataFolder);
+            JavaPlugin p = dataFolders.get(dataFolder);
             if (dataF == dataFolder) {
                 this.plugin = p;
                 this.dataFolder = dataFolder;
@@ -62,15 +69,34 @@ public class ConfigManager {
         return new HashMap<>(dataFolders);
     }
 
-    public static void add(File dataFolder, Plugin plugin) {
+    public static File add(File dataFolder, JavaPlugin plugin) {
         if (dataFolders.containsValue(plugin) || dataFolders.containsKey(dataFolder))
-            return;
+            return null;
         dataFolders.put(dataFolder, plugin);
+        return dataFolder;
     }
 
-    public ConfigFile newConfig(File dir, String name) {
-        ConfigFile config = ConfigFile.newConfigFile(dir, name); //TODO: upgrade to Yaml
-        configFileMap.put(dir, config);
+    public static JavaPlugin get(File dataFolder) {
+        if (dataFolders.containsKey(dataFolder))
+            return dataFolders.get(dataFolder);
+        return null;
+    }
+
+    public static JavaPlugin find(FileConfiguration configuration) {
+        for(JavaPlugin plugin: dataFolders.values()) {
+            for(FileConfiguration config: plugin.getConfigManager().configFileMap.keySet()) {
+                if(config.getFile().getName().equals(configuration.getFile().getName())) {
+                    return plugin;
+                }
+            }
+        }
+        return null;
+    }
+
+    public ConfigFile newConfig(FileConfiguration file) {
+        FileConfiguration newOne = new FileConfiguration(new File(dataFolder, file.getFile().getName()));
+        ConfigFile config = ConfigFile.newConfigFile(new FileConfiguration(newOne));
+        configFileMap.put(file, config);
         return config;
     }
 
@@ -82,7 +108,7 @@ public class ConfigManager {
         return dataFolder;
     }
 
-    public Map<File, ConfigFile> getConfigFileMap() {
+    public Map<FileConfiguration, ConfigFile> getConfigFileMap() {
         return new HashMap<>(configFileMap);
     }
 }

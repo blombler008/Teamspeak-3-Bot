@@ -31,6 +31,7 @@ import com.esotericsoftware.yamlbeans.YamlReader;
 import com.esotericsoftware.yamlbeans.YamlWriter;
 import com.github.blombler008.teamspeak3bot.utils.StringUtils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ import java.util.List;
 import java.util.Map;
 
 public class YamlConfiguration {
+
+    private YamlConfiguration() {}
 
     private static YamlConfig config = new YamlConfig();
 
@@ -60,7 +63,6 @@ public class YamlConfiguration {
     public YamlConfiguration(FileConfiguration fileConfiguration) {
         this.fileConfiguration = fileConfiguration;
         try {
-            Reader readerl = fileConfiguration.getReader();
             reader = new YamlReader(fileConfiguration.getReader(), config);
             root = getMapFromObject(reader.read(HashMap.class));
         } catch (IOException ignore) {
@@ -72,8 +74,26 @@ public class YamlConfiguration {
     }
 
     public void copy() {
-        if (root == null)
+        if (root.isEmpty()){
             fileConfiguration.copy();
+            while(!fileConfiguration.finishedCopy()) {
+                try {
+                    Thread.sleep(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            reloaded = false;
+            reload();
+            while(!isReloaded()) {
+                try {
+                    Thread.sleep(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     public FileConfiguration getFileConfiguration() {
@@ -237,17 +257,24 @@ public class YamlConfiguration {
     }
 
     public Boolean getBoolean(String key) {
+        if(getString(key) == null) {
+            return null;
+        }
         return Boolean.parseBoolean(getString(key));
     }
 
     public void reload() {
         reloaded = false;
         try {
-            while (!fileConfiguration.finishedCopy()) {
-                root = getMapFromObject(reader.read(HashMap.class));
+            while(true) {
+                if(fileConfiguration.finishedCopy()) {
+                    break;
+                }
             }
+            reader = new YamlReader(fileConfiguration.getReader(), config);
+            root = getMapFromObject(reader.read(HashMap.class));
 
-        } catch (YamlException e) {
+        } catch (YamlException | FileNotFoundException e) {
             e.printStackTrace();
         } finally {
             reloaded = true;
