@@ -31,7 +31,6 @@ import com.github.blombler008.teamspeak3bot.config.FileConfiguration;
 import com.github.blombler008.teamspeak3bot.config.YamlConfiguration;
 import com.github.blombler008.teamspeak3bot.utils.Language;
 import com.github.blombler008.teamspeak3bot.utils.Validator;
-import sun.security.krb5.Config;
 
 import java.io.File;
 import java.io.IOException;

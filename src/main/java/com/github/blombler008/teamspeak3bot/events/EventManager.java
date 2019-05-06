@@ -58,12 +58,20 @@ public class EventManager {
         this.instance = instance;
     }
 
+    /**
+     * <p>
+     *     This function adds an event listener class to a set of listeners.
+     *     This functions gets and adds all methods with the @EventListener annotation to an
+     *     map. The map tracks all the methods to run according to a event class.
+     * </p>
+     * @param listener The listener interface is used to track the class of event listener classes
+     */
     @SuppressWarnings(value = {"unchecked", "unused"})
-    public void addEventToProcessList(final Listener e) {
+    public void addEventToProcessList(final Listener listener) {
         instance.debug(Language.EVENT, "-------------------------------addEventToProcessList--------------------------------");
-        instance.debug(Language.EVENT, "Trying adding class: " + e.getClass().getName());
+        instance.debug(Language.EVENT, "Trying adding class: " + listener.getClass().getName());
 
-        Class<Listener> objClass = (Class<Listener>) e.getClass();
+        Class<Listener> objClass = (Class<Listener>) listener.getClass();
 
         Method[] od = objClass.getDeclaredMethods();
 
