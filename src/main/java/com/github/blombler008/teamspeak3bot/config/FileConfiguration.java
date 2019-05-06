@@ -112,19 +112,21 @@ public class FileConfiguration {
                 } else {
                     stream = ClassLoader.getSystemResourceAsStream(file.getName());
                 }
+                if(stream != null) {
+                    Scanner scanner = new Scanner(stream);
 
-                Scanner scanner = new Scanner(stream);
+                    while (scanner.hasNextLine()) {
+                        bf.write(scanner.nextLine());
+                        bf.newLine();
+                        bf.flush();
+                    }
 
-                while (scanner.hasNextLine()) {
-                    bf.write(scanner.nextLine());
-                    bf.newLine();
-                    bf.flush();
+                    finishedCopy = true;
+                    return true;
+                } else {
+                    throw new NullPointerException(StringUtils.replaceStringWith("Failed to get resolve the file: %file%", "file", file.getName()));
                 }
-
-                finishedCopy = true;
-                return true;
             } catch (IOException e) {
-                Teamspeak3Bot.getLogger().error(StringUtils.replaceStringWith("File not found: %file%", "file", file.getName()));
                 e.printStackTrace();
                 return false;
             }
